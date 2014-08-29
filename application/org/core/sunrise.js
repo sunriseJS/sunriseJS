@@ -52,6 +52,7 @@
 		$sr.initCanvas();
 		game.init($rootScope.$scope);
 		$rootScope.animationFrame.call(window, $sr.run);
+		$sr.log("hello I'm io");
 	}
 
 
@@ -60,8 +61,6 @@
 		game.run($rootScope.$scope);
 		
 	}
-
-
 
 	$sr.fps = {
 		startTime : 0,
@@ -83,8 +82,12 @@
 		// $sr.loadScript("application/org/core/test.js");
 		$sr.loadScript('application/org/core/spriteManager.js');
 		$sr.loadScript('application/org/core/io.js');
-		$sr.loadScript('application/org/core/canvas.js', $sr.sunrise);
-		$sr.log("hello I'm io");
+		$sr.loadScript('application/org/core/ressourceLoader.js');
+		$sr.loadScript('application/org/core/canvas.js',function(){
+			$sr.loadImages(game.config.images, $sr.sunrise);
+		});
+
+		
 
 		$rootScope.animationFrame = 	window.requestAnimationFrame       ||
 					          			window.webkitRequestAnimationFrame ||
@@ -94,6 +97,7 @@
 					          			};
 
 		$rootScope.$scope = {};
+		
 	}
 
 

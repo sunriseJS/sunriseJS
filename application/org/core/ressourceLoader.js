@@ -9,8 +9,8 @@
  */
 
 (function($sr){	
-	var $rootScope = sr.$rootScope;
-	var $rootScope.ressources = {images:{}, audio:{}};
+	var $rootScope = $sr.$rootScope;
+	$rootScope.ressources = {images:{}, audio:{}};
 
 
 	/**
@@ -22,16 +22,18 @@
 	 */
 	$sr.loadImages = function(sources, callback){
 
-		for(name in srcArray){
+		for(name in sources){
+			$sr.log(name,sources);
 			if($rootScope.ressources.images[name] !== undefined){
 				throw new Error('Imageressource with name '+name+' already exists');
 			}
 			var image = new Image();
 			image.onload = function() {
-				delete srcArray[name];
-				$rootScope.ressources.images[name] = image;
+
+				delete sources[name];
+				$rootScope.ressources.images[name] = this;
 				var ready = true;
-				for(index in srcArray){
+				for(index in sources){
 					ready = false;
 					break;
 				}
@@ -40,7 +42,7 @@
 				}
 
 			}
-			image.src = srcArray[name];
+			image.src = sources[name];
 		}
 
 	}
