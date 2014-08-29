@@ -27,6 +27,14 @@
 		sr._unseal = _unseal;
 	};
 
+	/**
+	 *
+	 * Loading a script asynchronous into the application and can run a callback after the files is fully loaded
+	 * 
+	 * @param  {[type]}   src
+	 * @param  {Function} callback
+	 * @return {[type]}
+	 */
 	sr.loadScript = function(src, callback) {
 	    var s = document.createElement('script');
 	    s.type = 'text/javascript';
