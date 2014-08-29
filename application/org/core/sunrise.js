@@ -4,7 +4,7 @@
 	
 
 	var _private = sr._private = sr._private || {};
-	sr._private.data = {};
+	_private.data = {};
 
 	_seal = sr._seal = sr._seal || function () {
 		delete sr._private;
@@ -38,7 +38,7 @@
 	}
 
 
-	sr._private.data.dom = document.querySelector('div[sunriseJS-app]');
+	_private.data.dom = document.querySelector('div[sunriseJS-app]');
 	if(sr._private.data.dom != undefined){
 		init();
 	}
