@@ -20,16 +20,25 @@ var game = {
 		// 		"jump" : [5,6,4,6]
 		// 	}
 		// });
+		// gamedata.fpsdom = 
+
+		sr.createSprite({
+			name: "test",
+			src: 'assets/graphics/char1_anim.png',
+			tileWidth: 32,
+			tileHeight: 96,
+			animations: {
+				left: [0,1],
+				right: [2,3]
+			}
+		})
 		gamedata.x = gamedata.y = 1
 	},
 
 	run: function(gamedata){
-		// js.collision.on("playercollision", function(collidingObjs){
-
-		// })
-		sr.fps.getFps();
+		sr.getSprite('test').draw(gamedata.x, gamedata.y);
 		gamedata.x = gamedata.y++;
-		sr.strokeRect(gamedata.x, gamedata.y,50,50);
+		// sr.strokeRect(gamedata.x, gamedata.y,50,50);
 	},
 
 	irgendeinefunktion: function(){

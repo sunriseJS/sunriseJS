@@ -78,7 +78,8 @@
 
 	init = function(){
 		// sr.loadScript("application/org/core/test.js");
-		sr.loadScript("application/org/core/canvas.js", sr.sunrise);
+		sr.loadScript('application/org/core/spriteManager.js');
+		sr.loadScript('application/org/core/canvas.js', sr.sunrise);
 
 
 		_private.data.animationFrame = 	window.requestAnimationFrame       ||
@@ -87,6 +88,7 @@
 					          			function( callback ){
 					            			window.setTimeout(callback, 1000 / 60);
 					          			};
+					          			
 		_private.data.game = {};
 	}
 
