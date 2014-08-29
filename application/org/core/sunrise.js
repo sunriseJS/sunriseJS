@@ -1,8 +1,10 @@
 (function(sr){
 	
-	var data = {};
-	data.test = "fuuuuuuuuuooooooobar";
-	var _private = sr._private = sr._private || {},
+
+	
+
+	var _private = sr._private = sr._private || {};
+	sr._private.data = {};
 
 	_seal = sr._seal = sr._seal || function () {
 		delete sr._private;
@@ -24,32 +26,27 @@
 	    document.body.appendChild(s);
 	}
 
-	sr._private.returnPrivateData = function(){
-		console.log(data);
-		return data;
-	}
-
-	sr.checkData = function(){
-		return data;
+	sr.sunrise = function(){
+		sr._seal();
+		sr.initCanvas();
 	}
 
 	init = function(){
-		
-		sr.loadScript("application/org/core/test.js", sr._seal);
+		// sr.loadScript("application/org/core/test.js");
+		sr.loadScript("application/org/core/canvas.js", sr.sunrise);
+
 	}
 
 
-	var appName = document.querySelector('div[sunriseJS-app]');
-	if(appName != undefined){
+	sr._private.data.dom = document.querySelector('div[sunriseJS-app]');
+	if(sr._private.data.dom != undefined){
 		init();
-		
-		
 	}
 	else {
 		alert('no jsengine-app found');
 	}
 
 
-})(window.sr = window.sr || {});
+})(sr = window.sr = window.sr || {});
 
 
