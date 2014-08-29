@@ -1,9 +1,19 @@
-(function(sr) {
-	var _private = sr._private;
+/**
+ * @license sunriseJS Game Engine
+ * @copyright (C) 2014 - 2014 Jonas Gerdes, Jonathan Wiemers
+ * http://www.sunrisejs.net
+ *
+ * sunriseJS is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ */
+
+(function($sr) {
+	var $rootScope = $sr.$rootScope;
 
 	var spritePool = {}; //container for all sprites
 
-	sr.printSprites = function(){
+	$sr.printSprites = function(){
 		for(name in spritePool){
 			console.log(name,spritePool[name]);
 		}
@@ -11,14 +21,14 @@
 
 	//Classes
 
-	sr.Sprite = function(image, width, height, animations){
+	$sr.Sprite = function(image, width, height, animations){
 		this.image = image;
 		this.width = width;
 		this.height = height;
 		this.animations = animations;
 
 		//Context from other modules
-		this.context = _private.data.canvas.context;
+		this.context = $rootScope.canvas.context;
 
 		//Until an actual animation is set, use first one
 		for(anim in animations){
@@ -44,7 +54,7 @@
 	 * @param w Width of drawn image. Useful for stretching. Optional.
 	 * @param h Height of drawn image. Useful for stretching. Optional.
 	 */
-	sr.Sprite.prototype.draw = function(x, y, w, h){
+	$sr.Sprite.prototype.draw = function(x, y, w, h){
 		var width = w || this.width;
 		var height = h || this.height;
 		var frame = this.currentAnimation[this.currentFrame];
@@ -75,7 +85,7 @@
 	 * data example:
 	 * 	{
 	 *		name: "playersprite",
-	 *		src:"img/bla.png",
+	 *		image:"imagename",
 	 *		tileWidth:10,
 	 *		tileHeight:50,
 	 *		animations: {
@@ -90,10 +100,10 @@
 	 */
 	
 	//Todo: Think of some way to know, when Sprite is ready. Callback?
-	sr.createSprite = function(data) {
+	$sr.createSprite = function(data) {
 
 		//Test whether all required parameters are given
-		var requiredParams = ['name', 'src'];
+		var requiredParams = ['name', 'image'];
 		if(data.tileWidth !== undefined || data.tileHeight !== undefined || data.animations !== undefined){
 			requiredParams.push('tileWidth');
 			requiredParams.push('tileHeight');
@@ -104,40 +114,40 @@
 			}
 		});
 
-		
-
-		var image = new Image();
-		image.onload = function() {
-			if(data.tileWidth === undefined){
-				data.tileWidth = this.width;
-				data.tileHeight = this.height;
-			}
-			if(data.animations === undefined){
-				data.animations = {};
-			}
-			//Make sure there is at least one animation
-			if(data.animations.default !== undefined){
-				data.animations.default = [0];
-			}
-
-			//Name already used? (Has to be checked here, otherwise some other sprite
-			//	with an image, which loads faster, could already has the name
-			if(spritePool[data.name] !== undefined){
-				throw new Error('Sprite with name '+data.name+' already exists');
-			}else{
-				spritePool[data.name] = new sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
-			}
-
+		//Name already used?
+		if(spritePool[data.name] !== undefined){
+			throw new Error('Sprite with name '+data.name+' already exists');
 		}
-		image.src = data.src;
+
+		
+		if($rootScope.ressources.images[data.image] === undefined){
+			throw new Error('Imageressource with name '+data.image+' doesn\'t exists. Load it in config first!');
+		}
+
+		var image = $rootScope.ressources.images[data.image];
+		if(data.tileWidth === undefined){
+			data.tileWidth = this.width;
+			data.tileHeight = this.height;
+		}
+		if(data.animations === undefined){
+			data.animations = {};
+		}
+		//Make sure there is at least one animation
+		if(data.animations.default !== undefined){
+			data.animations.default = [0];
+		}
+
+		
+		spritePool[data.name] = new $sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
+
 
 
 		
 
 
 	}
-	sr.getSprite = function(name){
+	$sr.getSprite = function(name){
 		return spritePool[name];
 	}
 	
-})(window.sr = window.sr || {});
+})(window.$sr = window.$sr || {});
