@@ -31,5 +31,9 @@
 		_private.data.canvas.context = canvas.getContext("2d");
 	}
 
+
+	sr.strokeRect = function(x,y,width,height){
+		_private.data.canvas.context.strokeRect(x, y, width, height);
+	}
 	
 })(window.sr = window.sr || {});
