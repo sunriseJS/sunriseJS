@@ -5,9 +5,7 @@ var game = {
 		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision']
 	},
 
-	gamedata: {},
-
-	init: function(gamedata){
+	init: function($scope){
 		// sr.physics.setGravity({x:1,y:2});
 		// sr.loadSprite({
 		// 	name: "playersprite",
@@ -20,16 +18,25 @@ var game = {
 		// 		"jump" : [5,6,4,6]
 		// 	}
 		// });
-		gamedata.x = gamedata.y = 1
+		// $scope.fpsdom = 
+		console.log('initgame');
+		sr.createSprite({
+			name: "test",
+			src: 'assets/graphics/char1_anim.png',
+			tileWidth: 32,
+			tileHeight: 96,
+			animations: {
+				left: [0,1],
+				right: [2,3]
+			}
+		});
+		$scope.x = $scope.y = 1
 	},
 
-	run: function(gamedata){
-		// js.collision.on("playercollision", function(collidingObjs){
-
-		// })
-		sr.fps.getFps();
-		gamedata.x = gamedata.y++;
-		sr.strokeRect(gamedata.x, gamedata.y,50,50);
+	run: function($scope){
+		sr.getSprite('test').draw($scope.x, $scope.y);
+		$scope.x = $scope.y++;
+		// sr.strokeRect($scope.x, $scope.y,50,50);
 	},
 
 	irgendeinefunktion: function(){
@@ -49,7 +56,7 @@ var game = {
 		});
 		
 
-		gamedata.player = player;
+		$scope.player = player;
 		sr.physics.add({	
 			moveable: [player,enemys],
 			fixed: [wall1]
@@ -62,12 +69,12 @@ var game = {
 		player.sprite.set({name: "playersprite", animation: "stand"});
 		player.sprite.set({animation: "running"});
 				
-		sr.controlls.key.on('A', gamedata.player.states.run-left);
+		sr.controlls.key.on('A', $scope.player.states.run-left);
 
 	},	
 
 
-	generateStates: function(gamedata){
+	generateStates: function($scope){
 		
 	}
 };

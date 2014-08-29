@@ -51,7 +51,7 @@
 
 		var sourceX = frame % this.cols;
 		var sourceY = Math.floor(frame / this.rows);
-		drawImage(this.image, sourceX, sourceY, this.width, this.height, 
+		this.context.drawImage(this.image, sourceX, sourceY, this.width, this.height, 
 					x, y, width, height);
 
 		var now = Date.now();
@@ -132,11 +132,12 @@
 		image.src = data.src;
 
 
-		sr.getSprite = function(name){
-			return spritePool[name];
-		}
+		
 
 
+	}
+	sr.getSprite = function(name){
+		return spritePool[name];
 	}
 	
 })(window.sr = window.sr || {});
