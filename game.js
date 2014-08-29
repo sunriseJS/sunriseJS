@@ -1,10 +1,11 @@
-var mygame = {
+var game = {
 	config: {
-		width: 1280,
-		height: 720,
+		screenWidth: 1280,
+		screenHeight: 720,
 		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision']
 	},
 
+	
 	init: function(gamedata){
 		sr.physics.setGravity({x:1,y:2});
 		sr.loadSprite({
@@ -18,14 +19,14 @@ var mygame = {
 				"jump" : [5,6,4,6]
 			}
 		});
-	}
+	},
 
 	run: function(gamedata){
 		js.collision.on("playercollision", function(collidingObjs){
 
 		})
 
-	}
+	},
 
 	irgendeinefunktion: function(){
 		var player = sr.getNewDrawingObj();
@@ -59,16 +60,12 @@ var mygame = {
 				
 		sr.controlls.key.on('A', gamedata.player.states.run-left);
 
-	}	
+	},	
 
 
 	generateStates: function(gamedata){
-		sr.controlls.
+		
 	}
-
-
-
-
 };
 
-sr.insertGame(mygame).start();
+
