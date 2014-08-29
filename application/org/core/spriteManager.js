@@ -1,3 +1,13 @@
+/**
+ * @license sunriseJS Game Engine
+ * @copyright (C) 2014 - 2014 Jonas Gerdes, Jonathan Wiemers
+ * http://www.sunrisejs.net
+ *
+ * sunriseJS is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ */
+
 (function($sr) {
 	var $rootScope = $sr.$rootScope;
 
@@ -113,7 +123,7 @@
 		if($rootScope.ressources.images[data.image] === undefined){
 			throw new Error('Imageressource with name '+data.image+' doesn\'t exists. Load it in config first!');
 		}
-		
+
 		var image = $rootScope.ressources.images[data.image];
 		if(data.tileWidth === undefined){
 			data.tileWidth = this.width;
