@@ -8,24 +8,25 @@
  *
  *
  * 
- * @param  {[type]} sr
+ * @param  {[type]} $sr
  * @return {[type]}
  */
-(function(sr){
+(function($sr){
 	
-	var _private = sr._private = sr._private || {};
-	_private.data = {};
+	var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
 
-	_seal = sr._seal = sr._seal || function () {
-		delete sr._private;
-		delete sr._seal;
-		delete sr._unseal;
+	_seal = $sr._seal = $sr._seal || function () {
+		delete $sr.$rootScope;
+		delete $sr._seal;
+		delete $sr._unseal;
 	},
-	_unseal = sr._unseal = sr._unseal || function () {
-		sr._private = _private;
-		sr._seal = _seal;
-		sr._unseal = _unseal;
+	_unseal = $sr._unseal = $sr._unseal || function () {
+		$sr.$rootScope = $rootScope;
+		$sr._seal = _seal;
+		$sr._unseal = _unseal;
 	};
+
+
 
 	/**
 	 *
@@ -35,7 +36,7 @@
 	 * @param  {Function} callback
 	 * @return {[type]}
 	 */
-	sr.loadScript = function(src, callback) {
+	$sr.loadScript = function(src, callback) {
 	    var s = document.createElement('script');
 	    s.type = 'text/javascript';
 	    s.src = src;
@@ -44,23 +45,23 @@
 	    document.body.appendChild(s);
 	}
 
-	sr.sunrise = function(){
-		sr._seal();
-		sr.initCanvas();
-		sr.run();
-		game.init(_private.data.game);
+	$sr.sunrise = function(){
+		$sr._seal();
+		$sr.initCanvas();
+		game.init($rootScope.$scope);
+		$rootScope.animationFrame.call(window, $sr.run);
 	}
 
 
-	sr.run = function(){
-		sr.clearCanvas();
-		game.run(_private.data.game);
-		_private.data.animationFrame.call(window, sr.run);
+	$sr.run = function(){
+		$sr.clearCanvas();
+		game.run($rootScope.$scope);
+		
 	}
 
 
 
-	sr.fps = {
+	$sr.fps = {
 		startTime : 0,
 		frameNumber : 0,
 		getFps : function(){
@@ -77,31 +78,33 @@
 	}
 
 	init = function(){
-		// sr.loadScript("application/org/core/test.js");
-		sr.loadScript('application/org/core/spriteManager.js');
-		sr.loadScript('application/org/core/canvas.js', sr.sunrise);
+		// $sr.loadScript("application/org/core/test.js");
+		$sr.loadScript('application/org/core/spriteManager.js');
+		$sr.loadScript('application/org/core/canvas.js', $sr.sunrise);
 
 
-		_private.data.animationFrame = 	window.requestAnimationFrame       ||
+		$rootScope.animationFrame = 	window.requestAnimationFrame       ||
 					          			window.webkitRequestAnimationFrame ||
 					          			window.mozRequestAnimationFrame    ||
 					          			function( callback ){
 					            			window.setTimeout(callback, 1000 / 60);
 					          			};
-					          			
-		_private.data.game = {};
+
+		$rootScope.$scope = {};
 	}
 
 
-	_private.data.dom = document.querySelector('div[sunriseJS-app]');
-	if(sr._private.data.dom != undefined){
+	$rootScope.dom = document.querySelector('div[sunriseJS-app]');
+	if($rootScope.dom != undefined){
 		init();
+		console.log($sr);
+		console.log($rootScope.dom);
 	}
 	else {
 		alert('no jsengine-app found');
 	}
 
 
-})(sr = window.sr = window.sr || {});
+})($sr = window.$sr = window.$sr || {});
 
 

@@ -11,42 +11,43 @@
  * @param  {[type]} sr
  * @return {[type]}
  */
-(function(sr){	
-	var _private = sr._private;
-
+(function($sr){	
+	console.log('$sr', $sr);
+	var $rootScope = $sr.$rootScope;
+	console.log('$sr', $sr.$rootScope);
 	/**
 	 * Initialising the canvas as a child of the sunriseJS-app element 
 	 * with the data the user specified in the config area.
 	 * @return {[type]}
 	 */
-	sr.initCanvas = function(){
+	$sr.initCanvas = function(){
 		screenWidth = game.config.screenWidth;
 		screenHeight = game.config.screenHeight;
 		var canvas = document.createElement('canvas');
 		canvas.id     = "sunriseJS-screen";
 		canvas.width  = game.config.screenWidth;
 		canvas.height = game.config.screenHeight;
-		_private.data.dom.appendChild(canvas);
-		_private.data.canvas = canvas;
-		_private.data.canvas.context = canvas.getContext("2d");
+		$rootScope.dom.appendChild(canvas);
+		$rootScope.canvas = canvas;
+		$rootScope.canvas.context = canvas.getContext("2d");
 	}
 
-	sr.clearCanvas = function(){
+	$sr.clearCanvas = function(){
 		// Store the current transformation matrix
-		_private.data.canvas.context.save();
+		$rootScope.canvas.context.save();
 		// Use the identity matrix while clearing the canvas
-		_private.data.canvas.context.setTransform(1, 0, 0, 1, 0, 0);
-		_private.data.canvas.context.clearRect(0, 0, game.config.screenWidth, game.config.screenHeight);
+		$rootScope.canvas.context.setTransform(1, 0, 0, 1, 0, 0);
+		$rootScope.canvas.context.clearRect(0, 0, game.config.screenWidth, game.config.screenHeight);
 		// Restore the transform
-		_private.data.canvas.context.restore();
+		$rootScope.canvas.context.restore();
 	}
 
 
 
 
 
-	sr.strokeRect = function(x,y,width,height){
-		return _private.data.canvas.context.strokeRect(x, y, width, height);
+	$sr.strokeRect = function(x,y,width,height){
+		return $rootScope.canvas.context.strokeRect(x, y, width, height);
 	}
 	
-})(window.sr = window.sr || {});
+})($sr = window.$sr = window.$sr || {});
