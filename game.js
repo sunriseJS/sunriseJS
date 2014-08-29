@@ -3,13 +3,13 @@ var game = {
 		screenWidth: 1280,
 		screenHeight: 720,
 		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision'],
-		images: [
-			{'player' 		: 'assets/graphics/char1.png'},
-			{'player-anim' 	: 'assets/graphics/char1_anim.png'},
-			{'logo-small' 	: 'assets/graphics/logo-klein.png'},
-			{'logo-normal' 	: 'assets/graphics/logo-normal.png'},
-			{'logo' 			: 'assets/graphics/logo.png'},
-		]
+		images: {
+			'player' 		: 'assets/graphics/char1.png',
+			'player-anim' 	: 'assets/graphics/char1_anim.png',
+			'logo-small' 	: 'assets/graphics/logo-klein.png',
+			'logo-normal' 	: 'assets/graphics/logo-normal.png',
+			'logo' 			: 'assets/graphics/logo.png',
+		}
 	},
 
 	init: function($scope){
