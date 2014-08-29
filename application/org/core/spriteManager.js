@@ -75,7 +75,7 @@
 	 * data example:
 	 * 	{
 	 *		name: "playersprite",
-	 *		src:"img/bla.png",
+	 *		image:"imagename",
 	 *		tileWidth:10,
 	 *		tileHeight:50,
 	 *		animations: {
@@ -93,7 +93,7 @@
 	$sr.createSprite = function(data) {
 
 		//Test whether all required parameters are given
-		var requiredParams = ['name', 'src'];
+		var requiredParams = ['name', 'image'];
 		if(data.tileWidth !== undefined || data.tileHeight !== undefined || data.animations !== undefined){
 			requiredParams.push('tileWidth');
 			requiredParams.push('tileHeight');
@@ -104,32 +104,32 @@
 			}
 		});
 
-		
-
-		var image = new Image();
-		image.onload = function() {
-			if(data.tileWidth === undefined){
-				data.tileWidth = this.width;
-				data.tileHeight = this.height;
-			}
-			if(data.animations === undefined){
-				data.animations = {};
-			}
-			//Make sure there is at least one animation
-			if(data.animations.default !== undefined){
-				data.animations.default = [0];
-			}
-
-			//Name already used? (Has to be checked here, otherwise some other sprite
-			//	with an image, which loads faster, could already has the name
-			if(spritePool[data.name] !== undefined){
-				throw new Error('Sprite with name '+data.name+' already exists');
-			}else{
-				spritePool[data.name] = new $sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
-			}
-
+		//Name already used?
+		if(spritePool[data.name] !== undefined){
+			throw new Error('Sprite with name '+data.name+' already exists');
 		}
-		image.src = data.src;
+
+		
+		if($rootScope.ressources.images[data.image] === undefined){
+			throw new Error('Imageressource with name '+data.image+' doesn\'t exists. Load it in config first!');
+		}
+		
+		var image = $rootScope.ressources.images[data.image];
+		if(data.tileWidth === undefined){
+			data.tileWidth = this.width;
+			data.tileHeight = this.height;
+		}
+		if(data.animations === undefined){
+			data.animations = {};
+		}
+		//Make sure there is at least one animation
+		if(data.animations.default !== undefined){
+			data.animations.default = [0];
+		}
+
+		
+		spritePool[data.name] = new $sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
+
 
 
 		
