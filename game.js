@@ -2,7 +2,11 @@ var game = {
 	config: {
 		screenWidth: 1280,
 		screenHeight: 720,
-		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision']
+		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision'],
+		images: {
+			'player' 		: 'assets/graphics/char1.png',
+			'player-anim' 	: 'assets/graphics/char1_anim.png',
+		}
 	},
 
 	init: function($scope){
@@ -20,16 +24,16 @@ var game = {
 		// });
 		// $scope.fpsdom = 
 		console.log('initgame');
-		sr.createSprite({
-			name: "test",
-			src: 'assets/graphics/char1_anim.png',
-			tileWidth: 32,
-			tileHeight: 96,
-			animations: {
-				left: [0,1],
-				right: [2,3]
-			}
-		});
+		// sr.createSprite({
+		// 	name: "test",
+		// 	src: 'assets/graphics/char1_anim.png',
+		// 	tileWidth: 32,
+		// 	tileHeight: 96,
+		// 	animations: {
+		// 		left: [0,1],
+		// 		right: [2,3]
+		// 	}
+		// });
 		$scope.x = $scope.y = 1
 	},
 

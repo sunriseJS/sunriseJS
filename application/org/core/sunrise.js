@@ -14,7 +14,9 @@
 (function($sr){
 	
 	var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
-
+	//private functions
+	$rootScope.functions = {};
+	
 	_seal = $sr._seal = $sr._seal || function () {
 		delete $sr.$rootScope;
 		delete $sr._seal;
