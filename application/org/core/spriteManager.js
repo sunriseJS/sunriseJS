@@ -3,6 +3,11 @@
 
 	var spritePool = {}; //container for all sprites
 
+	sr.printSprites = function(){
+		for(name in spritePool){
+			console.log(name,spritePool[name]);
+		}
+	}
 
 	//Classes
 
@@ -13,7 +18,7 @@
 		this.animations = animations;
 
 		//Context from other modules
-		this.context = _private.data.canvas.context;
+		//this.context = _private.data.canvas.context;
 
 		//Until an actual animation is set, use first one
 		for(anim in animations){
@@ -94,7 +99,7 @@
 			requiredParams.push('tileHeight');
 		}
 		requiredParams.forEach(function(param){
-			if(data[param] === undefined){
+			if(data[param] === undefined || data[param] === ""){
 				throw new Error('No element "'+param+'" specified in data');
 			}
 		});
@@ -107,8 +112,11 @@
 				data.tileWidth = this.width;
 				data.tileHeight = this.height;
 			}
+			if(data.animations === undefined){
+				data.animations = {};
+			}
 			//Make sure there is at least one animation
-			if(data.animation.default !== undefined){
+			if(data.animations.default !== undefined){
 				data.animations.default = [0];
 			}
 
@@ -117,11 +125,11 @@
 			if(spritePool[data.name] !== undefined){
 				throw new Error('Sprite with name '+data.name+' already exists');
 			}else{
-				spritePool[data.name] = new sr.Sprite(this, data.width, data.height, data.animations);
+				spritePool[data.name] = new sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
 			}
 
 		}
-		image.src = data.name;
+		image.src = data.src;
 
 
 
