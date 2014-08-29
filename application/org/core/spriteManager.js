@@ -132,6 +132,10 @@
 		image.src = data.src;
 
 
+		sr.getSprite = function(name){
+			return spritePool[name];
+		}
+
 
 	}
 	
