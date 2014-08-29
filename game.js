@@ -5,27 +5,31 @@ var game = {
 		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision']
 	},
 
-	
+	gamedata: {},
+
 	init: function(gamedata){
-		sr.physics.setGravity({x:1,y:2});
-		sr.loadSprite({
-			name: "playersprite",
-			src:"img/bla.png",
-			tileWidth:10,
-			tileHeight:50,
-			animations: {
-				"stand" : [0],
-				"running" : [0,1,2,3,4],
-				"jump" : [5,6,4,6]
-			}
-		});
+		// sr.physics.setGravity({x:1,y:2});
+		// sr.loadSprite({
+		// 	name: "playersprite",
+		// 	src:"img/bla.png",
+		// 	tileWidth:10,
+		// 	tileHeight:50,
+		// 	animations: {
+		// 		"stand" : [0],
+		// 		"running" : [0,1,2,3,4],
+		// 		"jump" : [5,6,4,6]
+		// 	}
+		// });
+		gamedata.x = gamedata.y = 1
 	},
 
 	run: function(gamedata){
-		js.collision.on("playercollision", function(collidingObjs){
+		// js.collision.on("playercollision", function(collidingObjs){
 
-		})
-
+		// })
+		sr.fps.getFps();
+		gamedata.x = gamedata.y++;
+		sr.strokeRect(gamedata.x, gamedata.y,50,50);
 	},
 
 	irgendeinefunktion: function(){

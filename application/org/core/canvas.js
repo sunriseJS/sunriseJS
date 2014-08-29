@@ -24,16 +24,29 @@
 		screenHeight = game.config.screenHeight;
 		var canvas = document.createElement('canvas');
 		canvas.id     = "sunriseJS-screen";
-		canvas.width  = game.config.screenWidth;;
+		canvas.width  = game.config.screenWidth;
 		canvas.height = game.config.screenHeight;
 		_private.data.dom.appendChild(canvas);
 		_private.data.canvas = canvas;
 		_private.data.canvas.context = canvas.getContext("2d");
 	}
 
+	sr.clearCanvas = function(){
+		// Store the current transformation matrix
+		_private.data.canvas.context.save();
+		// Use the identity matrix while clearing the canvas
+		_private.data.canvas.context.setTransform(1, 0, 0, 1, 0, 0);
+		_private.data.canvas.context.clearRect(0, 0, game.config.screenWidth, game.config.screenHeight);
+		// Restore the transform
+		_private.data.canvas.context.restore();
+	}
+
+
+
+
 
 	sr.strokeRect = function(x,y,width,height){
-		_private.data.canvas.context.strokeRect(x, y, width, height);
+		return _private.data.canvas.context.strokeRect(x, y, width, height);
 	}
 	
 })(window.sr = window.sr || {});

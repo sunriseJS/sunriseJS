@@ -47,12 +47,47 @@
 	sr.sunrise = function(){
 		sr._seal();
 		sr.initCanvas();
+		sr.run();
+		game.init(_private.data.game);
+	}
+
+
+	sr.run = function(){
+		sr.clearCanvas();
+		game.run(_private.data.game);
+		_private.data.animationFrame.call(window, sr.run);
+	}
+
+
+
+	sr.fps = {
+		startTime : 0,
+		frameNumber : 0,
+		getFps : function(){
+			this.frameNumber++;
+			var d = new Date().getTime(),
+				currentTime = ( d - this.startTime ) / 1000,
+				result = Math.floor( ( this.frameNumber / currentTime ) );
+			if( currentTime > 1 ){
+				this.startTime = new Date().getTime();
+				this.frameNumber = 0;
+			}
+			return result;
+		}	
 	}
 
 	init = function(){
 		// sr.loadScript("application/org/core/test.js");
 		sr.loadScript("application/org/core/canvas.js", sr.sunrise);
 
+
+		_private.data.animationFrame = 	window.requestAnimationFrame       ||
+					          			window.webkitRequestAnimationFrame ||
+					          			window.mozRequestAnimationFrame    ||
+					          			function( callback ){
+					            			window.setTimeout(callback, 1000 / 60);
+					          			};
+		_private.data.game = {};
 	}
 
 
