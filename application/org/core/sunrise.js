@@ -16,7 +16,7 @@
 	var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
 	//private functions
 	$rootScope.functions = {};
-	
+
 	_seal = $sr._seal = $sr._seal || function () {
 		delete $sr.$rootScope;
 		delete $sr._seal;
@@ -56,7 +56,7 @@
 
 
 	$sr.run = function(){
-		$sr.clearCanvas();
+		$rootScope.clearCanvas();
 		game.run($rootScope.$scope);
 		
 	}
@@ -82,8 +82,9 @@
 	init = function(){
 		// $sr.loadScript("application/org/core/test.js");
 		$sr.loadScript('application/org/core/spriteManager.js');
+		$sr.loadScript('application/org/core/io.js');
 		$sr.loadScript('application/org/core/canvas.js', $sr.sunrise);
-
+		$sr.log("hello I'm io");
 
 		$rootScope.animationFrame = 	window.requestAnimationFrame       ||
 					          			window.webkitRequestAnimationFrame ||
@@ -99,8 +100,6 @@
 	$rootScope.dom = document.querySelector('div[sunriseJS-app]');
 	if($rootScope.dom != undefined){
 		init();
-		console.log($sr);
-		console.log($rootScope.dom);
 	}
 	else {
 		alert('no jsengine-app found');

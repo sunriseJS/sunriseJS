@@ -12,9 +12,7 @@
  * @return {[type]}
  */
 (function($sr){	
-	console.log('$sr', $sr);
 	var $rootScope = $sr.$rootScope;
-	console.log('$sr', $sr.$rootScope);
 	/**
 	 * Initialising the canvas as a child of the sunriseJS-app element 
 	 * with the data the user specified in the config area.
@@ -32,7 +30,7 @@
 		$rootScope.canvas.context = canvas.getContext("2d");
 	}
 
-	$sr.clearCanvas = function(){
+	$rootScope.clearCanvas = function(){
 		// Store the current transformation matrix
 		$rootScope.canvas.context.save();
 		// Use the identity matrix while clearing the canvas
