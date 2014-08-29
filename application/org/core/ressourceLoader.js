@@ -3,8 +3,14 @@
 	var $rootScope.ressources = {images:{}, audio:{}};
 
 
-	
-	$sr.loadImages = function(srcArray, callback){
+	/**
+	 * loads images from files.
+	 * Example for sources:
+	 * sources = {"hero" : "my/path/hero.png"}
+	 * @param   sources imagefiles and names
+	 * @param  callback which is called when all images are loaded
+	 */
+	$sr.loadImages = function(sources, callback){
 
 		for(name in srcArray){
 			if($rootScope.ressources.images[name] !== undefined){
