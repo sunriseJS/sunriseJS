@@ -6,6 +6,9 @@ var game = {
 		images: {
 			'player' 		: 'assets/graphics/char1.png',
 			'player-anim' 	: 'assets/graphics/char1_anim.png',
+			'logo-small' 	: 'assets/graphics/logo-klein.png',
+			'logo-normal' 	: 'assets/graphics/logo-normal.png',
+			'logo' 			: 'assets/graphics/logo.png',
 		}
 	},
 
