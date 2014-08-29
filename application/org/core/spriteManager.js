@@ -18,7 +18,7 @@
 		this.animations = animations;
 
 		//Context from other modules
-		//this.context = _private.data.canvas.context;
+		this.context = _private.data.canvas.context;
 
 		//Until an actual animation is set, use first one
 		for(anim in animations){
