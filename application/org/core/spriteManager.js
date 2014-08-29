@@ -1,9 +1,9 @@
-(function(sr) {
-	var _private = sr._private;
+(function($sr) {
+	var $rootScope = $sr.$rootScope;
 
 	var spritePool = {}; //container for all sprites
 
-	sr.printSprites = function(){
+	$sr.printSprites = function(){
 		for(name in spritePool){
 			console.log(name,spritePool[name]);
 		}
@@ -11,14 +11,14 @@
 
 	//Classes
 
-	sr.Sprite = function(image, width, height, animations){
+	$sr.Sprite = function(image, width, height, animations){
 		this.image = image;
 		this.width = width;
 		this.height = height;
 		this.animations = animations;
 
 		//Context from other modules
-		this.context = _private.data.canvas.context;
+		this.context = $rootScope.canvas.context;
 
 		//Until an actual animation is set, use first one
 		for(anim in animations){
@@ -44,7 +44,7 @@
 	 * @param w Width of drawn image. Useful for stretching. Optional.
 	 * @param h Height of drawn image. Useful for stretching. Optional.
 	 */
-	sr.Sprite.prototype.draw = function(x, y, w, h){
+	$sr.Sprite.prototype.draw = function(x, y, w, h){
 		var width = w || this.width;
 		var height = h || this.height;
 		var frame = this.currentAnimation[this.currentFrame];
@@ -90,7 +90,7 @@
 	 */
 	
 	//Todo: Think of some way to know, when Sprite is ready. Callback?
-	sr.createSprite = function(data) {
+	$sr.createSprite = function(data) {
 
 		//Test whether all required parameters are given
 		var requiredParams = ['name', 'src'];
@@ -125,7 +125,7 @@
 			if(spritePool[data.name] !== undefined){
 				throw new Error('Sprite with name '+data.name+' already exists');
 			}else{
-				spritePool[data.name] = new sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
+				spritePool[data.name] = new $sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
 			}
 
 		}
@@ -136,8 +136,8 @@
 
 
 	}
-	sr.getSprite = function(name){
+	$sr.getSprite = function(name){
 		return spritePool[name];
 	}
 	
-})(window.sr = window.sr || {});
+})(window.$sr = window.$sr || {});
