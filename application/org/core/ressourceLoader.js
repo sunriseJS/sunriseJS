@@ -22,27 +22,29 @@
 	 */
 	$sr.loadImages = function(sources, callback){
 
-		for(name in sources){
-			$sr.log(name,sources);
-			if($rootScope.ressources.images[name] !== undefined){
-				throw new Error('Imageressource with name '+name+' already exists');
-			}
-			var image = new Image();
-			image.onload = function() {
 
-				delete sources[name];
-				$rootScope.ressources.images[name] = this;
-				var ready = true;
-				for(index in sources){
-					ready = false;
-					break;
+		for(title in sources){
+			(function(name, source){
+				if($rootScope.ressources.images[name] !== undefined){
+					throw new Error('Imageressource with name '+name+' already exists');
 				}
-				if(ready){
-					callback();
-				}
+				var image = new Image();
+				image.onload = function() {
 
-			}
-			image.src = sources[name];
+					delete sources[name];
+					$rootScope.ressources.images[name] = this;
+					var ready = true;
+					for(index in sources){
+						ready = false;
+						break;
+					}
+					if(ready){
+						callback();
+					}
+
+				}
+				image.src = source;
+			})(title, sources[title]);
 		}
 
 	}
