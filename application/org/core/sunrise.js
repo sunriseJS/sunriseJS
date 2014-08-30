@@ -14,6 +14,15 @@
 (function($sr){
 	
 	var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
+
+	$rootScope.core = [
+		'canvas', 
+		'spriteManager', 
+		'io', 
+		'ressourceLoader', 
+		'controlls'
+	];
+
 	//private functions
 	$rootScope.functions = {};
 
@@ -79,15 +88,32 @@
 		}	
 	}
 
-	init = function(){
-		// $sr.loadScript("application/org/core/test.js");
-		$sr.loadScript('application/org/core/spriteManager.js');
-		$sr.loadScript('application/org/core/io.js');
-		$sr.loadScript('application/org/core/ressourceLoader.js');
-		$sr.loadScript('application/org/core/canvas.js',function(){
-			$sr.loadImages(game.config.images, $sr.sunrise);
-		});
+	$sr.initPlugins = function(){
+		var plugs = {},
+		    i = $rootScope.core.length -1; 
+		while(i >= 0 && (plugs[i--] = $rootScope.folders.core+$rootScope.core.pop()+'.js')){};
 
+		for(title in plugs){
+			(function(name, source){
+				$sr.loadScript(source, 
+						function() {
+						delete plugs[name];
+						var ready = true;
+						for(index in plugs){
+							ready = false;
+							break;
+						}
+						if(ready){
+							$sr.sunrise();
+						}
+				})
+			})(title, plugs[title]);
+		}
+	}
+		
+	init = function(){
+		$sr.loadScript('application/org/core/constants.js', $sr.initPlugins);
+		
 		
 
 		$rootScope.animationFrame = 	window.requestAnimationFrame       ||
@@ -96,7 +122,6 @@
 					          			function( callback ){
 					            			window.setTimeout(callback, 1000 / 60);
 					          			};
-
 		$rootScope.$scope = {};
 		
 	}

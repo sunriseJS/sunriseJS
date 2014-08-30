@@ -40,6 +40,9 @@ var game = {
 		$sr.getSprite('test').currentAnimation = [2,3];
 		$scope.x = $scope.y = 1
 		$scope.fpsdom = document.querySelector('#fps');
+
+
+		console.log($scope.events);
 	},
 
 	run: function($scope){

@@ -25,6 +25,7 @@
 		canvas.id     = "sunriseJS-screen";
 		canvas.width  = game.config.screenWidth;
 		canvas.height = game.config.screenHeight;
+		canvas.tabIndex ='1';
 		$rootScope.dom.appendChild(canvas);
 		$rootScope.canvas = canvas;
 		$rootScope.canvas.context = canvas.getContext("2d");
