@@ -18,6 +18,7 @@
 	 * with the data the user specified in the config area.
 	 * @return {[type]}
 	 */
+	console.log($rootScope.events);
 	$sr.initCanvas = function(){
 		screenWidth = game.config.screenWidth;
 		screenHeight = game.config.screenHeight;
@@ -26,6 +27,8 @@
 		canvas.width  = game.config.screenWidth;
 		canvas.height = game.config.screenHeight;
 		canvas.tabIndex ='1';
+		//call canvas is loaded
+		canvas.onload = function(){$rootScope.emit('canvas-fully-loaded');};
 		$rootScope.dom.appendChild(canvas);
 		$rootScope.canvas = canvas;
 		$rootScope.canvas.context = canvas.getContext("2d");

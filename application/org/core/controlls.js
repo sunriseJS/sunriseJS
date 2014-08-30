@@ -13,9 +13,6 @@
  */
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
-
-
-	$sr.log('controlls');
 	$sr.controlls = {};
 
 	$sr.controlls.key = function(key, callback){
@@ -26,12 +23,10 @@
 		console.log(event);
 	}
 	
-
-	var test = function(){
-	 	console.log($rootScope.canvas);
+	$rootScope.on('canvas-fully-loaded', function(){
+		console.log($rootScope.canvas);
 		$rootScope.canvas.addEventListener('keydown',$sr.handleKeyDown);
-	}
-		
-	window.setTimeout(test, 2000);
+	});
+	
 
 })($sr = window.$sr = window.$sr || {});

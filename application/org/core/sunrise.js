@@ -16,11 +16,12 @@
 	var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
 
 	$rootScope.core = [
+		'io', 
+		'controlls',
 		'canvas', 
 		'spriteManager', 
-		'io', 
-		'ressourceLoader', 
-		'controlls'
+		'ressourceLoader'
+		
 	];
 
 	//private functions
@@ -59,9 +60,8 @@
 	$sr.sunrise = function(){
 		$sr._seal();
 		$sr.initCanvas();
+
 		game.init($rootScope.$scope);
-		
-		$sr.log("hello I'm io");
 		$sr.run();
 	}
 
@@ -113,8 +113,6 @@
 		
 	init = function(){
 		$sr.loadScript('application/org/core/constants.js', $sr.initPlugins);
-		
-		
 
 		$rootScope.animationFrame = 	window.requestAnimationFrame       ||
 					          			window.webkitRequestAnimationFrame ||

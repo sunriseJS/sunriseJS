@@ -15,9 +15,7 @@
 	var $rootScope = $sr.$rootScope;
 
 	$rootScope.events = {};
-	$rootScope.$scope.events = {
-		"test": [],
-	};
+	$rootScope.$scope.events = {};
 	
 	$sr.log = function() {
     	return console.log.apply(console,arguments);

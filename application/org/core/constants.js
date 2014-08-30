@@ -24,6 +24,4 @@
 	$rootScope.$scope.KEYS = keys;
 	$rootScope.$scope.TOUCH = touch;
 	$rootScope.folders = folders;
-	
-	console.log($rootScope.folders);
 })($sr = window.$sr = window.$sr || {});

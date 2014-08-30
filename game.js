@@ -35,18 +35,12 @@ var game = {
 		// 	}
 		// });
 		// $scope.fpsdom = 
-		console.log('initgame');
-		$sr.getSprite('player-anim').currentAnimation = [2,3];
 		$scope.x = $scope.y = 1
 		$scope.fpsdom = document.querySelector('#fps');
-
-
-		console.log($scope.events);
 	},
 
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
-		$sr.getSprite('player-anim').draw($scope.x, $scope.y);
 		$scope.x = $scope.y++;
 
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
