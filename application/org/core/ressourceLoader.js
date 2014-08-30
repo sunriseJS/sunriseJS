@@ -10,7 +10,7 @@
 
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
-	$rootScope.ressources = {images:{}, audio:{}};
+	$rootScope.ressources = {images:{}, sprites:{}, audio:{}};
 
 
 	/**
@@ -24,7 +24,26 @@
 
 
 		for(title in sources){
+			
+
+			//IFFE which is executed for every image
 			(function(name, source){
+				var sourceFile;
+				var spriteConfig;
+				//Test whether there is a string for path only or a complex object for animation
+				console.log(source);
+				if(typeof source === 'object'){
+					if(source.source === undefined){
+						throw new Error('No attribute "source" found in image '+title);
+					}
+					sourceFile = source.source;
+					spriteConfig = source;
+					spriteConfig.name = title;
+				}else{
+					sourceFile = source;
+					spriteConfig = {};
+					spriteConfig.name = title;
+				}
 				if($rootScope.ressources.images[name] !== undefined){
 					throw new Error('Imageressource with name '+name+' already exists');
 				}
@@ -33,6 +52,10 @@
 
 					delete sources[name];
 					$rootScope.ressources.images[name] = this;
+
+					$sr.createSprite(spriteConfig);
+
+					//Last image got loaded? notify callback!
 					var ready = true;
 					for(index in sources){
 						ready = false;
@@ -43,7 +66,7 @@
 					}
 
 				}
-				image.src = source;
+				image.src = sourceFile;
 			})(title, sources[title]);
 		}
 

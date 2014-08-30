@@ -5,7 +5,16 @@ var game = {
 		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision'],
 		images: {
 			'player' 		: 'assets/graphics/char1.png',
-			'player-anim' 	: 'assets/graphics/char1_anim.png',
+			'player-anim' 	: {
+								source: 'assets/graphics/char1_anim.png',
+								tileWidth: 32,
+								tileHeight: 96,
+								animations: {
+									left: [0,1],
+									right: [2,3]
+								}
+
+							},
 			'logo-small' 	: 'assets/graphics/logo-klein.png',
 			'logo-normal' 	: 'assets/graphics/logo-normal.png',
 			'logo' 			: 'assets/graphics/logo.png',
@@ -27,25 +36,16 @@ var game = {
 		// });
 		// $scope.fpsdom = 
 		console.log('initgame');
-		$sr.createSprite({
-			name: "test",
-			image: 'player-anim',
-			tileWidth: 32,
-			tileHeight: 96,
-			animations: {
-				left: [0,1],
-				right: [2,3]
-			}
-		});
-		$sr.getSprite('test').currentAnimation = [2,3];
+		$sr.getSprite('player-anim').currentAnimation = [2,3];
 		$scope.x = $scope.y = 1
 		$scope.fpsdom = document.querySelector('#fps');
 	},
 
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
-		$sr.getSprite('test').draw($scope.x, $scope.y);
+		$sr.getSprite('player-anim').draw($scope.x, $scope.y);
 		$scope.x = $scope.y++;
+
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
 	},
 

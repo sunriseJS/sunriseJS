@@ -159,7 +159,7 @@
 	$sr.createSprite = function(data) {
 
 		//Test whether all required parameters are given
-		var requiredParams = ['name', 'image'];
+		var requiredParams = ['name'];
 		if(data.tileWidth !== undefined || data.tileHeight !== undefined || data.animations !== undefined){
 			requiredParams.push('tileWidth');
 			requiredParams.push('tileHeight');
@@ -177,11 +177,11 @@
 		}
 
 		
-		if($rootScope.ressources.images[data.image] === undefined){
-			throw new Error('Imageressource with name '+data.image+' doesn\'t exists. Load it in config first!');
+		if($rootScope.ressources.images[data.name] === undefined){
+			throw new Error('Imageressource with name '+data.name+' doesn\'t exists. Load it in config first!');
 		}
 
-		var image = $rootScope.ressources.images[data.image];
+		var image = $rootScope.ressources.images[data.name];
 		if(data.tileWidth === undefined){
 			data.tileWidth = image.width;
 			data.tileHeight = image.height;
