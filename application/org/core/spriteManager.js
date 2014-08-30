@@ -60,8 +60,8 @@
 		var height = h || this.height;
 		var frame = this.currentAnimation[this.currentFrame];
 
-		var sourceX = frame % this.cols;
-		var sourceY = Math.floor(frame / this.rows);
+		var sourceX = (frame % this.cols)*this.width;
+		var sourceY = Math.floor(frame / this.rows)*this.height;
 
 		this.context.drawImage(this.image, sourceX, sourceY, this.width, this.height, 
 					x, y, width, height);
@@ -74,6 +74,7 @@
 			if(this.currentFrame >= this.currentAnimation.length){
 				this.currentFrame = 0;
 			}
+			this.lastDrawTime = now;
 		}
 
 	}
