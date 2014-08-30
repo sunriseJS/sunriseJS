@@ -25,6 +25,8 @@
 		this.image = image;
 		this.width = width;
 		this.height = height;
+		this.rotation = 0;
+		this.alpha = 1;
 		this.animations = animations;
 
 		//Context from other modules
@@ -55,6 +57,18 @@
 	 * @param h Height of drawn image. Useful for stretching. Optional.
 	 */
 	$sr.Sprite.prototype.draw = function(x, y, w, h){
+
+		if(this.alpha !== 1){
+			var oldAlpha = this.context.globalAlpha;
+			this.context.globalAlpha = this.alpha;
+		}
+
+		if(this.rotation !== 0){
+			this.context.save();
+			this.context.translate(x,y);
+			this.context.rotate(this.rotation);
+			this.context.translate(-x,-y);
+		}
 	
 		var width = w || this.width;
 		var height = h || this.height;
@@ -77,6 +91,30 @@
 			this.lastDrawTime = now;
 		}
 
+
+		if(this.alpha !== 1){
+			this.context.globalAlpha = oldAlpha;
+		}
+		if(this.rotation !== 0){
+			this.context.restore();
+		}
+
+	}
+
+
+	$sr.Sprite.prototype.setRotationDeg = function(angle){
+		this.setRotationRad(angle* Math.PI / 180);
+	}
+
+	$sr.Sprite.prototype.setRotationRad = function(angle){
+		angle %= 2*Math.PI; //handle angles larger then 2*pi
+		this.rotation = angle
+	}
+
+	$sr.Sprite.prototype.setAlpha = function(alpha){
+		alpha = alpha < 0 ? 0 : alpha;
+		alpha = alpha > 1 ? 1 : alpha;
+		this.alpha = alpha;
 	}
 
 	/**
