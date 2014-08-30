@@ -27,27 +27,27 @@ var game = {
 		// });
 		// $scope.fpsdom = 
 		console.log('initgame');
-		// sr.createSprite({
-		// 	name: "test",
-		// 	src: 'assets/graphics/char1_anim.png',
-		// 	tileWidth: 32,
-		// 	tileHeight: 96,
-		// 	animations: {
-		// 		left: [0,1],
-		// 		right: [2,3]
-		// 	}
-		// });
+		$sr.createSprite({
+			name: "test",
+			image: 'player-anim',
+			tileWidth: 32,
+			tileHeight: 96,
+			animations: {
+				left: [0,1],
+				right: [2,3]
+			}
+		});
 		$scope.x = $scope.y = 1
 	},
 
 	run: function($scope){
-		// $sr.getSprite('test').draw($scope.x, $scope.y);
-		// $scope.x = $scope.y++;
-		// sr.strokeRect($scope.x, $scope.y,50,50);
+		$sr.getSprite('test').draw($scope.x, $scope.y);
+		$scope.x = $scope.y++;
+		$sr.strokeRect($scope.x, $scope.y,50,50);
 	},
 
 	irgendeinefunktion: function(){
-		var player = sr.getNewDrawingObj();
+		var player = $sr.getNewDrawingObj();
 		player.states.add({
 			"run-left": {
 				enter : function(){

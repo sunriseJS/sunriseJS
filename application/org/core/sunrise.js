@@ -51,15 +51,16 @@
 		$sr._seal();
 		$sr.initCanvas();
 		game.init($rootScope.$scope);
-		$rootScope.animationFrame.call(window, $sr.run);
+		
 		$sr.log("hello I'm io");
+		$sr.run();
 	}
 
 
 	$sr.run = function(){
 		$rootScope.clearCanvas();
 		game.run($rootScope.$scope);
-		
+		$rootScope.animationFrame.call(window, $sr.run);
 	}
 
 	$sr.fps = {

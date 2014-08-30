@@ -32,7 +32,7 @@
 
 		//Until an actual animation is set, use first one
 		for(anim in animations){
-			this.currentAnimation = anim;
+			this.currentAnimation = animations[anim];
 			break;
 		}
 
@@ -55,14 +55,17 @@
 	 * @param h Height of drawn image. Useful for stretching. Optional.
 	 */
 	$sr.Sprite.prototype.draw = function(x, y, w, h){
+	
 		var width = w || this.width;
 		var height = h || this.height;
 		var frame = this.currentAnimation[this.currentFrame];
 
 		var sourceX = frame % this.cols;
 		var sourceY = Math.floor(frame / this.rows);
+
 		this.context.drawImage(this.image, sourceX, sourceY, this.width, this.height, 
 					x, y, width, height);
+	
 
 		var now = Date.now();
 		var delta = now - this.lastDrawTime;
@@ -108,6 +111,7 @@
 			requiredParams.push('tileWidth');
 			requiredParams.push('tileHeight');
 		}
+
 		requiredParams.forEach(function(param){
 			if(data[param] === undefined || data[param] === ""){
 				throw new Error('No element "'+param+'" specified in data');
@@ -126,19 +130,19 @@
 
 		var image = $rootScope.ressources.images[data.image];
 		if(data.tileWidth === undefined){
-			data.tileWidth = this.width;
-			data.tileHeight = this.height;
+			data.tileWidth = image.width;
+			data.tileHeight = image.height;
 		}
 		if(data.animations === undefined){
 			data.animations = {};
 		}
 		//Make sure there is at least one animation
-		if(data.animations.default !== undefined){
+		if(data.animations.default === undefined){
 			data.animations.default = [0];
 		}
 
 		
-		spritePool[data.name] = new $sr.Sprite(this, data.tileWidth, data.tileHeight, data.animations);
+		spritePool[data.name] = new $sr.Sprite(image, data.tileWidth, data.tileHeight, data.animations);
 
 
 
