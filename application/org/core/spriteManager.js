@@ -25,6 +25,8 @@
 		this.image = image;
 		this.width = width;
 		this.height = height;
+		this.rotation = 0;
+		this.alpha = 1;
 		this.animations = animations;
 
 		//Context from other modules
@@ -55,6 +57,18 @@
 	 * @param h Height of drawn image. Useful for stretching. Optional.
 	 */
 	$sr.Sprite.prototype.draw = function(x, y, w, h){
+
+		if(this.alpha !== 1){
+			var oldAlpha = this.context.globalAlpha;
+			this.context.globalAlpha = this.alpha;
+		}
+
+		if(this.rotation !== 0){
+			this.context.save();
+			this.context.translate(x,y);
+			this.context.rotate(this.rotation);
+			this.context.translate(-x,-y);
+		}
 	
 		var width = w || this.width;
 		var height = h || this.height;
@@ -77,6 +91,44 @@
 			this.lastDrawTime = now;
 		}
 
+
+		if(this.alpha !== 1){
+			this.context.globalAlpha = oldAlpha;
+		}
+		if(this.rotation !== 0){
+			this.context.restore();
+		}
+
+	}
+
+	/**
+	 * Change current animation of the sprite
+	 * @param String animationName name of the animation which should be played
+	 * @param Integer startFrame	frame the animation should start at, optional
+	 */
+	$sr.Sprite.prototype.setAnimation = function(animationName, startFrame){
+		if(this.animations[animationName] === undefined){
+			throw new Error('No animation with name '+animationName+' found');
+		}
+		this.currentAnimation = this.animations[animationName];
+		this.currentFrame = startFrame || 0;
+	}
+
+
+	$sr.Sprite.prototype.setRotationDeg = function(angle){
+		this.setRotationRad(angle* Math.PI / 180);
+	}
+
+	$sr.Sprite.prototype.setRotationRad = function(angle){
+		angle %= 2*Math.PI; //handle angles larger then 2*pi
+		this.rotation = angle
+	}
+
+	$sr.Sprite.prototype.setAlpha = function(alpha){
+		//alpha has to be between 0 and 1
+		alpha = alpha < 0 ? 0 : alpha;
+		alpha = alpha > 1 ? 1 : alpha;
+		this.alpha = alpha;
 	}
 
 	/**
@@ -107,7 +159,7 @@
 	$sr.createSprite = function(data) {
 
 		//Test whether all required parameters are given
-		var requiredParams = ['name', 'image'];
+		var requiredParams = ['name'];
 		if(data.tileWidth !== undefined || data.tileHeight !== undefined || data.animations !== undefined){
 			requiredParams.push('tileWidth');
 			requiredParams.push('tileHeight');
@@ -125,11 +177,11 @@
 		}
 
 		
-		if($rootScope.ressources.images[data.image] === undefined){
-			throw new Error('Imageressource with name '+data.image+' doesn\'t exists. Load it in config first!');
+		if($rootScope.ressources.images[data.name] === undefined){
+			throw new Error('Imageressource with name '+data.name+' doesn\'t exists. Load it in config first!');
 		}
 
-		var image = $rootScope.ressources.images[data.image];
+		var image = $rootScope.ressources.images[data.name];
 		if(data.tileWidth === undefined){
 			data.tileWidth = image.width;
 			data.tileHeight = image.height;
