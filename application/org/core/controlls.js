@@ -24,7 +24,6 @@
 	}
 	
 	$rootScope.on('canvas-fully-loaded', function(){
-		console.log($rootScope.canvas);
 		$rootScope.canvas.addEventListener('keydown',$sr.handleKeyDown);
 	});
 	

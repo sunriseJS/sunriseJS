@@ -22,8 +22,8 @@
 	};
 
 	$rootScope.emit = function(event, data){
-		if($rootScope.$scope.events[event] != undefined){
-			$rootScope.$scope.events[event].forEach(function(entry) {
+		if($rootScope.events[event] != undefined){
+			$rootScope.events[event].forEach(function(entry) {
    				entry(data);
 			});
 		} else {
@@ -35,7 +35,8 @@
 		if($rootScope.events[event] != undefined){
 			$rootScope.events[event].push(callback); 
 		} else {
-			$rootScope.events[event] = [].push(callback);
+			$rootScope.events[event] = [];
+			$rootScope.events[event].push(callback);
 		}
 		
 	}
