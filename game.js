@@ -37,13 +37,16 @@ var game = {
 				right: [2,3]
 			}
 		});
+		$sr.getSprite('test').currentAnimation = [2,3];
 		$scope.x = $scope.y = 1
+		$scope.fpsdom = document.querySelector('#fps');
 	},
 
 	run: function($scope){
+		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 		$sr.getSprite('test').draw($scope.x, $scope.y);
 		$scope.x = $scope.y++;
-		$sr.strokeRect($scope.x, $scope.y,50,50);
+		// $sr.strokeRect($scope.x, $scope.y,50,50);
 	},
 
 	irgendeinefunktion: function(){
