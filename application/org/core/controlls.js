@@ -20,11 +20,12 @@
 	}
 
 	$sr.handleKeyDown = function(event){
-		console.log(event);
+		var charCode = String.fromCharCode((typeof event.which == "undefined") ? event.keyCode : event.which);
+		console.log("Keycode: ", event.keyCode, "keypressed: ", charCode);
 	}
 	
 	$rootScope.on('canvas-fully-loaded', function(){
-		$rootScope.canvas.addEventListener('keydown',$sr.handleKeyDown);
+		$rootScope.canvas.addEventListener('keypress',$sr.handleKeyDown);
 	});
 	
 
