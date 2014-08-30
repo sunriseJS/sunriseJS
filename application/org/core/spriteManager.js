@@ -101,6 +101,19 @@
 
 	}
 
+	/**
+	 * Change current animation of the sprite
+	 * @param String animationName name of the animation which should be played
+	 * @param Integer startFrame	frame the animation should start at, optional
+	 */
+	$sr.Sprite.prototype.setAnimation = function(animationName, startFrame){
+		if(this.animations[animationName] === undefined){
+			throw new Error('No animation with name '+animationName+' found');
+		}
+		this.currentAnimation = this.animations[animationName];
+		this.currentFrame = startFrame || 0;
+	}
+
 
 	$sr.Sprite.prototype.setRotationDeg = function(angle){
 		this.setRotationRad(angle* Math.PI / 180);
@@ -112,6 +125,7 @@
 	}
 
 	$sr.Sprite.prototype.setAlpha = function(alpha){
+		//alpha has to be between 0 and 1
 		alpha = alpha < 0 ? 0 : alpha;
 		alpha = alpha > 1 ? 1 : alpha;
 		this.alpha = alpha;
