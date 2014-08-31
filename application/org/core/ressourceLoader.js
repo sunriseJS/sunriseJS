@@ -53,7 +53,7 @@
 					delete sources[name];
 					$rootScope.ressources.images[name] = this;
 
-					$sr.createSprite(spriteConfig);
+					$rootScope.createSprite(spriteConfig);
 
 					//Last image got loaded? notify callback!
 					var ready = true;
