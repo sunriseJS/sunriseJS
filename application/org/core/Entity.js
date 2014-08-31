@@ -21,7 +21,7 @@
 	    var alpha;
 
 	    //constructor
-	    function Entity = function(x, y, imageName){
+	    function Entity(x, y, imageName){
 			pos = new $sr.util.Vec2(x,y);
 			sprite = $rootScope.getSprite(imageName);
 			rotation = 0;
