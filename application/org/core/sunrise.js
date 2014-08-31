@@ -20,7 +20,8 @@
 		'controlls',
 		'canvas', 
 		'spriteManager', 
-		'ressourceLoader'
+		'ressourceLoader',
+		'util'
 		
 	];
 
