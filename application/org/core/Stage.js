@@ -19,6 +19,7 @@
 			throw new Error('Only entities can be added to stage');
 		}
 		entities.push(entity);
+		console.log('added to stage. entities:',entities);
 	}
 
 	$rootScope.drawStage = function(){

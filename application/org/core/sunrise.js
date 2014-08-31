@@ -75,6 +75,7 @@
 	$sr.run = function(){
 		$rootScope.clearCanvas();
 		game.run($rootScope.$scope);
+		$rootScope.drawStage();
 		$rootScope.animationFrame.call(window, $sr.run);
 	}
 

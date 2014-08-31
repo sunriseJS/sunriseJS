@@ -17,7 +17,7 @@ var game = {
 							},
 			'logo-small' 	: 'assets/graphics/logo-klein.png',
 			'logo-normal' 	: 'assets/graphics/logo-normal.png',
-			'logo' 			: 'assets/graphics/logo.png',
+			'logo' 			: 'assets/graphics/logo.png'
 		}
 	},
 
@@ -35,16 +35,29 @@ var game = {
 		// 	}
 		// });
 		// $scope.fpsdom = 
-		$scope.x = $scope.y = 1
+		$scope.player = new $sr.Entity(40,40,'player-anim');
+		$sr.stage.add($scope.player);
+		$scope.toLeft = true;
 		$scope.fpsdom = document.querySelector('#fps');
+
 	},
 
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
-		$scope.x++;
-		$scope.y++;
-		$scope.x = $scope.x > 1280 ? 0 : $scope.x;
-		$scope.y = $scope.y > 720 ? 0 : $scope.y;
+
+		if($scope.toLeft){
+			$scope.player.position.sub(3,0);
+			if($scope.player.position.x <= 0){
+				$scope.toLeft = false;
+				$scope.player.setAnimation('right');
+			}
+		}else{
+			$scope.player.position.add(3,0);
+			if($scope.player.position.x >= 1280){
+				$scope.toLeft = true;
+				$scope.player.setAnimation('left');
+			}
+		}
 
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
 	},

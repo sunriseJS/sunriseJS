@@ -79,6 +79,7 @@
 
 		this.context.drawImage(this.image, sourceX, sourceY, this.width, this.height, 
 					x, y, width, height);
+
 	
 
 		var now = Date.now();
