@@ -102,14 +102,67 @@
 		return new $sr.util.Vec2(first.x-second.x, first.y-second.y);
 	}
 
-	//Shorter Versions
+	//shorter versions
 	$sr.util.Vec2.prototype.sub = $sr.util.Vec2.prototype.subtract;
 	$sr.util.Vec2.sub = $sr.util.Vec2.subtract;
 
-	
 
 
-	
+	/**
+	 * multiplies vector with scalar
+	 * @param  Number factor Scalar the vector will be multiplied by
+	 * @return {[type]}        [description]
+	 */
+	$sr.util.Vec2.prototype.multiply = function(factor){
+		this.x *= factor;
+		this.y *= factor;
+	}
+
+	/**
+	 * multiplies a vector by a scalar
+	 * @param  Vec2 vector
+	 * @param  Number scalar 
+	 * @return Vec2        new vector
+	 */
+	$sr.util.Vec2.multiply = function(vector, scalar){
+		var vec =  new $sr.util.Vec2(vector);
+		vec.multiply(scalar);
+		return vec;
+	}
+
+
+	//shorter version
+	$sr.util.Vec2.prototype.mul = $sr.util.Vec2.prototype.multiply;
+	$sr.util.Vec2.mul = $sr.util.Vec2.multiply;
+
+
+	/**
+	 * divides a vector by a scalar
+	 * @param  Number factor Scalar the vector will be divided by
+	 * @return {[type]}        [description]
+	 */
+	$sr.util.Vec2.prototype.divide = function(factor){
+		this.multiply(1/factor);
+	}
+
+	/**
+	 * divides a vector by a scalar
+	 * @param  Vec2 vector
+	 * @param  Number scalar 
+	 * @return Vec2        new vector
+	 */
+	$sr.util.Vec2.divide = function(vector, scalar){
+		var vec =  new $sr.util.Vec2(vector);
+		vec.divide(scalar);
+		return vec;
+	}
+
+
+	//shorter version
+	$sr.util.Vec2.prototype.div = $sr.util.Vec2.prototype.divide;
+	$sr.util.Vec2.div = $sr.util.Vec2.divide;
+
+
 
 	
 })($sr = window.$sr = window.$sr || {});
