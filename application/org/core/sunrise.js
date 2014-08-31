@@ -60,9 +60,12 @@
 	$sr.sunrise = function(){
 		$sr._seal();
 		$sr.initCanvas();
+		$sr.loadImages(game.config.images, function(){
+			game.init($rootScope.$scope);
+			$sr.run();	
+		});
 
-		game.init($rootScope.$scope);
-		$sr.run();
+		
 	}
 
 

@@ -37,11 +37,16 @@ var game = {
 		// $scope.fpsdom = 
 		$scope.x = $scope.y = 1
 		$scope.fpsdom = document.querySelector('#fps');
+		$sr.getSprite('player-anim').setAnimation('right');
 	},
 
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
-		$scope.x = $scope.y++;
+		$scope.x++;
+		$scope.y++;
+		$scope.x = $scope.x > 1280 ? 0 : $scope.x;
+		$scope.y = $scope.y > 720 ? 0 : $scope.y;
+		$sr.getSprite('player-anim').draw($scope.x,$scope.y);
 
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
 	},

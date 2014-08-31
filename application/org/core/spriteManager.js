@@ -141,7 +141,6 @@
 	 * data example:
 	 * 	{
 	 *		name: "playersprite",
-	 *		image:"imagename",
 	 *		tileWidth:10,
 	 *		tileHeight:50,
 	 *		animations: {
