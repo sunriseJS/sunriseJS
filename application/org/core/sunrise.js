@@ -21,7 +21,9 @@
 		'canvas', 
 		'spriteManager', 
 		'ressourceLoader',
-		'util'
+		'util',
+		'Entity',
+		'Stage'
 		
 	];
 
