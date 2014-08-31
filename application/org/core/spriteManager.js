@@ -154,8 +154,7 @@
 	 * @return void
 	 */
 	
-	//Todo: Think of some way to know, when Sprite is ready. Callback?
-	$sr.createSprite = function(data) {
+	$rootScope.createSprite = function(data) {
 
 		//Test whether all required parameters are given
 		var requiredParams = ['name'];
@@ -202,7 +201,7 @@
 
 
 	}
-	$sr.getSprite = function(name){
+	$rootScope.getSprite = function(name){
 		return spritePool[name];
 	}
 	
