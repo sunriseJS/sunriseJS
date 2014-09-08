@@ -18,7 +18,8 @@ var game = {
 					'se': [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71],
 					's': [72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83],
 					'sw': [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
-					'rot': [3, 15, 28, 39, 51, 63, 75, 87]
+					'rot': [3, 15, 28, 39, 51, 63, 75, 87],
+					'default' : [76]
 				}
 
 			},
@@ -63,7 +64,7 @@ var game = {
 			!$sr.controls.isKeyPressed("a") &&
 			!$sr.controls.isKeyPressed("d") &&
 			!$sr.controls.isKeyPressed("s")) {
-			$scope.player.setAnimation('default');
+				$scope.player.setAnimation('default');
 		}
 
 		if ($sr.controls.isKeyPressed("ctrl")) {
