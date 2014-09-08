@@ -1,5 +1,4 @@
 sunriseJS
 =========
-<p>This is a normal paragraph:</p>
 
-<pre><code>sr.insertGame(yourmodulehere)</code></pre>
+For full Documentation go on [sunrisejs.github.io](sunrisejs.net)
