@@ -74,12 +74,14 @@
 		var height = h || this.height;
 		var frame = this.currentAnimation[this.currentFrame];
 
+
 		var sourceX = (frame % this.cols)*this.width;
-		var sourceY = Math.floor(frame / this.rows)*this.height;
+		var sourceY = Math.floor(frame / this.cols)*this.height;
 
 		this.context.drawImage(this.image, sourceX, sourceY, this.width, this.height, 
 					x, y, width, height);
-
+		console.log("frame:"+frame, "cols:"+this.cols, "rows:"+this.rows, "sourceX:"+sourceX, "sourceY:"+sourceY, "this.cols:"+this.cols, "this.height:"+this.height
+		);
 	
 
 		var now = Date.now();
@@ -179,6 +181,7 @@
 		if($rootScope.ressources.images[data.name] === undefined){
 			throw new Error('Imageressource with name '+data.name+' doesn\'t exists. Load it in config first!');
 		}
+
 
 		var image = $rootScope.ressources.images[data.name];
 		if(data.tileWidth === undefined){

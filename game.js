@@ -6,20 +6,27 @@ var game = {
 		images: {
 			'player' 		: 'assets/graphics/char1.png',
 			'player-anim' 	: {
-								source: 'assets/graphics/char1_anim.png',
-								tileWidth: 32,
-								tileHeight: 96,
+								source: 'assets/graphics/spritesheet.png',
+								tileWidth: 64,
+								tileHeight: 128,
 								animations: {
-									left: [0,1],
-									right: [2,3]
+									left: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+									right: [12,11,10,9,8,7,6,5,4,3,2,1,0]
 								}
 
 							},
 			'logo-small' 	: 'assets/graphics/logo-klein.png',
 			'logo-normal' 	: 'assets/graphics/logo-normal.png',
 			'logo' 			: 'assets/graphics/logo.png'
-		}
+		},
+		levels: {
+			level1 : "assets/maps/map1.json",
+			bosLevel1: "assets/maps/bossLevel.json"
+		},
+
+		
 	},
+
 
 	init: function($scope){
 		// sr.physics.setGravity({x:1,y:2});
@@ -45,7 +52,7 @@ var game = {
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
-		if($scope.toLeft){
+		/*if($scope.toLeft){
 			$scope.player.position.sub(3,0);
 			if($scope.player.position.x <= 0){
 				$scope.toLeft = false;
@@ -57,6 +64,14 @@ var game = {
 				$scope.toLeft = true;
 				$scope.player.setAnimation('left');
 			}
+		}*/
+
+		$scope.player.position.add(-1,1);
+		if($scope.player.position.x <= 0){
+			$scope.player.position.x = 1280;
+		}
+		if($scope.player.position.y >= 720){
+			$scope.player.position.y = 0;
 		}
 
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
