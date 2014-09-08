@@ -48,7 +48,6 @@ var game = {
 		// 		"jump" : [5,6,4,6]
 		// 	}
 		// });
-		// $scope.fpsdom = 
 		$scope.player = new $sr.Entity(40,40,'player-anim');
 		$sr.stage.add($scope.player);
 		$scope.toLeft = true;
@@ -59,65 +58,52 @@ var game = {
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
-		if(!$sr.isKeyPressed(17) && !$sr.isKeyPressed(87) && !$sr.isKeyPressed(65) && !$sr.isKeyPressed(68) && !$sr.isKeyPressed(83)){
+		if(!$sr.controls.isKeyPressed("ctrl") && !$sr.controls.isKeyPressed("w") && !$sr.controls.isKeyPressed("a") && !$sr.controls.isKeyPressed("d") && !$sr.controls.isKeyPressed("s")){
 			$scope.player.setAnimation('default');
 		}
 
-		if($sr.isKeyPressed(17)){
+		if($sr.controls.isKeyPressed("ctrl")){
 			$scope.player.setAnimation('rot');
 		}
 
-<<<<<<< HEAD
-		if($sr.controls.isKeyPressed('a'))
-			console.log('a gedrückt' );
-
-		if($sr.controls.isKeyPressed('shift'))
-			console.log('shift gedrückt' );
-		/*if($scope.toLeft){
-			$scope.player.position.sub(3,0);
-			if($scope.player.position.x <= 0){
-				$scope.toLeft = false;
-				$scope.player.setAnimation('right');
-=======
-		if($sr.isKeyPressed(87)){ //w
-			if($sr.isKeyPressed(65)){
+		if($sr.controls.isKeyPressed("w")){ //w
+			if($sr.controls.isKeyPressed("a")){
 				$scope.player.setAnimation('nw');
 				$scope.player.position.add(-1,-0.5);
 			}else{
-				if($sr.isKeyPressed(68)){
+				if($sr.controls.isKeyPressed("d")){
 					$scope.player.setAnimation('ne');
 					$scope.player.position.add(1,-0.5);
 				}else{
 					$scope.player.setAnimation('n');
 					$scope.player.position.sub(0,1);
 				}
->>>>>>> 9d436f3f8d2666210695575d13766281ad19a404
 			}
 		}
 
-		if($sr.isKeyPressed(65)){ //a
+		if($sr.controls.isKeyPressed("a")){ //a
 			
-			if(!$sr.isKeyPressed(87) && !$sr.isKeyPressed(83)){
+			if(!$sr.controls.isKeyPressed("w") && !$sr.controls.isKeyPressed("s")){
 				$scope.player.setAnimation('w');
 				$scope.player.position.sub(1.5,0);
 			}
 			
 		}
 
-		if($sr.isKeyPressed(68)){ //d
+		if($sr.controls.isKeyPressed("d")){ //d
 			
-			if(!$sr.isKeyPressed(87) && !$sr.isKeyPressed(83)){
+			if(!$sr.controls.isKeyPressed("w") && !$sr.controls.isKeyPressed("s")){
 				$scope.player.setAnimation('e');
 				$scope.player.position.add(1.5,0);
 			}
 		}
 
-		if($sr.isKeyPressed(83)){ //s
-			if($sr.isKeyPressed(65)){
+		if($sr.controls.isKeyPressed("s")){ //s
+			if($sr.controls.isKeyPressed("a")){
 				$scope.player.setAnimation('sw');
 				$scope.player.position.add(-1,0.5);
 			}else{
-				if($sr.isKeyPressed(68)){
+				if($sr.controls.isKeyPressed("d")){
 					$scope.player.setAnimation('se');
 					$scope.player.position.add(1,0.5);
 				}else{
