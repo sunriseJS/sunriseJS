@@ -6,12 +6,19 @@ var game = {
 		images: {
 			'player' 		: 'assets/graphics/char1.png',
 			'player-anim' 	: {
-								source: 'assets/graphics/spritesheet.png',
+								source: 'assets/graphics/soldier.png',
 								tileWidth: 64,
 								tileHeight: 128,
 								animations: {
-									left: [0,1,2,3,4,5,6,7,8,9,10,11,12],
-									right: [12,11,10,9,8,7,6,5,4,3,2,1,0]
+									'w': [0,1,2,3,4,5,6,7,8,9,10,11],
+									'nw': [12,13,14,15,16,17,18,19,20,21,22,23],
+									'n': [24,25,26,27,28,29,30,31,32,33,34,35],
+									'ne':[36,37,38,39,40,41,42,43,44,45,46,47],
+									'e': [48,49,50,51,52,53,54,55,56,57,58,59],
+									'se': [60,61,62,63,64,65,66,67,68,69,70,71],
+									's' : [72,73,74,75,76,77,78,79,80,81,82,83],
+									'sw' : [84,85,86,87,88,89,90,91,92,93,94,95],
+									'rot': [3,15,28,39,51,63,75,87]
 								}
 
 							},
@@ -52,7 +59,15 @@ var game = {
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
+		if(!$sr.isKeyPressed(17) && !$sr.isKeyPressed(87) && !$sr.isKeyPressed(65) && !$sr.isKeyPressed(68) && !$sr.isKeyPressed(83)){
+			$scope.player.setAnimation('default');
+		}
 
+		if($sr.isKeyPressed(17)){
+			$scope.player.setAnimation('rot');
+		}
+
+<<<<<<< HEAD
 		if($sr.controls.isKeyPressed('a'))
 			console.log('a gedrückt' );
 
@@ -63,22 +78,57 @@ var game = {
 			if($scope.player.position.x <= 0){
 				$scope.toLeft = false;
 				$scope.player.setAnimation('right');
+=======
+		if($sr.isKeyPressed(87)){ //w
+			if($sr.isKeyPressed(65)){
+				$scope.player.setAnimation('nw');
+				$scope.player.position.add(-1,-0.5);
+			}else{
+				if($sr.isKeyPressed(68)){
+					$scope.player.setAnimation('ne');
+					$scope.player.position.add(1,-0.5);
+				}else{
+					$scope.player.setAnimation('n');
+					$scope.player.position.sub(0,1);
+				}
+>>>>>>> 9d436f3f8d2666210695575d13766281ad19a404
 			}
-		}else{
-			$scope.player.position.add(3,0);
-			if($scope.player.position.x >= 1280){
-				$scope.toLeft = true;
-				$scope.player.setAnimation('left');
-			}
-		}*/
+		}
 
-		$scope.player.position.add(-1,1);
-		if($scope.player.position.x <= -64){
-			$scope.player.position.x = 640;
+		if($sr.isKeyPressed(65)){ //a
+			
+			if(!$sr.isKeyPressed(87) && !$sr.isKeyPressed(83)){
+				$scope.player.setAnimation('w');
+				$scope.player.position.sub(1.5,0);
+			}
+			
 		}
-		if($scope.player.position.y >= 360){
-			$scope.player.position.y = -128;
+
+		if($sr.isKeyPressed(68)){ //d
+			
+			if(!$sr.isKeyPressed(87) && !$sr.isKeyPressed(83)){
+				$scope.player.setAnimation('e');
+				$scope.player.position.add(1.5,0);
+			}
 		}
+
+		if($sr.isKeyPressed(83)){ //s
+			if($sr.isKeyPressed(65)){
+				$scope.player.setAnimation('sw');
+				$scope.player.position.add(-1,0.5);
+			}else{
+				if($sr.isKeyPressed(68)){
+					$scope.player.setAnimation('se');
+					$scope.player.position.add(1,0.5);
+				}else{
+					$scope.player.setAnimation('s');
+					$scope.player.position.add(0,1);
+				}
+			}
+		}
+		
+
+		
 
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
 	},
