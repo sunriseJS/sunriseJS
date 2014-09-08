@@ -1,4 +1,4 @@
 sunriseJS
 =========
 
-For full Documentation go on the [sunrisejs.net](sunrisejs website)
+For full Documentation go on the [sunrisejs website](sunrisejs.net)
