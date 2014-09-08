@@ -19,7 +19,7 @@
 	$rootScope.controls.keycallbacks = {};
 	$rootScope.controls.keyspressed = {};
 
-	function init(){
+	function init() {
 		$rootScope.generateKeys();
 	}
 
@@ -47,7 +47,8 @@
 
 
 	$sr.controls.isKeyPressed = function(char) {
-		return $rootScope.controls.keyspressed[$rootScope.controls.keys.codes[char]] ? true : false;
+		return $rootScope.controls.keyspressed[
+			$rootScope.controls.keys.codes[char]] || $rootScope.controls.keyspressed[char];
 	}
 
 	$rootScope.generateKeys = function() {
