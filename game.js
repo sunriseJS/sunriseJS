@@ -59,31 +59,61 @@ var game = {
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
+		if(!$sr.isKeyPressed(17) && !$sr.isKeyPressed(87) && !$sr.isKeyPressed(65) && !$sr.isKeyPressed(68) && !$sr.isKeyPressed(83)){
+			$scope.player.setAnimation('default');
+		}
 
-		if($sr.isKeyPressed(16))
-			console.log('shift gedrückt' );
-		/*if($scope.toLeft){
-			$scope.player.position.sub(3,0);
-			if($scope.player.position.x <= 0){
-				$scope.toLeft = false;
-				$scope.player.setAnimation('e');
+		if($sr.isKeyPressed(17)){
+			$scope.player.setAnimation('rot');
+		}
+
+		if($sr.isKeyPressed(87)){ //w
+			if($sr.isKeyPressed(65)){
+				$scope.player.setAnimation('nw');
+				$scope.player.position.add(-1,-0.5);
+			}else{
+				if($sr.isKeyPressed(68)){
+					$scope.player.setAnimation('ne');
+					$scope.player.position.add(1,-0.5);
+				}else{
+					$scope.player.setAnimation('n');
+					$scope.player.position.sub(0,1);
+				}
 			}
-		}else{
-			$scope.player.position.add(3,0);
-			if($scope.player.position.x >= 1280){
-				$scope.toLeft = true;
+		}
+
+		if($sr.isKeyPressed(65)){ //a
+			
+			if(!$sr.isKeyPressed(87) && !$sr.isKeyPressed(83)){
 				$scope.player.setAnimation('w');
+				$scope.player.position.sub(1.5,0);
 			}
-
-		}*/
-
-		$scope.player.position.add(-1,1);
-		if($scope.player.position.x <= -64){
-			$scope.player.position.x = 640;
+			
 		}
-		if($scope.player.position.y >= 360){
-			$scope.player.position.y = -128;
+
+		if($sr.isKeyPressed(68)){ //d
+			
+			if(!$sr.isKeyPressed(87) && !$sr.isKeyPressed(83)){
+				$scope.player.setAnimation('e');
+				$scope.player.position.add(1.5,0);
+			}
 		}
+
+		if($sr.isKeyPressed(83)){ //s
+			if($sr.isKeyPressed(65)){
+				$scope.player.setAnimation('sw');
+				$scope.player.position.add(-1,0.5);
+			}else{
+				if($sr.isKeyPressed(68)){
+					$scope.player.setAnimation('se');
+					$scope.player.position.add(1,0.5);
+				}else{
+					$scope.player.setAnimation('s');
+					$scope.player.position.add(0,1);
+				}
+			}
+		}
+		
 
 		
 
