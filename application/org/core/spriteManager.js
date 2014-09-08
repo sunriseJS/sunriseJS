@@ -28,6 +28,7 @@
 		this.rotation = 0;
 		this.alpha = 1;
 		this.animations = animations;
+		this.anchor = { x: 0, y:0};
 
 		//Context from other modules
 		this.context = $rootScope.canvas.context;
@@ -57,6 +58,9 @@
 	 * @param h Height of drawn image. Useful for stretching. Optional.
 	 */
 	$sr.Sprite.prototype.draw = function(x, y, w, h){
+
+		x -= this.anchor.x;
+		y -= this.anchor.y;
 
 		if(this.alpha !== 1){
 			var oldAlpha = this.context.globalAlpha;
@@ -114,7 +118,7 @@
 			throw new Error('No animation with name '+animationName+' found');
 		}
 		if(this.currentAnimation == this.animations[animationName] && startFrame === undefined){
-			return;
+			return;	
 		}
 		this.currentAnimation = this.animations[animationName];
 		this.currentFrame = startFrame || 0;
@@ -136,6 +140,18 @@
 		alpha = alpha > 1 ? 1 : alpha;
 		this.alpha = alpha;
 	}
+
+	$sr.Sprite.prototype.setAnchor = function(x,y){
+		if(typeof x === 'object' && typeof x.x !== 'undefined' && typeof x.y !== 'undefined'){
+			this.anchor.x = x.x;
+			this.anchor.y = x.y;
+		}else{
+			this.anchor.x = x;
+			this.anchor.y = y;
+		}
+	}
+
+
 
 	/**
 	 * Loads an imagefile an creates a sprite from it.
