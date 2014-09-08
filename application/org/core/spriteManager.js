@@ -80,8 +80,8 @@
 
 		this.context.drawImage(this.image, sourceX, sourceY, this.width, this.height, 
 					x, y, width, height);
-		console.log("frame:"+frame, "cols:"+this.cols, "rows:"+this.rows, "sourceX:"+sourceX, "sourceY:"+sourceY, "this.cols:"+this.cols, "this.height:"+this.height
-		);
+		// console.log("frame:"+frame, "cols:"+this.cols, "rows:"+this.rows, "sourceX:"+sourceX, "sourceY:"+sourceY, "this.cols:"+this.cols, "this.height:"+this.height
+		// );
 	
 
 		var now = Date.now();

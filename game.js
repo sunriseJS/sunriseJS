@@ -1,7 +1,7 @@
 var game = {
 	config: {
-		screenWidth: 1280,
-		screenHeight: 720,
+		screenWidth: 640,
+		screenHeight: 360,
 		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities','touchcontrolls', 'collision'],
 		images: {
 			'player' 		: 'assets/graphics/char1.png',
@@ -52,6 +52,9 @@ var game = {
 	run: function($scope){
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
+
+		if($sr.isKeyPressed(16))
+			console.log('shift gedrückt' );
 		/*if($scope.toLeft){
 			$scope.player.position.sub(3,0);
 			if($scope.player.position.x <= 0){
@@ -67,11 +70,11 @@ var game = {
 		}*/
 
 		$scope.player.position.add(-1,1);
-		if($scope.player.position.x <= 0){
-			$scope.player.position.x = 1280;
+		if($scope.player.position.x <= -64){
+			$scope.player.position.x = 640;
 		}
-		if($scope.player.position.y >= 720){
-			$scope.player.position.y = 0;
+		if($scope.player.position.y >= 360){
+			$scope.player.position.y = -128;
 		}
 
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
