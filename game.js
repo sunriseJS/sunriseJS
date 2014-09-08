@@ -53,7 +53,10 @@ var game = {
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
 
-		if($sr.isKeyPressed(16))
+		if($sr.controls.isKeyPressed('a'))
+			console.log('a gedrückt' );
+
+		if($sr.controls.isKeyPressed('shift'))
 			console.log('shift gedrückt' );
 		/*if($scope.toLeft){
 			$scope.player.position.sub(3,0);

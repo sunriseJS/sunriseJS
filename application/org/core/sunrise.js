@@ -17,7 +17,7 @@
 
 	$rootScope.core = [
 		'io', 
-		'controlls',
+		'controls',
 		'canvas', 
 		'spriteManager', 
 		'ressourceLoader',
