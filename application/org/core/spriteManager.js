@@ -113,6 +113,9 @@
 		if(this.animations[animationName] === undefined){
 			throw new Error('No animation with name '+animationName+' found');
 		}
+		if(this.currentAnimation == this.animations[animationName] && startFrame === undefined){
+			return;
+		}
 		this.currentAnimation = this.animations[animationName];
 		this.currentFrame = startFrame || 0;
 	}
