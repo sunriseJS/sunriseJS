@@ -77,39 +77,39 @@ var game = {
 		// $sr.strokeRect($scope.x, $scope.y,50,50);
 	},
 
-	irgendeinefunktion: function(){
-		var player = $sr.getNewDrawingObj();
-		player.states.add({
-			"run-left": {
-				enter : function(){
-					player.sprite.set({animation: "run-left"});
-				},
-				tick : function(){
-					player.position.add({x:-1});
-				}
-			},
-			"run-right":{
+	// irgendeinefunktion: function(){
+	// 	var player = $sr.getNewDrawingObj();
+	// 	player.states.add({
+	// 		"run-left": {
+	// 			enter : function(){
+	// 				player.sprite.set({animation: "run-left"});
+	// 			},
+	// 			tick : function(){
+	// 				player.position.add({x:-1});
+	// 			}
+	// 		},
+	// 		"run-right":{
 
-			}
-		});
+	// 		}
+	// 	});
 		
 
-		$scope.player = player;
-		sr.physics.add({	
-			moveable: [player,enemys],
-			fixed: [wall1]
-						});
+	// 	$scope.player = player;
+	// 	sr.physics.add({	
+	// 		moveable: [player,enemys],
+	// 		fixed: [wall1]
+	// 					});
 
 
 
-		sr.level.add(player);
-		player.position.set({z:1});
-		player.sprite.set({name: "playersprite", animation: "stand"});
-		player.sprite.set({animation: "running"});
+	// 	sr.level.add(player);
+	// 	player.position.set({z:1});
+	// 	player.sprite.set({name: "playersprite", animation: "stand"});
+	// 	player.sprite.set({animation: "running"});
 				
-		sr.controlls.key.on('A', $scope.player.states.run-left);
+	// 	sr.controlls.key.on('A', $scope.player.states.run-left);
 
-	},	
+	// },	
 
 
 	generateStates: function($scope){
