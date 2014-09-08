@@ -17,7 +17,7 @@
 	$rootScope.controls = {};
 	$rootScope.controls.keys = {};
 	$rootScope.controls.keycallbacks = {};
-	$rootScope.controls.keyspressed = {};
+	$rootScope.controls.keysPressed = {};
 
 	function init() {
 		$rootScope.generateKeys();
@@ -30,14 +30,14 @@
 	$rootScope.handleKeyDown = function(event) {
 		// var charCode = String.fromCharCode((typeof event.which == "undefined") ? event.keyCode : event.which);
 		// console.log("Keycode: ", event.keyCode, "keypressed: ", charCode);
-		$rootScope.controls.keyspressed[event.keyCode] = true;
+		$rootScope.controls.keysPressed[event.keyCode] = true;
 	}
 
 	$rootScope.handleKeyUp = function(event) {
 		// var charCode = String.fromCharCode((typeof event.which == "undefined") ? event.keyCode : event.which);
 		// console.log("Keycode: ", event.keyCode, "keypressed: ", charCode);
 
-		$rootScope.controls.keyspressed[event.keyCode] = false;
+		$rootScope.controls.keysPressed[event.keyCode] = false;
 	}
 
 	$rootScope.on('canvas-fully-loaded', function() {
@@ -45,10 +45,16 @@
 		$rootScope.canvas.addEventListener('keyup', $rootScope.handleKeyUp);
 	});
 
-
-	$sr.controls.isKeyPressed = function(char) {
-		return $rootScope.controls.keyspressed[
-			$rootScope.controls.keys.codes[char]] || $rootScope.controls.keyspressed[char];
+	/**
+	 * will return if a key (or multiple keys) are actualy pressed
+	 */
+	$sr.controls.isKeyPressed = function() {
+		var result = true;
+			i = -1;
+		for (; (++i < arguments.length) && result;) {
+			result = $rootScope.controls.keysPressed[$rootScope.controls.keys.codes[arguments[i]]] || $rootScope.controls.keysPressed[arguments[i]];
+		}
+		return result;
 	}
 
 	$rootScope.generateKeys = function() {

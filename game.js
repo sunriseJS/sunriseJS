@@ -59,6 +59,8 @@ var game = {
 	run: function($scope) {
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
+		
+
 		if (!$sr.controls.isKeyPressed("ctrl") &&
 			!$sr.controls.isKeyPressed("w") &&
 			!$sr.controls.isKeyPressed("a") &&
