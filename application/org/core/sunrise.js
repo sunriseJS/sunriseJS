@@ -23,6 +23,7 @@
 		'ressourceLoader',
 		'util',
 		'Entity',
+		'Sprite',
 		'Stage'
 		
 	];

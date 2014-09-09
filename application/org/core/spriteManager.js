@@ -21,7 +21,7 @@
 
 
 	/**
-	 * Loads an imagefile an creates a sprite from it.
+	 * Loads an imagefile and creates a sprite from it.
 	 * If tileWidth and tileHeight is spezified in data, the image is interpreted as spritesheet.
 	 * If animation is spezified in data,  
 	 *
