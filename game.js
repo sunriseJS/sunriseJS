@@ -10,16 +10,23 @@ var game = {
 				tileWidth: 64,
 				tileHeight: 128,
 				animations: {
-					'w': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-					'nw': [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-					'n': [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
-					'ne': [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47],
-					'e': [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
-					'se': [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71],
-					's': [72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83],
-					'sw': [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
+					'w_walk': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+					'nw_walk': [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+					'n_walk': [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
+					'ne_walk': [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47],
+					'e_walk': [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
+					'se_walk': [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71],
+					's_walk': [72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83],
+					'sw_walk': [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
 					'rot': [3, 15, 28, 39, 51, 63, 75, 87],
-					'default' : [76]
+					'w_stand': [4],
+					'nw_stand': [16],
+					'n_stand': [28],
+					'ne_stand': [40],
+					'e_stand': [53],
+					'se_stand': [64],
+					's_stand': [76],
+					'sw_stand': [88]
 				}
 
 			},
@@ -53,72 +60,99 @@ var game = {
 		$sr.stage.add($scope.player);
 		$scope.toLeft = true;
 		$scope.fpsdom = document.querySelector('#fps');
+		$scope.player.directions = {
+			w : {
+				x : -1.5,
+				sprite : 'w'
+			},
+			nw : {
+				x : -1,
+				y : -0.5,
+				sprite : 'nw'
+			},
+			n : {
+				y : -1,
+				sprite : 'n'
+			},
+			ne : {
+				x : 1,
+				y : -0.5,
+				sprite : 'ne'
+			},
+			e : {
+				x : 1.5,
+				sprite : 'e'
+			},
+			se : {
+				x : 1,
+				y : 0.5,
+				sprite : 'se'
+			},
+			s : {
+				y : 1,
+				sprite : 's'
+			},
+			sw : {
+				x : -1,
+				y : 0.5,
+				sprite : 'sw'
+			}
+
+		};
+		$scope.player.currentDirection = 'e';
 
 	},
 
 	run: function($scope) {
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
-		
+		var lastDir = $scope.player.currentDirection;
+		$scope.player.currentDirection = -1;
 
-		if (!$sr.controls.isKeyPressed("ctrl") &&
-			!$sr.controls.isKeyPressed("w") &&
-			!$sr.controls.isKeyPressed("a") &&
-			!$sr.controls.isKeyPressed("d") &&
-			!$sr.controls.isKeyPressed("s")) {
-				$scope.player.setAnimation('default');
+		if($sr.controls.isKeyPressed('w')){
+			$scope.player.currentDirection = 'n';
+		}
+		if($sr.controls.isKeyPressed('s')){
+			$scope.player.currentDirection = 's';
+		}
+		if($sr.controls.isKeyPressed('a')){
+			$scope.player.currentDirection = 'w';
+		}
+		if($sr.controls.isKeyPressed('d')){
+			$scope.player.currentDirection = 'e';
+		}
+		if($sr.controls.isKeyPressed('w','a')){
+			$scope.player.currentDirection = 'nw';
+		}
+		if($sr.controls.isKeyPressed('w','d')){
+			$scope.player.currentDirection = 'ne';
+		}
+		if($sr.controls.isKeyPressed('s','a')){
+			$scope.player.currentDirection = 'sw';
+		}
+		if($sr.controls.isKeyPressed('s','d')){
+			$scope.player.currentDirection = 'se';
 		}
 
-		if ($sr.controls.isKeyPressed("ctrl")) {
+		if($scope.player.currentDirection !== -1){
+			var dir = $scope.player.directions[$scope.player.currentDirection];
+			console.log(dir);
+			$scope.player.position.x += dir.x || 0;
+			$scope.player.position.y += dir.y || 0;
+			$scope.player.setAnimation(dir.sprite+'_walk');
+		}else{
+			console.log(lastDir);
+			$scope.player.setAnimation($scope.player.directions[lastDir].sprite+'_stand');
+			$scope.player.currentDirection = lastDir;
+		}
+
+		if($sr.controls.isKeyPressed('ctrl')){
 			$scope.player.setAnimation('rot');
 		}
 
-		if ($sr.controls.isKeyPressed('87')) { //w // 87
-			if ($sr.controls.isKeyPressed("a")) {
-				$scope.player.setAnimation('nw');
-				$scope.player.position.add(-1, -0.5);
-			} else {
-				if ($sr.controls.isKeyPressed("d")) {
-					$scope.player.setAnimation('ne');
-					$scope.player.position.add(1, -0.5);
-				} else {
-					$scope.player.setAnimation('n');
-					$scope.player.position.sub(0, 1);
-				}
-			}
-		}
 
-		if ($sr.controls.isKeyPressed("a")) { //a
 
-			if (!$sr.controls.isKeyPressed("w") && !$sr.controls.isKeyPressed("s")) {
-				$scope.player.setAnimation('w');
-				$scope.player.position.sub(1.5, 0);
-			}
 
-		}
-
-		if ($sr.controls.isKeyPressed("d")) { //d
-
-			if (!$sr.controls.isKeyPressed("w") && !$sr.controls.isKeyPressed("s")) {
-				$scope.player.setAnimation('e');
-				$scope.player.position.add(1.5, 0);
-			}
-		}
-
-		if ($sr.controls.isKeyPressed("s")) { //s
-			if ($sr.controls.isKeyPressed("a")) {
-				$scope.player.setAnimation('sw');
-				$scope.player.position.add(-1, 0.5);
-			} else {
-				if ($sr.controls.isKeyPressed("d")) {
-					$scope.player.setAnimation('se');
-					$scope.player.position.add(1, 0.5);
-				} else {
-					$scope.player.setAnimation('s');
-					$scope.player.position.add(0, 1);
-				}
-			}
-		}
 
 
 
