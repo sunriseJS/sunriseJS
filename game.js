@@ -109,39 +109,37 @@ var game = {
 		var lastDir = $scope.player.currentDirection;
 		$scope.player.currentDirection = -1;
 
-		if($sr.controls.isKeyPressed('w')){
+		if($sr.controls.isKeyPressed('w') || $sr.controls.isKeyPressed('up')){
 			$scope.player.currentDirection = 'n';
 		}
-		if($sr.controls.isKeyPressed('s')){
+		if($sr.controls.isKeyPressed('s') || $sr.controls.isKeyPressed('down')){
 			$scope.player.currentDirection = 's';
 		}
-		if($sr.controls.isKeyPressed('a')){
+		if($sr.controls.isKeyPressed('a') || $sr.controls.isKeyPressed('left')){
 			$scope.player.currentDirection = 'w';
 		}
-		if($sr.controls.isKeyPressed('d')){
+		if($sr.controls.isKeyPressed('d') || $sr.controls.isKeyPressed('right')){
 			$scope.player.currentDirection = 'e';
 		}
-		if($sr.controls.isKeyPressed('w','a')){
+		if($sr.controls.isKeyPressed('w','a')  || $sr.controls.isKeyPressed('up', 'left')){
 			$scope.player.currentDirection = 'nw';
 		}
-		if($sr.controls.isKeyPressed('w','d')){
+		if($sr.controls.isKeyPressed('w','d') || $sr.controls.isKeyPressed('up', 'right')){
 			$scope.player.currentDirection = 'ne';
 		}
-		if($sr.controls.isKeyPressed('s','a')){
+		if($sr.controls.isKeyPressed('s','a') || $sr.controls.isKeyPressed('down', 'left')){
 			$scope.player.currentDirection = 'sw';
 		}
-		if($sr.controls.isKeyPressed('s','d')){
+		if($sr.controls.isKeyPressed('s','d') || $sr.controls.isKeyPressed('down', 'right')){
 			$scope.player.currentDirection = 'se';
 		}
 
 		if($scope.player.currentDirection !== -1){
 			var dir = $scope.player.directions[$scope.player.currentDirection];
-			console.log(dir);
 			$scope.player.position.x += dir.x || 0;
 			$scope.player.position.y += dir.y || 0;
 			$scope.player.setAnimation(dir.sprite+'_walk');
 		}else{
-			console.log(lastDir);
 			$scope.player.setAnimation($scope.player.directions[lastDir].sprite+'_stand');
 			$scope.player.currentDirection = lastDir;
 		}
