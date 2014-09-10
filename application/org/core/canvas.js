@@ -10,31 +10,33 @@
  * 
  * @param  {[type]} sr
  * @return {[type]}
+ *
+ * global game:false
  */
+
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
 	/**
 	 * Initialising the canvas as a child of the sunriseJS-app element 
 	 * with the data the user specified in the config area.
-	 * @return {[type]}
 	 */
-	$sr.initCanvas = function(){
-		screenWidth = game.config.screenWidth;
-		screenHeight = game.config.screenHeight;
-		var canvas = document.createElement('canvas');
-		canvas.id     = "sunriseJS-screen";
-		canvas.width  = game.config.screenWidth;
-		canvas.height = game.config.screenHeight;
+	$sr.initCanvas 		= function(){
+		var screenWidth 	= game.config.screenWidth,
+			screenHeight 	= game.config.screenHeight,
+			canvas 		= document.createElement('canvas');
+		canvas.id     	= 'sunriseJS-screen';
+		canvas.width  	= screenWidth;
+		canvas.height 	= screenHeight;
 
 		canvas.tabIndex ='1';
 		//call canvas is loaded
 		
 		$rootScope.dom.appendChild(canvas);
 		$rootScope.canvas = canvas;
-		$rootScope.canvas.context = canvas.getContext("2d");
+		$rootScope.canvas.context = canvas.getContext('2d');
 		canvas.focus();
 		$rootScope.emit('canvas-fully-loaded');
-	}
+	};
 
 
 
@@ -48,7 +50,7 @@
 		$rootScope.canvas.context.clearRect(0, 0, game.config.screenWidth, game.config.screenHeight);
 		// Restore the transform
 		$rootScope.canvas.context.restore();
-	}
+	};
 
 
 
@@ -56,7 +58,7 @@
 
 	$sr.strokeRect = function(x,y,width,height){
 		return $rootScope.canvas.context.strokeRect(x, y, width, height);
-	}
+	};
 
 	
 })($sr = window.$sr = window.$sr || {});
