@@ -11,34 +11,37 @@
  * @param  {[type]} sr
  * @return {[type]}
  */
+
+
 (function($sr) {
 	var $rootScope = $sr.$rootScope;
 	$sr.controls = {};
-	$rootScope.controls = {};
-	$rootScope.controls.keys = {};
-	$rootScope.controls.keycallbacks = {};
-	$rootScope.controls.keysPressed = {};
-
+	$rootScope.controls = {
+		'keys': {},
+		'keycallbacks': {},
+		'keysPressed': {}
+	};
+	
 	function init() {
 		$rootScope.generateKeys();
 	}
 
 	$sr.controls.key = function(key, callback) {
 		$rootScope.controls.keycallbacks[key] = callback;
-	}
+	};
 
 	$rootScope.handleKeyDown = function(event) {
 		// var charCode = String.fromCharCode((typeof event.which == "undefined") ? event.keyCode : event.which);
 		// console.log("Keycode: ", event.keyCode, "keypressed: ", charCode);
 		$rootScope.controls.keysPressed[event.keyCode] = true;
-	}
+	};
 
 	$rootScope.handleKeyUp = function(event) {
 		// var charCode = String.fromCharCode((typeof event.which == "undefined") ? event.keyCode : event.which);
 		// console.log("Keycode: ", event.keyCode, "keypressed: ", charCode);
 
 		$rootScope.controls.keysPressed[event.keyCode] = false;
-	}
+	};
 
 	$rootScope.on('canvas-fully-loaded', function() {
 		$rootScope.canvas.addEventListener('keydown', $rootScope.handleKeyDown);
@@ -55,7 +58,7 @@
 			result = $rootScope.controls.keysPressed[$rootScope.controls.keys.codes[arguments[i]]] || $rootScope.controls.keysPressed[arguments[i]];
 		}
 		return result;
-	}
+	};
 
 	$rootScope.generateKeys = function() {
 		var codes = {
@@ -100,7 +103,7 @@
 			'[': 219,
 			'\\': 220,
 			']': 221,
-			"'": 222
+			'\'': 222
 		};
 
 		// Helper aliases
@@ -157,7 +160,7 @@
 		$rootScope.controls.keys.codes = codes;
 		$rootScope.controls.keys.names = names;
 
-	}
+	};
 
 	init();
 

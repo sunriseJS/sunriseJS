@@ -31,7 +31,7 @@
 	//private functions
 	$rootScope.functions = {};
 
-	_seal = $sr._seal = $sr._seal || function () {
+ 	_seal = $sr._seal = $sr._seal || function () {
 		delete $sr.$rootScope;
 		delete $sr._seal;
 		delete $sr._unseal;
@@ -59,7 +59,7 @@
 	    s.async = false;
 	    s.onload = callback;        
 	    document.body.appendChild(s);
-	}
+	};
 
 	$sr.sunrise = function(){
 		$sr._seal();
@@ -68,9 +68,7 @@
 			game.init($rootScope.$scope);
 			$sr.run();	
 		});
-
-		
-	}
+	};
 
 
 	$sr.run = function(){
@@ -78,7 +76,7 @@
 		game.run($rootScope.$scope);
 		$rootScope.drawStage();
 		$rootScope.animationFrame.call(window, $sr.run);
-	}
+	};
 
 	$sr.fps = {
 		startTime : 0,
@@ -94,32 +92,26 @@
 			}
 			return result;
 		}	
-	}
+	};
 
 	$sr.initPlugins = function(){
 		var plugs = {},
 		    i = $rootScope.core.length -1; 
-		while(i >= 0 && (plugs[i--] = $rootScope.folders.core+$rootScope.core.pop()+'.js')){};
-
-		for(title in plugs){
+		while(i >= 0 && (plugs[i--] = $rootScope.folders.core+$rootScope.core.pop()+'.js')){}
+		for(var title in plugs){
 			(function(name, source){
 				$sr.loadScript(source, 
 						function() {
 						delete plugs[name];
-						var ready = true;
-						for(index in plugs){
-							ready = false;
-							break;
-						}
-						if(ready){
+						if(Object.keys(plugs).length === 0){
 							$sr.sunrise();
 						}
-				})
+				});
 			})(title, plugs[title]);
 		}
-	}
+	};
 		
-	init = function(){
+	var init = function(){
 		$sr.loadScript('application/org/core/constants.js', $sr.initPlugins);
 
 		$rootScope.animationFrame = 	window.requestAnimationFrame       ||
