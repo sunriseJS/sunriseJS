@@ -16,38 +16,24 @@
 
 		//private Data
 	    var sprite;
-	    var rotation;
-	    var alpha;
 	    var pos;
 
 	    //constructor
 	    function Entity(x, y, imageName){
+	    	$sr.Sprite.call(this,imageName);
 			pos = new $sr.util.Vec2(x,y);
-			sprite = $rootScope.getSprite(imageName);
-			rotation = 0;
-			alpha = 1;
 
 
 			//public accessable data
 			this.position = pos;
 		} 
 
+		$sr.Sprite.extend(Entity);
+
 
 		Entity.prototype.draw = function(){
-			sprite.setAlpha(alpha);
-			sprite.setRotationRad(rotation);
-			sprite.draw(pos.x, pos.y);
-		}
-
-		Entity.prototype.setAnimation = function(animation, startframe){
-			if(startframe === undefined){
-				sprite.setAnimation(animation);
-			}else{
-				sprite.setAnimation(animation, startframe);
-			}
-		}
-
-	    
+			this.super_.draw.call(this,pos.x,pos.y);
+		}	    
 	    
 
 	    return Entity;
