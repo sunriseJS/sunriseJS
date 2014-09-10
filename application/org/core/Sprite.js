@@ -17,6 +17,14 @@
 
 	$sr.Sprite = (function(){ 
 
+
+		//private Data
+		var image_,
+			width_,
+			height_,
+			animations_;
+
+
 		Sprite = function(image_name){
 			if(game.config.images[image_name] === undefined){
 				throw new Error('No image with name "'+image_name+'" found');
@@ -50,20 +58,20 @@
 			}
 
 
-			this.image = image;
-			this.width = data.tileWidth;
-			this.height = data.tileHeight;
+			image_ = image;
+			width_ = data.tileWidth;
+			height_ = data.tileHeight;
 			this.rotation = 0;
 			this.alpha = 1;
-			this.animations = animations;
+			animations_ = data.animations;
 			this.anchor = { x: 0, y:0};
 
 			//Context from other modules
 			this.context = $rootScope.canvas.context;
 
 			//Until an actual animation is set, use first one
-			for(anim in animations){
-				this.currentAnimation = animations[anim];
+			for(anim in animations_){
+				this.currentAnimation = animations_[anim];
 				break;
 			}
 
@@ -72,8 +80,8 @@
 			this.frameDuration = 60; //in Milliseconds
 
 			//Calculate values for spritesheet
-			this.cols = Math.floor( image.width / width );
-			this.rows = Math.floor( image.height / height );
+			this.cols = Math.floor( image.width / width_ );
+			this.rows = Math.floor( image.height / height_ );
 
 		}
 
@@ -103,17 +111,17 @@
 				this.context.translate(-x,-y);
 			}
 		
-			var width = w || this.width;
-			var height = h || this.height;
+			var width = w || width_;
+			var height = h || height_;
 			var frame = this.currentAnimation[this.currentFrame];
 
 
-			var sourceX = (frame % this.cols)*this.width;
-			var sourceY = Math.floor(frame / this.cols)*this.height;
+			var sourceX = (frame % this.cols)*width_;
+			var sourceY = Math.floor(frame / this.cols)*height_;
 
-			this.context.drawImage(this.image, sourceX, sourceY, this.width, this.height, 
+			this.context.drawImage(image_, sourceX, sourceY, width_, height_, 
 						x, y, width, height);
-			// console.log("frame:"+frame, "cols:"+this.cols, "rows:"+this.rows, "sourceX:"+sourceX, "sourceY:"+sourceY, "this.cols:"+this.cols, "this.height:"+this.height
+			// console.log("frame:"+frame, "cols:"+this.cols, "rows:"+this.rows, "sourceX:"+sourceX, "sourceY:"+sourceY, "this.cols:"+this.cols, "height_:"+height_
 			// );
 		
 
@@ -143,13 +151,13 @@
 		 * @param Integer startFrame	frame the animation should start at, optional
 		 */
 		Sprite.prototype.setAnimation = function(animationName, startFrame){
-			if(this.animations[animationName] === undefined){
+			if(animations_[animationName] === undefined){
 				throw new Error('No animation with name '+animationName+' found');
 			}
-			if(this.currentAnimation == this.animations[animationName] && startFrame === undefined){
+			if(this.currentAnimation == animations_[animationName] && startFrame === undefined){
 				return;	
 			}
-			this.currentAnimation = this.animations[animationName];
+			this.currentAnimation = animations_[animationName];
 			this.currentFrame = startFrame || 0;
 		}
 
