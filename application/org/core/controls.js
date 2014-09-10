@@ -21,25 +21,56 @@
 		'keycallbacks': {},
 		'keysPressed': {}
 	};
-	
+
 	function init() {
 		$rootScope.generateKeys();
 	}
 
-	$sr.controls.key = function(key, callback) {
+	$sr.controls.onKeyDown = function() {
+		var keys = [],
+			callbacks = [],
+			i = 0;
+		for (; (i < arguments.length);) {
+			keys = [];
+			callbacks = [];
+			while(!$sr.isFunction(arguments[i])){
+				keys.push(arguments[i]);
+				i++;
+			}
+			while($sr.isFunction(arguments[i])){
+				callbacks.push(arguments[i]);
+				i++;
+			}
+			for(var k = 0; k < keys.length;k++){
+				if($rootScope.controls.keycallbacks[keys[k]] == undefined){
+					$rootScope.controls.keycallbacks[keys[k]]= callbacks;
+				}
+				$rootScope.controls.keycallbacks[keys[k]] = $rootScope.controls.keycallbacks[keys[k]].concat(callbacks).unique();
+			}
+		}
+	};
+
+	$sr.controls.onKeyUp = function() {
 		$rootScope.controls.keycallbacks[key] = callback;
 	};
 
 	$rootScope.handleKeyDown = function(event) {
-		// var charCode = String.fromCharCode((typeof event.which == "undefined") ? event.keyCode : event.which);
-		// console.log("Keycode: ", event.keyCode, "keypressed: ", charCode);
+		// 1. if key has been pressed before and haven't been release by now, there is no need to access the array again.
+		// 2. the callback funtions gehts fired just once
+		if($rootScope.controls.keysPressed[event.keyCode]){
+			return;
+		}
+
+		if($rootScope.controls.keycallbacks[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
+			for(var i = 0; i < $rootScope.controls.keycallbacks[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
+				$rootScope.controls.keycallbacks[$rootScope.controls.keys.names[event.keyCode]][i]();
+			}
+		}
+
 		$rootScope.controls.keysPressed[event.keyCode] = true;
 	};
 
 	$rootScope.handleKeyUp = function(event) {
-		// var charCode = String.fromCharCode((typeof event.which == "undefined") ? event.keyCode : event.which);
-		// console.log("Keycode: ", event.keyCode, "keypressed: ", charCode);
-
 		$rootScope.controls.keysPressed[event.keyCode] = false;
 	};
 

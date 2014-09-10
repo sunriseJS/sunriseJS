@@ -63,6 +63,16 @@
 	    document.body.appendChild(s);
 	};
 
+	/**
+	 * To check if a parameter is a function
+	 * @param  {[expect: function]}  function to check 
+	 * @return {true if parameter is a function}
+	 */
+	$sr.isFunction = function(functionToCheck) {
+	 	var getType = {};
+	 	return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+	};
+
 	$sr.sunrise = function(){
 		$sr._seal();
 		$sr.initCanvas();
@@ -110,7 +120,9 @@
 						}
 				});
 			})(title, plugs[title]);
+
 		}*/
+
 	};
 		
 	var init = function(){
@@ -139,4 +151,25 @@
 
 })($sr = window.$sr = window.$sr || {});
 
+
+//find out the Size of an Object
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+Array.prototype.unique = function() {
+    var a = this.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+};
 
