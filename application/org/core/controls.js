@@ -11,8 +11,6 @@
  * @param  {[type]} sr
  * @return {[type]}
  */
-
-
 (function($sr) {
 	var $rootScope = $sr.$rootScope;
 	$sr.controls = {};
