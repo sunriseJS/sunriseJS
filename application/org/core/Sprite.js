@@ -15,7 +15,10 @@
 	var $rootScope = $sr.$rootScope;
 	
 
-	$sr.Sprite = function(image, width, height, animations){
+	$sr.Sprite = (function(){ 
+
+
+		Sprite = function(image, width, height, animations){
 			this.image = image;
 			this.width = width;
 			this.height = height;
@@ -38,7 +41,6 @@
 			this.frameDuration = 60; //in Milliseconds
 
 			//Calculate values for spritesheet
-
 			this.cols = Math.floor( image.width / width );
 			this.rows = Math.floor( image.height / height );
 
@@ -51,7 +53,7 @@
 		 * @param w Width of drawn image. Useful for stretching. Optional.
 		 * @param h Height of drawn image. Useful for stretching. Optional.
 		 */
-		$sr.Sprite.prototype.draw = function(x, y, w, h){
+		Sprite.prototype.draw = function(x, y, w, h){
 
 			x -= this.anchor.x;
 			y -= this.anchor.y;
@@ -107,7 +109,7 @@
 		 * @param String animationName name of the animation which should be played
 		 * @param Integer startFrame	frame the animation should start at, optional
 		 */
-		$sr.Sprite.prototype.setAnimation = function(animationName, startFrame){
+		Sprite.prototype.setAnimation = function(animationName, startFrame){
 			if(this.animations[animationName] === undefined){
 				throw new Error('No animation with name '+animationName+' found');
 			}
@@ -119,23 +121,23 @@
 		}
 
 
-		$sr.Sprite.prototype.setRotationDeg = function(angle){
+		Sprite.prototype.setRotationDeg = function(angle){
 			this.setRotationRad(angle* Math.PI / 180);
 		}
 
-		$sr.Sprite.prototype.setRotationRad = function(angle){
+		Sprite.prototype.setRotationRad = function(angle){
 			angle %= 2*Math.PI; //handle angles larger then 2*pi
 			this.rotation = angle
 		}
 
-		$sr.Sprite.prototype.setAlpha = function(alpha){
+		Sprite.prototype.setAlpha = function(alpha){
 			//alpha has to be between 0 and 1
 			alpha = alpha < 0 ? 0 : alpha;
 			alpha = alpha > 1 ? 1 : alpha;
 			this.alpha = alpha;
 		}
 
-		$sr.Sprite.prototype.setAnchor = function(x,y){
+		Sprite.prototype.setAnchor = function(x,y){
 			if(typeof x === 'object' && typeof x.x !== 'undefined' && typeof x.y !== 'undefined'){
 				this.anchor.x = x.x;
 				this.anchor.y = x.y;
@@ -144,5 +146,11 @@
 				this.anchor.y = y;
 			}
 		}
-		
+
+		return Sprite;
+
+	})();
+
+	
+
 })($sr = window.$sr = window.$sr || {});
