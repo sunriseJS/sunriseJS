@@ -100,7 +100,17 @@ var game = {
 
 		};
 		$scope.player.currentDirection = 'e';
+		$sr.controls.onKeyDown('i', function(){
+			console.log('das erste key callback ausgeführt');
+		},function(){
+			console.log('das ist das zweite key callback!');
+		},'l',function(){
+			console.log('das ist das erste key callback auf L!');
+		});
 
+		$sr.controls.onKeyDown('i', function(){
+			console.log('das dritte key callback ausgeführt');
+		});
 	},
 
 	run: function($scope) {
