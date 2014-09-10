@@ -17,11 +17,42 @@
 
 	$sr.Sprite = (function(){ 
 
+		Sprite = function(image_name){
+			if(game.config.images[image_name] === undefined){
+				throw new Error('No image with name "'+image_name+'" found');
+			}
+			var data = game.config.images[image_name];
 
-		Sprite = function(image, width, height, animations){
+			//Test whether all required parameters are given
+			var requiredParams = [];
+			if(data.tileWidth !== undefined || data.tileHeight !== undefined || data.animations !== undefined){
+				requiredParams.push('tileWidth');
+				requiredParams.push('tileHeight');
+			}
+
+			requiredParams.forEach(function(param){
+				if(data[param] === undefined || data[param] === ""){
+					throw new Error('No element "'+param+'" specified in data');
+				}
+			});
+
+			var image = $rootScope.ressources.images[image_name];
+			if(data.tileWidth === undefined){
+				data.tileWidth = image.width;
+				data.tileHeight = image.height;
+			}
+			if(data.animations === undefined){
+				data.animations = {};
+			}
+			//Make sure there is at least one animation
+			if(data.animations.default === undefined){
+				data.animations.default = [0];
+			}
+
+
 			this.image = image;
-			this.width = width;
-			this.height = height;
+			this.width = data.tileWidth;
+			this.height = data.tileHeight;
 			this.rotation = 0;
 			this.alpha = 1;
 			this.animations = animations;
@@ -45,6 +76,8 @@
 			this.rows = Math.floor( image.height / height );
 
 		}
+
+		$sr.CoreObject.extend(Sprite);
 
 		/**
 		 * Draws itselfs at the specified position.
