@@ -21,12 +21,35 @@
 		'keycallbacks': {},
 		'keysPressed': {}
 	};
-	
+
 	function init() {
 		$rootScope.generateKeys();
 	}
 
-	$sr.controls.key = function(key, callback) {
+	$sr.controls.onKeyDown = function() {
+		var keys = [],
+			callbacks = [],
+			i = 0;
+		for (; (i < arguments.length) && result;) {
+			while(!$sr.isFunction(arguments[i++])){
+				keys.push(arguments[i]);
+			}
+			while($sr.isFunction(arguments[i++])){
+				callbacks.push(arguments[i]);
+			}
+			for(var k = 0; k++ < keys.length;){
+				if($rootScope.controls.keycallbacks[keys[k]] == undefined){
+					$rootScope.controls.keycallbacks[keys[k]] = [];
+				}
+				$rootScope.controls.keycallbacks[keys[k]].push(callbacks.map(function(callback) {
+					return callback;
+				}))
+			}
+		}
+		$rootScope.controls.keycallbacks[key] = callback;
+	};
+
+	$sr.controls.onKeyUp = function() {
 		$rootScope.controls.keycallbacks[key] = callback;
 	};
 

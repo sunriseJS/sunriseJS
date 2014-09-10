@@ -60,6 +60,16 @@
 	    document.body.appendChild(s);
 	};
 
+	/**
+	 * To check if a parameter is a function
+	 * @param  {[expect: function]}  function to check 
+	 * @return {true if parameter is a function}
+	 */
+	$sr.isFunction = function(functionToCheck) {
+	 	var getType = {};
+	 	return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+	};
+
 	$sr.sunrise = function(){
 		$sr._seal();
 		$sr.initCanvas();
@@ -107,7 +117,7 @@
 						}
 				});
 			})(title, plugs[title]);
-		}
+		}	
 	};
 		
 	var init = function(){
