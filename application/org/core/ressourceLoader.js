@@ -20,7 +20,14 @@
 	 * @param   sources imagefiles and names
 	 * @param  callback which is called when all images are loaded
 	 */
-	$sr.loadImages = function(sources, callback){
+	$sr.loadImages = function(sources_raw, callback){
+
+		//copy source object, so original object isn't affected by
+		//removin already loaded images from this object
+		var sources = {};
+		for(key in sources_raw){
+			sources[key] = sources_raw[key];
+		}
 
 
 		for(title in sources){
@@ -53,7 +60,7 @@
 					delete sources[name];
 					$rootScope.ressources.images[name] = this;
 
-					$rootScope.createSprite(spriteConfig);
+					//$rootScope.createSprite(spriteConfig);
 
 					//Last image got loaded? notify callback!
 					var ready = true;
