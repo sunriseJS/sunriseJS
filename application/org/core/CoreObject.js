@@ -12,6 +12,9 @@
 (function($sr){	
 	$sr.CoreObject = (function(){
 
+		function CoreObject(){
+		} 
+
 		//Make sure all derived ovjects can be extended
 		CoreObject.extend = function(sub){
 			sub.prototype = Object.create(this.prototype);
@@ -20,11 +23,10 @@
 			sub.extend = this.extend;
 		}
 
-	    function CoreObject(){
-		} 
+	    
 	   
 	    return CoreObject;
-	});
+	})();
 
 	
 })($sr = window.$sr = window.$sr || {});
