@@ -17,9 +17,9 @@
 	var keys = {};
 	var touch = {};
 	var folders = {};
-	folders.core = "application/org/core/";
-	folders.plugins = "application/org/plugins/";
-	folders.userPlugins = "application/plugins/";
+	folders.core = "jsm/application/org/core/";
+	folders.plugins = "jsm/application/org/plugins/";
+	folders.userPlugins = "jsm/application/plugins/";
 
 	$rootScope.$scope.KEYS = keys;
 	$rootScope.$scope.TOUCH = touch;

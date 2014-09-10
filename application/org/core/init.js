@@ -9,7 +9,8 @@
  */
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
-	
+
+	$sr.sunrise();
 
 	
 })($sr = window.$sr = window.$sr || {});

@@ -26,6 +26,8 @@
 
 
 		Sprite = function(image_name){
+
+			//Test whether image exists
 			if(game.config.images[image_name] === undefined){
 				throw new Error('No image with name "'+image_name+'" found');
 			}
@@ -57,7 +59,7 @@
 				data.animations.default = [0];
 			}
 
-
+			//private attributes
 			image_ = image;
 			width_ = data.tileWidth;
 			height_ = data.tileHeight;

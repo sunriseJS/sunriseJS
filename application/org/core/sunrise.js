@@ -53,6 +53,8 @@
 	 * @return {[type]}
 	 */
 	$sr.loadScript = function(src, callback) {
+		callback();
+		return;
 	    var s = document.createElement('script');
 	    s.type = 'text/javascript';
 	    s.src = src;
@@ -95,7 +97,7 @@
 	};
 
 	$sr.initPlugins = function(){
-		var plugs = {},
+		/*var plugs = {},
 		    i = $rootScope.core.length -1; 
 		while(i >= 0 && (plugs[i--] = $rootScope.folders.core+$rootScope.core.pop()+'.js')){}
 		for(var title in plugs){
@@ -108,11 +110,12 @@
 						}
 				});
 			})(title, plugs[title]);
-		}
+		}*/
 	};
 		
 	var init = function(){
-		$sr.loadScript('application/org/core/constants.js', $sr.initPlugins);
+		//$sr.loadScript('jsm/application/org/core/constants.js', $sr.initPlugins);
+		
 
 		$rootScope.animationFrame = 	window.requestAnimationFrame       ||
 					          			window.webkitRequestAnimationFrame ||
