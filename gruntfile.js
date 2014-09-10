@@ -3,42 +3,41 @@ module.exports = function (grunt) {
 
     // define source files and their destinations
     uglify: {
+        options: {
+          sourceMap: 'sunrise.min.js.map'
+        },
         files: { 
-            src: 'application/**/*.js',  // source files mask
-            dest: 'jsm/',    // destination folder
+            src: 'debug/sunrise.js',  // source files mask
+            dest: '',    // destination folder
             expand: true,    // allow dynamic building
             flatten: false,   // remove all unnecessary nesting
             ext: '.min.js'   // replace .js to .min.js
-        },
-        options: {
-            stats: true,
-            'screw-ie8': true
         }
     },
     concat: {
         files:{
             src: [
-                    'jsm/application/org/core/sunrise.min.js',
-                    'jsm/application/org/core/io.min.js',
-                    'jsm/application/org/core/controls.min.js',
-                    'jsm/application/org/core/canvas.min.js',
-                    'jsm/application/org/core/ressourceLoader.min.js',
-                    'jsm/application/org/core/util.min.js',
-                    'jsm/application/org/core/CoreObject.min.js',
-                    'jsm/application/org/core/Sprite.min.js',
-                    'jsm/application/org/core/Entity.min.js',
-                    'jsm/application/org/core/Stage.min.js',
-                    'jsm/application/org/core/init.min.js'
+                    'application/org/core/sunrise.js',
+                    'application/org/core/io.js',
+                    'application/org/core/controls.js',
+                    'application/org/core/canvas.js',
+                    'application/org/core/ressourceLoader.js',
+                    'application/org/core/util.js',
+                    'application/org/core/CoreObject.js',
+                    'application/org/core/Sprite.js',
+                    'application/org/core/Entity.js',
+                    'application/org/core/Stage.js',
+                    'application/org/core/init.js'
 
             ],
-            dest :'sunrise.min.js'
+            dest :'debug/sunrise.js'
         }
     },
     clean: {
-        js: ['jsm/**', 'jsm']
+        js: ['sunrise.js']
     },
     watch: {
-        js:  { files: 'application/**/*.js', tasks: [ 'uglify', 'concat', 'clean' ] },
+        js:  { files: 'application/**/*.js', tasks: ['concat', 'uglify'] },
     },
     
 });
@@ -50,7 +49,7 @@ grunt.loadNpmTasks('grunt-contrib-clean');
 grunt.loadNpmTasks('grunt-contrib-uglify');
 
 // register at least this one task
-grunt.registerTask('default',['uglify', 'concat', 'clean']);
+grunt.registerTask('default', ['concat', 'uglify']);
 
 
 };
