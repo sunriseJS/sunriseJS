@@ -16,11 +16,12 @@
 (function($sr) {
 	var $rootScope = $sr.$rootScope;
 	$sr.controls = {};
-	$rootScope.controls = {};
-	$rootScope.controls.keys = {};
-	$rootScope.controls.keycallbacks = {};
-	$rootScope.controls.keysPressed = {};
-
+	$rootScope.controls = {
+		'keys': {},
+		'keycallbacks': {},
+		'keysPressed': {}
+	};
+	
 	function init() {
 		$rootScope.generateKeys();
 	}
