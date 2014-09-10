@@ -10,7 +10,7 @@ module.exports = function (grunt) {
             src: 'debug/sunrise.js',  // source files mask
             dest: '',    // destination folder
             expand: true,    // allow dynamic building
-            flatten: false,   // remove all unnecessary nesting
+            flatten: true,   // remove all unnecessary nesting
             ext: '.min.js'   // replace .js to .min.js
         }
     },
