@@ -19,11 +19,11 @@
 		'io', 
 		'controls',
 		'canvas', 
-		'spriteManager', 
 		'ressourceLoader',
 		'util',
-		'Entity',
+		'CoreObject',
 		'Sprite',
+		'Entity',
 		'Stage'
 		
 	];
