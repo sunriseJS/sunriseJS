@@ -9,7 +9,7 @@
  */
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
-
+	$rootScope.initPlugins();
 	$sr.sunrise();
 
 	

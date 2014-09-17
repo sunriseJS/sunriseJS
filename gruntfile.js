@@ -18,6 +18,7 @@ module.exports = function (grunt) {
         files:{
             src: [
                     'application/org/core/sunrise.js',
+                    'application/org/core/pluginManager.js',
                     'application/org/core/io.js',
                     'application/org/core/controls.js',
                     'application/org/core/canvas.js',
