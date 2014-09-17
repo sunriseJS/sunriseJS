@@ -91,6 +91,11 @@
 		$rootScope.controls.keysPressed[event.keyCode] = true;
 	};
 
+	/**
+	 * [handleKeyUp description]
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
 	$rootScope.handleKeyUp = function(event) {
 		if($rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined && event.type == 'keyup'){ 
 			for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
