@@ -73,6 +73,11 @@
 		}
 	};
 
+	/**
+	 * if the key event is "keydown" this function will be executed
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
 	$rootScope.handleKeyDown = function(event) {
 		// 1. if key has been pressed before and haven't been release by now, there is no need to access the array again.
 		// 2. the callback funtions gehts fired just once
