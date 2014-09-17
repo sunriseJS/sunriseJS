@@ -92,7 +92,7 @@
 	};
 
 	/**
-	 * [handleKeyUp description]
+	 * if the key event is "keyup" this function will be executed
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
