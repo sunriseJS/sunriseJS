@@ -50,7 +50,7 @@
 	};
 
 	$sr.controls.onKeyUp = function() {
-				var keys = [],
+			var keys = [],
 			callbacks = [],
 			i = 0;
 		for (; (i < arguments.length);) {
@@ -80,12 +80,11 @@
 			return;
 		}
 
-		if($rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]]!= undefined || $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
+		console.log(event);
+
+		if($rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]]!= undefined && event.type == 'keydown'){ 
 			for(var i = 0; i < $rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
 				$rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]][i]();
-			}
-			for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
-				$rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
 			}
 		}
 
@@ -93,6 +92,11 @@
 	};
 
 	$rootScope.handleKeyUp = function(event) {
+		if($rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined && event.type == 'keyup'){ 
+			for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
+				$rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
+			}
+		}
 		$rootScope.controls.keysPressed[event.keyCode] = false;
 	};
 
