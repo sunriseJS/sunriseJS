@@ -16,7 +16,8 @@
 	$sr.controls = {};
 	$rootScope.controls = {
 		'keys': {},
-		'keycallbacks': {},
+		'keycallbacksDown': {},
+		'keycallbacksUp': {},
 		'keysPressed': {}
 	};
 
@@ -40,16 +41,36 @@
 				i++;
 			}
 			for(var k = 0; k < keys.length;k++){
-				if($rootScope.controls.keycallbacks[keys[k]] == undefined){
-					$rootScope.controls.keycallbacks[keys[k]]= callbacks;
+				if($rootScope.controls.keycallbacksDown[keys[k]] == undefined){
+					$rootScope.controls.keycallbacksDown[keys[k]]= callbacks;
 				}
-				$rootScope.controls.keycallbacks[keys[k]] = $rootScope.controls.keycallbacks[keys[k]].concat(callbacks).unique();
+				$rootScope.controls.keycallbacksDown[keys[k]] = $rootScope.controls.keycallbacksDown[keys[k]].concat(callbacks).unique();
 			}
 		}
 	};
 
 	$sr.controls.onKeyUp = function() {
-		$rootScope.controls.keycallbacks[key] = callback;
+				var keys = [],
+			callbacks = [],
+			i = 0;
+		for (; (i < arguments.length);) {
+			keys = [];
+			callbacks = [];
+			while(!$sr.isFunction(arguments[i])){
+				keys.push(arguments[i]);
+				i++;
+			}
+			while($sr.isFunction(arguments[i])){
+				callbacks.push(arguments[i]);
+				i++;
+			}
+			for(var k = 0; k < keys.length;k++){
+				if($rootScope.controls.keycallbacksUp[keys[k]] == undefined){
+					$rootScope.controls.keycallbacksUp[keys[k]]= callbacks;
+				}
+				$rootScope.controls.keycallbacksUp[keys[k]] = $rootScope.controls.keycallbacksUp[keys[k]].concat(callbacks).unique();
+			}
+		}
 	};
 
 	$rootScope.handleKeyDown = function(event) {
@@ -59,9 +80,12 @@
 			return;
 		}
 
-		if($rootScope.controls.keycallbacks[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
-			for(var i = 0; i < $rootScope.controls.keycallbacks[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
-				$rootScope.controls.keycallbacks[$rootScope.controls.keys.names[event.keyCode]][i]();
+		if($rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]]!= undefined || $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
+			for(var i = 0; i < $rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
+				$rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]][i]();
+			}
+			for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
+				$rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
 			}
 		}
 
