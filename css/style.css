@@ -17,7 +17,3 @@ body, html{
 	margin-right: auto;
 	border: 1px solid;
 }
-
-canvas{
-	background-image: url(../assets/graphics/tile.png);
-}
