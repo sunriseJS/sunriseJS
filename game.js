@@ -4,7 +4,6 @@ var game = {
 		screenHeight: 360,
 		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities', 'touchcontrolls', 'collision'],
 		images: {
-			'player': 'assets/graphics/char1.png',
 			'player-anim': {
 				source: 'assets/graphics/sheet_soldier.png',
 				tileWidth: 96,
@@ -17,9 +16,11 @@ var game = {
 				}
 
 			},
-			'logo-small': 'assets/graphics/logo-klein.png',
-			'logo-normal': 'assets/graphics/logo-normal.png',
-			'logo': 'assets/graphics/logo.png'
+			'tileset1':{
+				source: 'assets/graphics/tileset1.png',
+				tileWidth: 128,
+				tileHeight: 128
+			}
 		},
 		levels: {
 			level1: "assets/maps/map1.json",
