@@ -31,8 +31,10 @@
 		$sr.Sprite.extend(Entity);
 
 
-		Entity.prototype.draw = function(){
-			this.super_.draw.call(this,pos.x,pos.y);
+		Entity.prototype.draw = function(x,y){
+			var x = x || 0,
+				y = y || 0;
+			this.super_.draw.call(this,pos.x+x,pos.y+y);
 		}	    
 	    
 

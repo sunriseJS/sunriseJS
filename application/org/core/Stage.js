@@ -14,6 +14,11 @@
 	var levelBuffer;
 
 	$sr.stage = {};
+	var focus = {};
+	var offset = {
+		x: 0,
+		y: 0
+	};
 
 	$sr.stage.add = function(entity){
 		if(!entity instanceof $sr.Entity){
@@ -50,13 +55,39 @@
 
 	}
 
+	$sr.stage.setFocus = function(x,y,yy){
+		if(x instanceof $sr.Entity){
+			focus.entity = x;
+			focus.xoffset = y || 0;
+			focus.yoffset = yy || 0;
+		}else{
+			focus.x = x;
+			focus.y = y;
+			focus.entity = undefined;
+		}
+	}
+
 	$rootScope.drawStage = function(){
+		//Quick & dirty, maybe add a init function to stage?
+		if(focus.x === undefined){
+			focus.x= $rootScope.canvas.width/2;
+			focus.y= $rootScope.canvas.height/2;
+			focus.centerX = $rootScope.canvas.width/2;
+			focus.centerY = $rootScope.canvas.height/2;
+		}
+		if(focus.entity !== undefined){
+			focus.x = focus.entity.position.x + focus.xoffset;
+			focus.y = focus.entity.position.y + focus.yoffset;
+		}
+
+		offset.x = focus.centerX - focus.x;
+		offset.y = focus.centerY - focus.y;
 		if(levelBuffer !== undefined){
 
-			$rootScope.canvas.context.drawImage(levelBuffer,0,0);
+			$rootScope.canvas.context.drawImage(levelBuffer,offset.x,offset.y);
 		}
 		entities.forEach(function(entity){
-			entity.draw();
+			entity.draw(offset.x, offset.y);
 		});
 	}
 
