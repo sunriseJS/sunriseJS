@@ -80,7 +80,7 @@
 	 */
 	$rootScope.handleKeyDown = function(event) {
 		// 1. if key has been pressed before and haven't been release by now, there is no need to access the array again.
-		// 2. the callback funtions gehts fired just once
+		// 2. the callback funtions gets fired just once
 		if($rootScope.controls.keysPressed[event.keyCode]){
 			return;
 		}
