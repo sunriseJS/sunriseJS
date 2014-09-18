@@ -43,7 +43,6 @@ var game = {
 		$scope.player.state = 'stand_right';
 		setAnimation();
 		$sr.controls.onKeyDown('a', 'left', function(){
-			console.log('a down');
 			$scope.player.state = 'walk_left';
 			setAnimation();
 		});
@@ -53,7 +52,6 @@ var game = {
 		});
 			
 		$sr.controls.onKeyUp('a', 'left', function(){
-			console.log('a up');
 			$scope.player.state = 'stand_left';
 			setAnimation();
 		});

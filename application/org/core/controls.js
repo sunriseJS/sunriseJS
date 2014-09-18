@@ -25,52 +25,36 @@
 		$rootScope.generateKeys();
 	}
 
-	$sr.controls.onKeyDown = function() {
+	function saveCallbacksToArray(type, args){
 		var keys = [],
 			callbacks = [],
 			i = 0;
-		for (; (i < arguments.length);) {
+		for (; (i < args.length);) {
 			keys = [];
 			callbacks = [];
-			while(!$sr.isFunction(arguments[i])){
-				keys.push(arguments[i]);
+			while(!$sr.isFunction(args[i])){
+				keys.push(args[i]);
 				i++;
 			}
-			while($sr.isFunction(arguments[i])){
-				callbacks.push(arguments[i]);
+			while($sr.isFunction(args[i])){
+				callbacks.push(args[i]);
 				i++;
 			}
 			for(var k = 0; k < keys.length;k++){
-				if($rootScope.controls.keycallbacksDown[keys[k]] == undefined){
-					$rootScope.controls.keycallbacksDown[keys[k]]= callbacks;
+				if($rootScope.controls[type][keys[k]] == undefined){
+					$rootScope.controls[type][keys[k]]= callbacks;
 				}
-				$rootScope.controls.keycallbacksDown[keys[k]] = $rootScope.controls.keycallbacksDown[keys[k]].concat(callbacks).unique();
+				$rootScope.controls[type][keys[k]] = $rootScope.controls[type][keys[k]].concat(callbacks).unique();
 			}
 		}
 	};
 
+	$sr.controls.onKeyDown = function() {
+		saveCallbacksToArray('keycallbacksDown', arguments);
+	};
+
 	$sr.controls.onKeyUp = function() {
-			var keys = [],
-			callbacks = [],
-			i = 0;
-		for (; (i < arguments.length);) {
-			keys = [];
-			callbacks = [];
-			while(!$sr.isFunction(arguments[i])){
-				keys.push(arguments[i]);
-				i++;
-			}
-			while($sr.isFunction(arguments[i])){
-				callbacks.push(arguments[i]);
-				i++;
-			}
-			for(var k = 0; k < keys.length;k++){
-				if($rootScope.controls.keycallbacksUp[keys[k]] == undefined){
-					$rootScope.controls.keycallbacksUp[keys[k]]= callbacks;
-				}
-				$rootScope.controls.keycallbacksUp[keys[k]] = $rootScope.controls.keycallbacksUp[keys[k]].concat(callbacks).unique();
-			}
-		}
+		saveCallbacksToArray('keycallbacksUp', arguments);
 	};
 
 	/**
@@ -84,10 +68,7 @@
 		if($rootScope.controls.keysPressed[event.keyCode]){
 			return;
 		}
-
-		console.log(event);
-
-		if($rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]]!= undefined && event.type == 'keydown'){ 
+		if($rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
 			for(var i = 0; i < $rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
 				$rootScope.controls.keycallbacksDown[$rootScope.controls.keys.names[event.keyCode]][i]();
 			}
@@ -102,7 +83,7 @@
 	 * @return {[type]}       [description]
 	 */
 	$rootScope.handleKeyUp = function(event) {
-		if($rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined && event.type == 'keyup'){ 
+		if($rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
 			for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
 				$rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
 			}
