@@ -14,6 +14,35 @@
 	$sr.util = {};
 
 	/**
+	 * Loads data asynchronous from URL
+	 * @param  {String}   url      URL, data shoould be fetched from
+	 * @param  {Function} callback is called when data is available
+	 * @param  {String}   data     response from URL
+	 */
+	$sr.util.ajax = function(url,callback, data){
+		var request;
+		if (window.XMLHttpRequest){
+		    request=new XMLHttpRequest();
+		}else{
+		    request=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		request.onreadystatechange=function(){
+		    if (request.readyState==4 && request.status==200){
+		        callback(request.responseText);
+		    }
+		}       
+		request.open("POST",url,true);
+
+		if(data){
+			request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			request.send(data);
+		}else{
+			request.send();
+		}
+		
+	}
+
+	/**
 	 * Used so some functions (e.g. add ) can be
 	 * called both with values for x,y and with an actual Vec2 object.
 	 * @param  Number/Vec2 x 		value for x or existing Vec2 object
