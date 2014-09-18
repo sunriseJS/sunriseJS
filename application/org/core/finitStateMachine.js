@@ -32,6 +32,12 @@
 	    	return this.currentState = name;
 	    };
 
+		StateMachine.addStates = function(states){
+	    	states.forEach(function(ele, idx, array) {
+	    		console.log(ele);
+			});
+	    };
+
 
 	    return StateMachine;
 	})();
