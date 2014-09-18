@@ -31,9 +31,12 @@ var game = {
 
 
 	init: function($scope) {
-		$scope.player = new $sr.Entity(40, 132, 'player-anim');
+		$scope.player = new $sr.Entity(40, 196, 'player-anim');
+		$scope.player.setAnchor(48,64);
+		window.player = $scope.player; // only for testing purposes
 		$sr.stage.add($scope.player);
 		$sr.stage.setLevel('level1');
+		$sr.stage.setFocus($scope.player);
 		$scope.fpsdom = document.querySelector('#fps');
 
 		function setAnimation(){
