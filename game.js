@@ -18,8 +18,8 @@ var game = {
 			},
 			'tileset1':{
 				source: 'assets/graphics/tileset1.png',
-				tileWidth: 128,
-				tileHeight: 128
+				tileWidth: 64,
+				tileHeight: 64
 			}
 		},
 		levels: {
