@@ -24,7 +24,7 @@ var game = {
 		},
 		levels: {
 			level1: "assets/levels/level1.json"
-		},
+		}
 
 
 	},
