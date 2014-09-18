@@ -114,6 +114,8 @@
 
 	/**
 	 * will return if a key (or multiple keys) are actualy pressed
+	 * workin with javascript arguments: MDN docu: http://goo.gl/FSZ196
+	 * 
 	 */
 	$sr.controls.isKeyPressed = function() {
 		var result = true;
@@ -221,11 +223,13 @@
 			codes[alias] = aliases[alias];
 		}
 
+		// add all the stuff to the global scope
 		$rootScope.controls.keys.codes = codes;
 		$rootScope.controls.keys.names = names;
 
 	};
 
+	
 	init();
 
 

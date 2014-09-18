@@ -51,7 +51,9 @@
 
 
 	$rootScope.initPlugins = function(){
-		console.log(game.config.plugins);
+		for(var i = 0; i < game.config.plugins.length; ++i){
+			console.log(game.config.plugins[i]);
+		}
 	};
 
 
