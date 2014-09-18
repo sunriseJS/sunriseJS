@@ -2,7 +2,7 @@ var game = {
 	config: {
 		screenWidth: 640,
 		screenHeight: 360,
-		plugins: ['physics', 'audio', 'video', 'graphics', 'hud', 'trigger', 'entities', 'touchcontrolls', 'collision'],
+		plugins: ['testplugin'],
 		images: {
 			'player-anim': {
 				source: 'assets/graphics/sheet_soldier.png',
