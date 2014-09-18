@@ -52,12 +52,17 @@ var game = {
 		});
 			
 		$sr.controls.onKeyUp('a', 'left', function(){
-			$scope.player.state = 'stand_left';
-			setAnimation();
+			if(!$sr.controls.isKeyPressed('d') && !$sr.controls.isKeyPressed('right')){
+				$scope.player.state = 'stand_left';
+				setAnimation();
+			}
+			
 		});
 		$sr.controls.onKeyUp('d', 'right', function(){
-			$scope.player.state = 'stand_right';
-			setAnimation();
+			if(!$sr.controls.isKeyPressed('a') && !$sr.controls.isKeyPressed('left')){
+				$scope.player.state = 'stand_right';
+				setAnimation();
+			}
 		});
 	},
 
