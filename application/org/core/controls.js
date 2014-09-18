@@ -25,6 +25,16 @@
 		$rootScope.generateKeys();
 	}
 
+	/**
+	 * onKeyDown and onKeyUp work with function arguments 
+	 * MDN docu: http://goo.gl/FSZ196
+	 * All this arguments are just redirected to saveCallbacksToArray (args).
+	 * The first argument is the array where the callbacks get stored and 
+	 * since there are two types (keyup, keydown) we need two diferent arrays for keyup and keydown
+	 * 
+	 * @param  {[type]} type is the keyAction type (keyup or keydown)
+	 * @param  {[type]} args are all the arguments, 
+	 */
 	function saveCallbacksToArray(type, args){
 		var keys = [],
 			callbacks = [],
@@ -49,10 +59,16 @@
 		}
 	};
 
+	/**
+	 * Handel the key - function callbacks for keyDown
+	 */
 	$sr.controls.onKeyDown = function() {
 		saveCallbacksToArray('keycallbacksDown', arguments);
 	};
 
+	/**
+	 * Handel the key - function callbacks for keyUp
+	 */
 	$sr.controls.onKeyUp = function() {
 		saveCallbacksToArray('keycallbacksUp', arguments);
 	};
