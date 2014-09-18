@@ -10,7 +10,7 @@
 
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
-	$rootScope.ressources = {images:{}, sprites:{}, audio:{}};
+	$rootScope.ressources = {images:{}, sprites:{}, audio:{}, levels: {}};
 
 
 	/**
@@ -77,6 +77,39 @@
 			})(title, sources[title]);
 		}
 
+	}
+
+	/**
+	 * loads levels from files.
+	 * Example for sources:
+	 * sources = {"level1" : "my/path/level.json"}
+	 * @param   sources imagefiles and names
+	 * @param  callback which is called when all images are loaded
+	 */
+	$sr.loadLevels = function(levelSources, callback){
+
+		//copy source object, so original object isn't affected by
+		//removin already loaded images from this object
+		var sources = {};
+		for(key in levelSources){
+			sources[key] = levelSources[key];
+		}
+
+		for(key in sources){
+			$sr.util.ajax(sources[key], function(data){
+				$rootScope.ressources.levels[key] = JSON.parse(data);
+				delete sources[key];
+				//Last level got loaded? notify callback!
+				var ready = true;
+				for(index in sources){
+					ready = false;
+					break;
+				}
+				if(ready){
+					callback();
+				}
+			});
+		}
 	}
 
 	

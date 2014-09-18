@@ -18,13 +18,12 @@ var game = {
 			},
 			'tileset1':{
 				source: 'assets/graphics/tileset1.png',
-				tileWidth: 128,
-				tileHeight: 128
+				tileWidth: 64,
+				tileHeight: 64
 			}
 		},
 		levels: {
-			level1: "assets/maps/map1.json",
-			bosLevel1: "assets/maps/bossLevel.json"
+			level1: "assets/maps/map1.json"
 		},
 
 
@@ -32,8 +31,9 @@ var game = {
 
 
 	init: function($scope) {
-		$scope.player = new $sr.Entity(40, 40, 'player-anim');
+		$scope.player = new $sr.Entity(40, 67, 'player-anim');
 		$sr.stage.add($scope.player);
+		$sr.stage.setLevel('level1');
 		$scope.fpsdom = document.querySelector('#fps');
 
 		function setAnimation(){
@@ -52,12 +52,17 @@ var game = {
 		});
 			
 		$sr.controls.onKeyUp('a', 'left', function(){
-			$scope.player.state = 'stand_left';
-			setAnimation();
+			if(!$sr.controls.isKeyPressed('d') && !$sr.controls.isKeyPressed('right')){
+				$scope.player.state = 'stand_left';
+				setAnimation();
+			}
+			
 		});
 		$sr.controls.onKeyUp('d', 'right', function(){
-			$scope.player.state = 'stand_right';
-			setAnimation();
+			if(!$sr.controls.isKeyPressed('a') && !$sr.controls.isKeyPressed('left')){
+				$scope.player.state = 'stand_right';
+				setAnimation();
+			}
 		});
 	},
 
