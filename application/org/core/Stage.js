@@ -23,8 +23,12 @@
 		console.log('added to stage. entities:',entities);
 	}
 
-	$sr.stage.setLevel = function(level){
-		var tilesetInfo = game.config.images[level.tileset],
+	$sr.stage.setLevel = function(levelname){
+		if($rootScope.ressources.levels[levelname] === undefined){
+			throw new Error('No level with name "'+levelname+'" found.');
+		}
+		var level = $rootScope.ressources.levels[levelname],
+			tilesetInfo = game.config.images[level.tileset],
 			tileset = $rootScope.ressources.images[level.tileset],
 			levelWidth = tilesetInfo.tileWidth*level.width, 
 			levelHeight = tilesetInfo.tileHeight*level.height,
