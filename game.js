@@ -23,8 +23,7 @@ var game = {
 			}
 		},
 		levels: {
-			level1: "assets/maps/map1.json",
-			bosLevel1: "assets/maps/bossLevel.json"
+			level1: "assets/maps/map1.json"
 		},
 
 

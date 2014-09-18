@@ -57,8 +57,11 @@
 		$sr._seal();
 		$sr.initCanvas();
 		$sr.loadImages(game.config.images, function(){
-			game.init($rootScope.$scope);
-			$sr.run();	
+			//todo: make this better :D
+			$sr.loadLevels(game.config.levels, function(){
+				game.init($rootScope.$scope);
+				$sr.run();	
+			});
 		});
 	};
 
