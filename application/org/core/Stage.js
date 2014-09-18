@@ -11,7 +11,7 @@
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
 	var entities = [];
-	var mapBuffer;
+	var levelBuffer;
 
 	$sr.stage = {};
 
@@ -23,33 +23,33 @@
 		console.log('added to stage. entities:',entities);
 	}
 
-	$sr.stage.setMap = function(map){
-		var tilesetInfo = game.config.images[map.tileset],
-			tileset = $rootScope.ressources.images[map.tileset],
-			mapWidth = tilesetInfo.tileWidth*map.width, 
-			mapHeight = tilesetInfo.tileHeight*map.height,
+	$sr.stage.setLevel = function(level){
+		var tilesetInfo = game.config.images[level.tileset],
+			tileset = $rootScope.ressources.images[level.tileset],
+			levelWidth = tilesetInfo.tileWidth*level.width, 
+			levelHeight = tilesetInfo.tileHeight*level.height,
 			tileWidth = tilesetInfo.tileWidth,
 			tileHeight = tilesetInfo.tileHeight,
 			canvas = document.createElement('canvas'),
 			context = canvas.getContext('2d');
-		canvas.width = mapWidth;
-		canvas.height = mapHeight;
-		map.tiles.forEach(function(tile){
+		canvas.width = levelWidth;
+		canvas.height = levelHeight;
+		level.tiles.forEach(function(tile){
 			var setX = tile[2]*tileWidth,
 				setY = tile[3]*tileHeight,
-				mapX = tile[0]*tileWidth,
-				mapY = tile[1]*tileHeight;
+				levelX = tile[0]*tileWidth,
+				levelY = tile[1]*tileHeight;
 			context.drawImage(tileset,setX, setY, tileWidth, tileHeight,
-									mapX, mapY, tileWidth, tileHeight);
+									levelX, levelY, tileWidth, tileHeight);
 		});
-		mapBuffer = canvas;
+		levelBuffer = canvas;
 
 	}
 
 	$rootScope.drawStage = function(){
-		if(mapBuffer !== undefined){
+		if(levelBuffer !== undefined){
 
-			$rootScope.canvas.context.drawImage(mapBuffer,0,0);
+			$rootScope.canvas.context.drawImage(levelBuffer,0,0);
 		}
 		entities.forEach(function(entity){
 			entity.draw();
