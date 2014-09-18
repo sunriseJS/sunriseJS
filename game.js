@@ -31,7 +31,7 @@ var game = {
 
 
 	init: function($scope) {
-		$scope.player = new $sr.Entity(40, 67, 'player-anim');
+		$scope.player = new $sr.Entity(40, 132, 'player-anim');
 		$sr.stage.add($scope.player);
 		$sr.stage.setLevel('level1');
 		$scope.fpsdom = document.querySelector('#fps');
