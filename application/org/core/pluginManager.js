@@ -19,40 +19,29 @@
 	 * @return {[type]}
 	 */
 	$sr.loadScript = function(src, callback) {
-		callback();
-		return;
+
 	    var s = document.createElement('script');
 	    s.type = 'text/javascript';
 	    s.src = src;
-	    s.async = false;
+	    s.async = true;
 	    s.onload = callback;        
 	    document.body.appendChild(s);
 	};
 
-
-	// $sr.initPlugins = function(){
-	// 	var plugs = {},
-	// 	    i = $rootScope.core.length -1; 
-	// 	while(i >= 0 && (plugs[i--] = $rootScope.folders.core+$rootScope.core.pop()+'.js')){}
-	// 	for(var title in plugs){
-	// 		(function(name, source){
-	// 			$sr.loadScript(source, 
-	// 					function() {
-	// 					delete plugs[name];
-	// 					if(Object.keys(plugs).length === 0){
-	// 						$sr.sunrise();
-	// 					}
-	// 			});
-	// 		})(title, plugs[title]);
-
-	// 	}
-
-	// };
-
-
 	$rootScope.initPlugins = function(){
-		for(var i = 0; i < game.config.plugins.length; ++i){
-			console.log(game.config.plugins[i]);
+		var plugs = {},
+		    i = game.config.plugins.length -1; 
+		while(i >= 0 && (plugs[i--] = 'plugins/'+game.config.plugins.pop()+'.js')){}
+		for(var title in plugs){
+			(function(name, source){
+				$sr.loadScript(source, 
+						function() {
+						delete plugs[name];
+						if(Object.keys(plugs).length === 0){
+							$rootScope.emit('all_plugins_loaded');
+						}
+				});
+			})(title, plugs[title]);
 		}
 	};
 

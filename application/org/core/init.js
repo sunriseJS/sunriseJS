@@ -9,8 +9,9 @@
  */
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
+
+	$rootScope.on('all_plugins_loaded',$sr.sunrise);
 	$rootScope.initPlugins();
-	$sr.sunrise();
 
 	
 })($sr = window.$sr = window.$sr || {});
