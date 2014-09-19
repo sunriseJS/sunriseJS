@@ -77,9 +77,6 @@
 				x = 0;
 			}while(y<height && layer['size-y']!=='original');
 
-			document.body.appendChild(canvas);
-			
-
 			return canvas;
 		}
 	}
