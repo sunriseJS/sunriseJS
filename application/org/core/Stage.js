@@ -73,8 +73,8 @@
 
 
 			//draw image once or multiple times on canvas (depends on size)
-			var x = 0,
-				y = 0;
+			var x = layer.x || 0,
+				y = layer.y || 0;
 
 			do{
 				do{
@@ -83,7 +83,7 @@
 				}while(x<width && layer['size-x']!=='original');
 
 				y += h;
-				x = 0;
+				x = layer.x || 0;
 			}while(y<height && layer['size-y']!=='original');
 
 			return {buffer:canvas, scrollX: layer['scroll-x'],scrollY: layer['scroll-y']};
