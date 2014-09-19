@@ -23,6 +23,9 @@ var game = {
 			},
 			'background1':{
 				source: 'assets/graphics/bg_256.png'
+			},
+			'signs':{
+				source: 'assets/graphics/signs.png'
 			}
 		},
 		levels: {

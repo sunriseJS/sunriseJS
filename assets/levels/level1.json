@@ -17,6 +17,16 @@
 			"y": -60
 		},
 		{
+			"type": "image",
+			"image": "signs",
+			"size-x": "loop",
+			"size-y": "original",
+			"scroll-x": 0.75,
+			"scroll-y": 1,
+			"x": 0,
+			"y": 256
+		},
+		{
 			"type": "tiles",
 			"tileset": "tileset1",
 			"tiles": [
