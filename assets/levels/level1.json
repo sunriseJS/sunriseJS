@@ -1,6 +1,10 @@
 {
 	"width" : 2096,
 	"height": 384,
+	"background":{
+		"from":"#9ba8c5",
+		"to":"#e9cea4"
+	},
 	"layer": [
 		{
 			"type": "image",

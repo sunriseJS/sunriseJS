@@ -130,6 +130,18 @@
 				
 			}
 		});
+		var style = '';
+		if(typeof level.background === 'object'){
+			var bg = level.background;
+			if(bg.color !== undefined){
+				style = bg.color;
+			}else if(bg.from !== undefined
+					&& bg.to !== undefined){
+				style = 'linear-gradient(to bottom, '+bg.from+' 0%,'+bg.to+' 100%)';
+			}
+		}
+		console.log("style:",style);
+		$rootScope.canvas.style.background = style;
 
 	}
 
