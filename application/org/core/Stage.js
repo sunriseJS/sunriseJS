@@ -40,9 +40,47 @@
 			});
 			return canvas;
 		},
-		image : function(){
-			//TODO
-			return document.createElement('canvas');
+		image : function(layer, width, height){
+			var canvas = document.createElement('canvas'),
+				context = canvas.getContext('2d'),
+				image = $rootScope.ressources.images[layer.image];
+			canvas.width = width;
+			canvas.height = height;
+			var w,h;
+
+			switch(layer['size-x']){
+				case 'stretch': w = width;break;
+				case 'loop' : 
+				case 'original':
+				case undefined : w = image.width; break;
+				default: throw new Error('Unknow size-x: "'+layer['size-x']+'".');
+			}
+
+			switch(layer['size-y']){
+				case 'stretch': h = height;break;
+				case 'loop' : 
+				case 'original':
+				case undefined : h = image.height; break;
+				default: throw new Error('Unknow size-x: "'+layer['size-x']+'".');
+			}
+
+			var x = 0,
+				y = 0;
+
+			do{
+				do{
+					context.drawImage(image, 0, 0, image.width, image.height, x, y, w, h);
+					x += w;
+				}while(x<width && layer['size-x']!=='original');
+
+				y += h;
+				x = 0;
+			}while(y<height && layer['size-y']!=='original');
+
+			document.body.appendChild(canvas);
+			
+
+			return canvas;
 		}
 	}
 
