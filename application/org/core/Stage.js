@@ -38,7 +38,7 @@
 				context.drawImage(tileset,setX, setY, tileWidth, tileHeight,
 										levelX, levelY, tileWidth, tileHeight);
 			});
-			return canvas;
+			return {buffer:canvas};
 		},
 		image : function(layer, width, height){
 			var canvas = document.createElement('canvas'),
@@ -77,7 +77,7 @@
 				x = 0;
 			}while(y<height && layer['size-y']!=='original');
 
-			return canvas;
+			return {buffer:canvas, scrollX: layer['scroll-x'],scrollY: layer['scroll-y']};
 		}
 	}
 
@@ -86,7 +86,6 @@
 			throw new Error('Only entities can be added to stage');
 		}
 		entities.push(entity);
-		console.log('added to stage. entities:',entities);
 	}
 
 	$sr.stage.setLevel = function(levelname){
@@ -140,8 +139,10 @@
 
 		offset.x = focus.centerX - focus.x;
 		offset.y = focus.centerY - focus.y;
-		layerBuffers.forEach(function(buffer){
-			$rootScope.canvas.context.drawImage(buffer,offset.x,offset.y);			
+		layerBuffers.forEach(function(layer){
+			var x = focus.centerX - focus.x*(layer.scrollX || 1),
+				y = focus.centerY - focus.y*(layer.scrollY || 1);	
+			$rootScope.canvas.context.drawImage(layer.buffer,x,y);			
 		});
 
 		entities.forEach(function(entity){
