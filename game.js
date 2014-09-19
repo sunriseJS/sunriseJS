@@ -20,6 +20,9 @@ var game = {
 				source: 'assets/graphics/tileset1.png',
 				tileWidth: 64,
 				tileHeight: 64
+			},
+			'background1':{
+				source: 'assets/graphics/bg_256.png'
 			}
 		},
 		levels: {
