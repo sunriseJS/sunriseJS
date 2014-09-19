@@ -11,7 +11,7 @@
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
 	var entities = [];
-	var levelBuffer;
+	var layerBuffers = [];
 
 	$sr.stage = {};
 	var focus = {};
@@ -19,6 +19,32 @@
 		x: 0,
 		y: 0
 	};
+
+	var layerCreator = {
+		tiles : function(layer, width, height){
+			tilesetInfo = game.config.images[layer.tileset],
+			tileset = $rootScope.ressources.images[layer.tileset],
+			tileWidth = tilesetInfo.tileWidth,
+			tileHeight = tilesetInfo.tileHeight,
+			canvas = document.createElement('canvas'),
+			context = canvas.getContext('2d');
+			canvas.width = width;
+			canvas.height = height;
+			layer.tiles.forEach(function(tile){
+				var setX = tile[2]*tileWidth,
+					setY = tile[3]*tileHeight,
+					levelX = tile[0]*tileWidth,
+					levelY = tile[1]*tileHeight;
+				context.drawImage(tileset,setX, setY, tileWidth, tileHeight,
+										levelX, levelY, tileWidth, tileHeight);
+			});
+			return canvas;
+		},
+		image : function(){
+			//TODO
+			return document.createElement('canvas');
+		}
+	}
 
 	$sr.stage.add = function(entity){
 		if(!entity instanceof $sr.Entity){
@@ -33,25 +59,22 @@
 			throw new Error('No level with name "'+levelname+'" found.');
 		}
 		var level = $rootScope.ressources.levels[levelname],
-			tilesetInfo = game.config.images[level.tileset],
-			tileset = $rootScope.ressources.images[level.tileset],
-			levelWidth = tilesetInfo.tileWidth*level.width, 
-			levelHeight = tilesetInfo.tileHeight*level.height,
-			tileWidth = tilesetInfo.tileWidth,
-			tileHeight = tilesetInfo.tileHeight,
-			canvas = document.createElement('canvas'),
-			context = canvas.getContext('2d');
-		canvas.width = levelWidth;
-		canvas.height = levelHeight;
-		level.tiles.forEach(function(tile){
-			var setX = tile[2]*tileWidth,
-				setY = tile[3]*tileHeight,
-				levelX = tile[0]*tileWidth,
-				levelY = tile[1]*tileHeight;
-			context.drawImage(tileset,setX, setY, tileWidth, tileHeight,
-									levelX, levelY, tileWidth, tileHeight);
+			levelWidth = level.width, 
+			levelHeight =level.height;
+
+		level.layer.forEach(function(layer){
+			if(layerCreator[layer.type] === undefined){
+				throw new Error('Invalid layer type "'+layer.type+'"');
+			}else{
+				var layerCanvas = layerCreator[layer.type](layer, levelWidth, levelHeight);
+				if(layerCanvas !== undefined){
+					layerBuffers.push(layerCanvas);
+				}else{
+					throw new Error('Error while creating level');
+				}
+				
+			}
 		});
-		levelBuffer = canvas;
 
 	}
 
@@ -82,10 +105,10 @@
 
 		offset.x = focus.centerX - focus.x;
 		offset.y = focus.centerY - focus.y;
-		if(levelBuffer !== undefined){
+		layerBuffers.forEach(function(buffer){
+			$rootScope.canvas.context.drawImage(buffer,offset.x,offset.y);			
+		});
 
-			$rootScope.canvas.context.drawImage(levelBuffer,offset.x,offset.y);
-		}
 		entities.forEach(function(entity){
 			entity.draw(offset.x, offset.y);
 		});
