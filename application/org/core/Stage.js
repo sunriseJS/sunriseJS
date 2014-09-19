@@ -16,11 +16,13 @@
 	$sr.stage = {};
 	var focus = {};
 	var offset = {
-		x: 0,
-		y: 0
-	};
+		x : 0,
+		y : 0
+	}
 
+	//Creator functions for different layer types
 	var layerCreator = {
+		//tilesets
 		tiles : function(layer, width, height){
 			tilesetInfo = game.config.images[layer.tileset],
 			tileset = $rootScope.ressources.images[layer.tileset],
@@ -40,14 +42,19 @@
 			});
 			return {buffer:canvas};
 		},
+		//simple image
 		image : function(layer, width, height){
 			var canvas = document.createElement('canvas'),
 				context = canvas.getContext('2d'),
 				image = $rootScope.ressources.images[layer.image];
 			canvas.width = width;
 			canvas.height = height;
+			//calculate width and height for image, depends on which
+			//tye for size was choosen 
+			//stretch - stretch image to fit level
+			//loop - tile image to fill level
+			//original - draw image once in original size
 			var w,h;
-
 			switch(layer['size-x']){
 				case 'stretch': w = width;break;
 				case 'loop' : 
@@ -64,6 +71,8 @@
 				default: throw new Error('Unknow size-x: "'+layer['size-x']+'".');
 			}
 
+
+			//draw image once or multiple times on canvas (depends on size)
 			var x = 0,
 				y = 0;
 
@@ -81,6 +90,10 @@
 		}
 	}
 
+	/**
+	 * Adds an entity to the stage so it is drawn every render step
+	 * @param {[Entity]} entity which sould be added to stage
+	 */
 	$sr.stage.add = function(entity){
 		if(!entity instanceof $sr.Entity){
 			throw new Error('Only entities can be added to stage');
@@ -88,6 +101,13 @@
 		entities.push(entity);
 	}
 
+	/**
+	 * sets level for the stage. a level defines, 
+	 * where different entites are spawned (TODO: not implemented yet)
+	 * and different layers of tiles / background images/ foreground images
+	 * @param {[String]} levelname name is looked up in ressources manager, where 
+	 * level was initial stored
+	 */
 	$sr.stage.setLevel = function(levelname){
 		if($rootScope.ressources.levels[levelname] === undefined){
 			throw new Error('No level with name "'+levelname+'" found.');
@@ -100,6 +120,7 @@
 			if(layerCreator[layer.type] === undefined){
 				throw new Error('Invalid layer type "'+layer.type+'"');
 			}else{
+				//call appropriate creator function for layer, if there is one for the given type
 				var layerCanvas = layerCreator[layer.type](layer, levelWidth, levelHeight);
 				if(layerCanvas !== undefined){
 					layerBuffers.push(layerCanvas);
@@ -112,6 +133,12 @@
 
 	}
 
+	/**
+	 * Sets focus of the stage to an Entity or a position (x,y), moves with entity
+	 * @param {Number/Entity} x  Either an entity to follows or an position on x-axis
+	 * @param {[type]} y  If x is an Entity, offset on x-axis, otherwise position on y-axis
+	 * @param {[type]} yy Only needed if x is an Entity. Offset on y-axis
+	 */
 	$sr.stage.setFocus = function(x,y,yy){
 		if(x instanceof $sr.Entity){
 			focus.entity = x;
@@ -124,6 +151,11 @@
 		}
 	}
 
+	/**
+	 * Draw stage which all layers and entities.
+	 * Layers are drawn first in order of the layers array in the json file of the layer
+	 * Entities are drawn on top (TODO: implement foreground layers)
+	 */
 	$rootScope.drawStage = function(){
 		//Quick & dirty, maybe add a init function to stage?
 		if(focus.x === undefined){
@@ -137,13 +169,15 @@
 			focus.y = focus.entity.position.y + focus.yoffset;
 		}
 
-		offset.x = focus.centerX - focus.x;
-		offset.y = focus.centerY - focus.y;
+		
 		layerBuffers.forEach(function(layer){
 			var x = focus.centerX - focus.x*(layer.scrollX || 1),
 				y = focus.centerY - focus.y*(layer.scrollY || 1);	
 			$rootScope.canvas.context.drawImage(layer.buffer,x,y);			
 		});
+
+		offset.x = focus.centerX - focus.x;
+		offset.y = focus.centerY - focus.y;
 
 		entities.forEach(function(entity){
 			entity.draw(offset.x, offset.y);
