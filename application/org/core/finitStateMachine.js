@@ -19,29 +19,35 @@
  * 		speed: 0,
  * 		sound: "none"
  * }
+ *
+ * 
  */
 
 	$sr.StateMachine = (function(){ 
-	    this.states = {};
-	    this.currentState = 'default';
+	   
 
 	    /**
 	     * construktor
 	     * @param {[type]} states min 1 = default
 	     */
-	    function StateMachine(states){
-	    	this.states = states;	
+	    function StateMachine(){ 
+	    	this.states = {};
+	    	this.currentState = 'default';
 	    };
 
-	    StateMachine.getCurrentState = function(){
+	    StateMachine.prototype.getCurrentState = function(){
 	    	return this.states[this.currentState];
 	    };
 
-		StateMachine.setCurrentState = function(name){
-	    	return this.currentState = name;
+		StateMachine.prototype.setCurrentState = function(name){
+	    	if(this.states[name] != undefined){
+	    		this.currentState = name;
+	    		return;
+	    	}
+	    	throw 'no State with name: '+name;
 	    };
 
-		StateMachine.addStates = function(){
+		StateMachine.prototype.addStates = function(){
 	    	for(var i = 0; i < arguments.length; ++i){
 	    		console.log(arguments[i].name);
 	    		if(this.states[arguments[i].name] != undefined){

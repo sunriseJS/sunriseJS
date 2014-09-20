@@ -38,6 +38,10 @@ var game = {
 
 	init: function($scope) {
 		$scope.player = new $sr.Entity(688,260, 'player-anim');
+		//set player states
+		$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
+		
+
 		$scope.player.setAnchor(48,64);
 		window.player = $scope.player; // only for testing purposes
 		$sr.stage.add($scope.player);
@@ -48,6 +52,9 @@ var game = {
 		function setAnimation(){
 			$scope.player.setAnimation($scope.player.state);
 		}
+
+
+
 		
 		$scope.player.state = 'stand_right';
 		setAnimation();
@@ -73,9 +80,20 @@ var game = {
 				setAnimation();
 			}
 		});
+
+		console.log($scope.player.stateManager.states);
+		console.log($scope.player.stateManager.getCurrentState());
+		$scope.player.stateManager.setCurrentState('run_left');
+		console.log($scope.player.stateManager.getCurrentState());
 	},
 
 	run: function($scope) {
+		
+
+
+
+
+
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
 		var lastDir = $scope.player.currentDirection;

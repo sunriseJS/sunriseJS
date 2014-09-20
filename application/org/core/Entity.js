@@ -17,12 +17,13 @@
 		//private Data
 	    var sprite;
 	    var pos;
+	    var stateManager;
 
 	    //constructor
 	    function Entity(x, y, imageName){
 	    	$sr.Sprite.call(this,imageName);
 			pos = new $sr.util.Vec2(x,y);
-
+			this.stateManager = new $sr.StateMachine();
 
 			//public accessable data
 			this.position = pos;
