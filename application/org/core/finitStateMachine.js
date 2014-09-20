@@ -11,8 +11,6 @@
 	var $rootScope = $sr.$rootScope;
 	
 	$sr.StateMachine = (function(){ 
-
-		//All states
 	    this.states = {};
 	    this.currentState = 'default';
 
@@ -36,7 +34,7 @@
 	    	for(var i = 0; i < arguments.length; ++i){
 	    		console.log(arguments[i].name);
 	    		if(this.states[arguments[i].name] != undefined){
-	    			console.info('State: '+arguments[i].name+' overrides a previously defined state!');
+	    			console.info('State: '+arguments[i].name+' overwrites a previously defined state!');
 	    		}
 	    		this.states[arguments[i].name] = arguments[i];
 	    	}
