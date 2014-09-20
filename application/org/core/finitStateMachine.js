@@ -10,6 +10,17 @@
 (function($sr){	
 	var $rootScope = $sr.$rootScope;
 	
+
+/**
+ * Excample for player
+ * 
+ * {
+ * 		name: "default",
+ * 		speed: 0,
+ * 		sound: "none"
+ * }
+ */
+
 	$sr.StateMachine = (function(){ 
 	    this.states = {};
 	    this.currentState = 'default';
