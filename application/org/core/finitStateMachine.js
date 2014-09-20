@@ -32,11 +32,16 @@
 	    	return this.currentState = name;
 	    };
 
-		StateMachine.addStates = function(states){
-	    	states.forEach(function(ele, idx, array) {
-	    		console.log(ele);
-			});
+		StateMachine.addStates = function(){
+	    	for(var i = 0; i < arguments.length; ++i){
+	    		console.log(arguments[i].name);
+	    		if(this.states[arguments[i].name] != undefined){
+	    			console.info('State: '+arguments[i].name+' overrides a previously defined state!');
+	    		}
+	    		this.states[arguments[i].name] = arguments[i];
+	    	}
 	    };
+
 
 
 	    return StateMachine;
