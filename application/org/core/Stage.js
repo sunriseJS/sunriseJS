@@ -125,12 +125,24 @@
 				if(layerBuffer !== undefined){
 					layerBuffer.x = layer.x || 0;
 					layerBuffer.y = layer.y || 0;
+					layerBuffer.z = layer.z || 0;
 					layerBuffers.push(layerBuffer);
 				}else{
 					throw new Error('Error while creating level');
 				}
 				
 			}
+		});
+
+		//sort layers
+		layerBuffers.sort(function(a,b){
+			if(a.z > b.z){
+				return -1;
+			}
+			if(a.z < b.z){
+				return 1;
+			}
+			return 0;
 		});
 		var style = '';
 		if(typeof level.background === 'object'){
