@@ -73,8 +73,8 @@
 
 
 			//draw image once or multiple times on canvas (depends on size)
-			var x = layer.x || 0,
-				y = layer.y || 0;
+			var x = 0,
+				y = 0;
 
 			do{
 				do{
@@ -83,7 +83,7 @@
 				}while(x<width && layer['size-x']!=='original');
 
 				y += h;
-				x = layer.x || 0;
+				x = 0;
 			}while(y<height && layer['size-y']!=='original');
 
 			return {buffer:canvas, scrollX: layer['scroll-x'],scrollY: layer['scroll-y']};
@@ -121,9 +121,11 @@
 				throw new Error('Invalid layer type "'+layer.type+'"');
 			}else{
 				//call appropriate creator function for layer, if there is one for the given type
-				var layerCanvas = layerCreator[layer.type](layer, levelWidth, levelHeight);
-				if(layerCanvas !== undefined){
-					layerBuffers.push(layerCanvas);
+				var layerBuffer = layerCreator[layer.type](layer, levelWidth, levelHeight);
+				if(layerBuffer !== undefined){
+					layerBuffer.x = layer.x || 0;
+					layerBuffer.y = layer.y || 0;
+					layerBuffers.push(layerBuffer);
 				}else{
 					throw new Error('Error while creating level');
 				}
@@ -183,8 +185,8 @@
 
 		
 		layerBuffers.forEach(function(layer){
-			var x = focus.centerX - focus.x*(layer.scrollX || 1),
-				y = focus.centerY - focus.y*(layer.scrollY || 1);	
+			var x = focus.centerX - focus.x*(layer.scrollX || 1)+layer.x,
+				y = focus.centerY - focus.y*(layer.scrollY || 1)+layer.y;	
 			$rootScope.canvas.context.drawImage(layer.buffer,x,y);			
 		});
 
