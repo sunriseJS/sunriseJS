@@ -195,12 +195,17 @@
 			focus.y = focus.entity.position.y + focus.yoffset;
 		}
 
-		
-		layerBuffers.forEach(function(layer){
+
+		function drawLayer(layer){
 			var x = focus.centerX - focus.x*(layer.scrollX || 1)+layer.x,
 				y = focus.centerY - focus.y*(layer.scrollY || 1)+layer.y;	
-			$rootScope.canvas.context.drawImage(layer.buffer,x,y);			
-		});
+			$rootScope.canvas.context.drawImage(layer.buffer,x,y);	
+		}
+
+		var bufferIndex = 0;
+		for(;bufferIndex<layerBuffers.length && layerBuffers[bufferIndex].z >= 0; bufferIndex++){
+			drawLayer(layerBuffers[bufferIndex]);		
+		}
 
 		offset.x = focus.centerX - focus.x;
 		offset.y = focus.centerY - focus.y;
@@ -208,6 +213,10 @@
 		entities.forEach(function(entity){
 			entity.draw(offset.x, offset.y);
 		});
+
+		for(;bufferIndex<layerBuffers.length; bufferIndex++){
+			drawLayer(layerBuffers[bufferIndex]);		
+		}
 	}
 
 	
