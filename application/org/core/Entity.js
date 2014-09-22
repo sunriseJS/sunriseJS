@@ -27,9 +27,9 @@
 		$sr.Sprite.extend(Entity);
 
 
-		Entity.prototype.emit = function(what,message){
+		Entity.prototype.emit = function(what, data){
 			components.forEach(function(component){
-				component.receive(what, message);
+				component.receive(what, data);
 			});
 		}	    
 	    
