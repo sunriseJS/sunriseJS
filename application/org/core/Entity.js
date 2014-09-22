@@ -17,8 +17,21 @@
 		//private Data
 	    var components = [];
 
+	    var x = 0,
+	    	y = 0,
+	    	width = 0,
+	    	height = 0;
+
+
 	    //constructor
 	    function Entity(){
+	    	if(arguments.length < 4){
+	    		throw new Error('Define at least x, y, width and height!');
+	    	}
+	    	x = arguments[0];
+	    	y = arguments[1];
+	    	width = arguments[2];
+	    	height = arguments[3];
 	 		for(var i=0; i<arguments.length; i++){
 	 			components.push(arguments[i]);
 	 		}
