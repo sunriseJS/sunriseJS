@@ -15,27 +15,22 @@
 	$sr.Entity = (function(){ 
 
 		//private Data
-	    var sprite;
-	    var pos;
-	    var stateManager;
+	    var components = [];
 
 	    //constructor
-	    function Entity(x, y, imageName){
-	    	$sr.Sprite.call(this,imageName);
-			pos = new $sr.util.Vec2(x,y);
-			this.stateManager = new $sr.StateMachine();
-
-			//public accessable data
-			this.position = pos;
+	    function Entity(){
+	 		for(var i=0; i<arguments.length; i++){
+	 			components.push(arguments[i]);
+	 		}
 		} 
 
 		$sr.Sprite.extend(Entity);
 
 
-		Entity.prototype.draw = function(x,y){
-			var x = x || 0,
-				y = y || 0;
-			this.super_.draw.call(this,pos.x+x,pos.y+y);
+		Entity.prototype.emit = function(what,message){
+			components.forEach(function(component){
+				component.receive(what, message);
+			});
 		}	    
 	    
 
