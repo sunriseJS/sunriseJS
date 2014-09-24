@@ -17,8 +17,10 @@
 
 
 		Component = function(){
-
-			
+			var self = this;
+			this.on('setEntity', function(data){
+				self.entity = data;
+			});
 		}
 
 		$sr.CoreObject.extend(Component);
