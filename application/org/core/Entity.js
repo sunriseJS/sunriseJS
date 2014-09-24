@@ -14,14 +14,10 @@
 	
 	$sr.Entity = (function(){ 
 
-		//private Data
-	    var components = [];
-
-	    
-
 
 	    //constructor
 	    function Entity(){
+	    	this.components = [];
 	    	if(arguments.length < 4){
 	    		throw new Error('Define at least x, y, width and height!');
 	    	}
@@ -30,7 +26,7 @@
 	    	this.width = arguments[2];
 	    	this.height = arguments[3];
 	 		for(var i=4; i<arguments.length; i++){
-	 			components.push(arguments[i]);
+	 			this.components.push(arguments[i]);
 	 			arguments[i].receive('setEntity', this);
 	 		}
 		} 
@@ -39,7 +35,7 @@
 
 
 		Entity.prototype.emit = function(what, data){
-			components.forEach(function(component){
+			this.components.forEach(function(component){
 				component.receive(what, data);
 			});
 		}	    

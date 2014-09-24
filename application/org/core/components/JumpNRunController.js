@@ -26,7 +26,7 @@
 	$sr.JumpNRunController = (function(){ 
 
 
-		var config;
+	
 
 		/**
 		 * Contructor of JumpNRunController Component
@@ -35,7 +35,8 @@
 		JumpNRunController = function(config_){
 			$sr.Component.call(this);
 			var self = this;
-			config = config_ || {};
+			var config = config_ || {};
+			config.keys = config.keys || {};
 
 			function sanitiseConfig(){
 				var r = arguments[0];
@@ -50,9 +51,9 @@
 				return r;
 			}
 
-			config.left = sanitiseConfig(config.left,'a','left');
-			config.right = sanitiseConfig(config.right,'d','right');
-			config.jump = sanitiseConfig(config.jump);
+			config.keys.left = sanitiseConfig(config.keys.left,'a','left');
+			config.keys.right = sanitiseConfig(config.keys.right,'d','right');
+			config.keys.jump = sanitiseConfig(config.jump);
 
 
 			var direction = 0;
@@ -60,11 +61,11 @@
 			this.on('tick', function(data){
 
 				var run_left = false;
-				config.left.forEach(function(key){
+				config.keys.left.forEach(function(key){
 					run_left = run_left || $sr.controls.isKeyPressed(key);
 				});
 				var run_right = false;
-				config.right.forEach(function(key){
+				config.keys.right.forEach(function(key){
 					run_right = run_right || $sr.controls.isKeyPressed(key);
 				});
 
