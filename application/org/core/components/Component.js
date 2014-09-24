@@ -12,12 +12,10 @@
 	$sr.Component = (function(){ 
 
 
-		//private Data
-		var receiver = {}
-
-
 		Component = function(){
 			var self = this;
+			this.receiver = {}
+			console.log("self:",self,this.receiver);
 			this.on('setEntity', function(data){
 				self.entity = data;
 			});
@@ -26,16 +24,16 @@
 		$sr.CoreObject.extend(Component);
 
 		Component.prototype.on = function(what, callback){
-			if(receiver[what] !== undefined){
+			if(this.receiver[what] !== undefined){
 				throw new Error('Already defined a callback for "'+what+'"');
 			}else{
-				receiver[what] = callback;
+				this.receiver[what] = callback;
 			}
 		}
 
 		Component.prototype.receive = function(what, data){
-			if(receiver[what] !== undefined){
-				receiver[what](data);
+			if(this.receiver[what] !== undefined){
+				this.receiver[what](data);
 			}
 		}
 
