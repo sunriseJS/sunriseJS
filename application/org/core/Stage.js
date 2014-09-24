@@ -191,8 +191,9 @@
 			focus.centerY = $rootScope.canvas.height/2;
 		}
 		if(focus.entity !== undefined){
-			focus.x = focus.entity.position.x + focus.xoffset;
-			focus.y = focus.entity.position.y + focus.yoffset;
+			var d = focus.entity.getData();
+			focus.x = d.x + focus.xoffset;
+			focus.y = d.y + focus.yoffset;
 		}
 
 
@@ -211,7 +212,7 @@
 		offset.y = focus.centerY - focus.y;
 
 		entities.forEach(function(entity){
-			entity.draw(offset.x, offset.y);
+			entity.emit('draw',{offsetX:offset.x,offsetY:offset.y});
 		});
 
 		for(;bufferIndex<layerBuffers.length; bufferIndex++){
