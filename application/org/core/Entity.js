@@ -32,12 +32,13 @@
 	    	y = arguments[1];
 	    	width = arguments[2];
 	    	height = arguments[3];
-	 		for(var i=0; i<arguments.length; i++){
+	 		for(var i=4; i<arguments.length; i++){
 	 			components.push(arguments[i]);
+	 			arguments[i].receive('setEntity', this);
 	 		}
 		} 
 
-		$sr.Sprite.extend(Entity);
+		$sr.CoreObject.extend(Entity);
 
 
 		Entity.prototype.emit = function(what, data){
@@ -45,6 +46,10 @@
 				component.receive(what, data);
 			});
 		}	    
+
+		Entity.prototype.getData = function(){
+			return {x:x, y:y, width:width, height:height};
+		}
 	    
 
 	    return Entity;
