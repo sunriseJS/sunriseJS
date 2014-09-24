@@ -42,8 +42,40 @@ var game = {
 								anchor: {x: 48,	y: 64},
 								animation: 'stand_right' 
 							}),
-							new $sr.JumpNRunController()
+							new $sr.JumpNRunController({
+								keys:{
+									left:['a','left'], 
+									right:['d','right']
+								}
+							})
 						);
+		
+		var cheapAI = new $sr.Component();
+		cheapAI.direction = 2;
+		cheapAI.on('tick', function(){
+			if(cheapAI.direction === 2){
+				cheapAI.direction = Math.floor(Math.random()*3)-1;
+				setTimeout(function(){
+					cheapAI.direction = 2;
+				},1000*(Math.random(3)+3));
+			}
+			cheapAI.entity.x += cheapAI.direction*1.5;
+			if(cheapAI.direction === -1){
+				cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
+			}else if(cheapAI.direction === 1){
+				cheapAI.entity.emit('changeAnimation', {animation: 'walk_right'});
+			}else{
+				cheapAI.entity.emit('changeAnimation', {animation: 'stand_right'});
+			}
+		});
+
+		$sr.stage.add(new $sr.Entity(688+128,260,96,128,
+							new $sr.Render('player-anim', {
+								anchor: {x: 48,	y: 64},
+								animation: 'stand_right' 
+							}),
+							cheapAI
+						));
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
