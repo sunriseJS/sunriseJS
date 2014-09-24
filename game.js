@@ -37,18 +37,23 @@ var game = {
 
 
 	init: function($scope) {
-		$scope.player = new $sr.Entity(688,260, 'player-anim');
+		$scope.player = new $sr.Entity(688,260,96,128,
+							new $sr.Render('player-anim', {
+								anchor: {x: 48,	y: 64},
+								animation: 'stand_right', 
+							})
+						);
 		//set player states
-		$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
+		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
-
-		$scope.player.setAnchor(48,64);
+		$sr.stage.setLevel('level1');
+		
+		$scope.fpsdom = document.querySelector('#fps');
 		window.player = $scope.player; // only for testing purposes
 		$sr.stage.add($scope.player);
-		$sr.stage.setLevel('level1');
 		$sr.stage.setFocus($scope.player,0,-64);
-		$scope.fpsdom = document.querySelector('#fps');
-
+		
+		/*
 		function setAnimation(){
 			$scope.player.setAnimation($scope.player.state);
 		}
@@ -84,7 +89,7 @@ var game = {
 		console.log($scope.player.stateManager.states);
 		console.log($scope.player.stateManager.getCurrentState());
 		$scope.player.stateManager.setCurrentState('run_left');
-		console.log($scope.player.stateManager.getCurrentState());
+		console.log($scope.player.stateManager.getCurrentState());*/
 	},
 
 	run: function($scope) {
@@ -96,7 +101,7 @@ var game = {
 
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
 
-		var lastDir = $scope.player.currentDirection;
+		/*var lastDir = $scope.player.currentDirection;
 		$scope.player.currentDirection = -1;
 
 		if($scope.player.state === 'walk_left'){
@@ -104,7 +109,7 @@ var game = {
 		}
 		if($scope.player.state === 'walk_right'){
 			$scope.player.position.x += 2;
-		}
+		}*/
 
 	},
 
