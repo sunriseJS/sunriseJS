@@ -177,12 +177,20 @@
 		}
 	}
 
+
+	$rootScope.updateStage = function(){
+		entities.forEach(function(entity){
+			entity.emit('tick',{});
+		});
+	}
+
 	/**
 	 * Draw stage which all layers and entities.
 	 * Layers are drawn first in order of the layers array in the json file of the layer
 	 * Entities are drawn on top (TODO: implement foreground layers)
 	 */
 	$rootScope.drawStage = function(){
+
 		//Quick & dirty, maybe add a init function to stage?
 		if(focus.x === undefined){
 			focus.x= $rootScope.canvas.width/2;
@@ -191,9 +199,8 @@
 			focus.centerY = $rootScope.canvas.height/2;
 		}
 		if(focus.entity !== undefined){
-			var d = focus.entity.getData();
-			focus.x = d.x + focus.xoffset;
-			focus.y = d.y + focus.yoffset;
+			focus.x = focus.entity.x + focus.xoffset;
+			focus.y = focus.entity.y + focus.yoffset;
 		}
 
 

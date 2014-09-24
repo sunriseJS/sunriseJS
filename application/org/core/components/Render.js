@@ -124,9 +124,8 @@
 
 
 			this.on('draw', function(data){
-				var d = self.entity.getData(),
-				x = d.x + data.offsetX,
-				y = d.y + data.offsetY;
+				x = self.entity.x + data.offsetX,
+				y = self.entity.y + data.offsetY;
 
 				x -= anchor.x;
 				y -= anchor.y;
@@ -143,8 +142,8 @@
 					self.context.translate(-x,-y);
 				}
 			
-				var drawWidth = d.width || width;
-				var drawHeight = d.height || height;
+				var drawWidth = self.entity.width || width;
+				var drawHeight = self.entity.height || height;
 				var frame = self.currentAnimation[self.currentFrame];
 
 

@@ -17,10 +17,7 @@
 		//private Data
 	    var components = [];
 
-	    var x = 0,
-	    	y = 0,
-	    	width = 0,
-	    	height = 0;
+	    
 
 
 	    //constructor
@@ -28,10 +25,10 @@
 	    	if(arguments.length < 4){
 	    		throw new Error('Define at least x, y, width and height!');
 	    	}
-	    	x = arguments[0];
-	    	y = arguments[1];
-	    	width = arguments[2];
-	    	height = arguments[3];
+	    	this.x = arguments[0];
+	    	this.y = arguments[1];
+	    	this.width = arguments[2];
+	    	this.height = arguments[3];
 	 		for(var i=4; i<arguments.length; i++){
 	 			components.push(arguments[i]);
 	 			arguments[i].receive('setEntity', this);
@@ -46,11 +43,6 @@
 				component.receive(what, data);
 			});
 		}	    
-
-		Entity.prototype.getData = function(){
-			return {x:x, y:y, width:width, height:height};
-		}
-	    
 
 	    return Entity;
 	})();
