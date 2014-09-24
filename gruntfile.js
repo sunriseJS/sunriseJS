@@ -31,6 +31,7 @@ module.exports = function (grunt) {
                     'application/org/core/Stage.js',
                     'application/org/core/components/Component.js',
                     'application/org/core/components/Render.js',
+                    'application/org/core/components/JumpNRunController.js',
                     'application/org/core/init.js'
 
             ],
