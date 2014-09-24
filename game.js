@@ -40,8 +40,9 @@ var game = {
 		$scope.player = new $sr.Entity(688,260,96,128,
 							new $sr.Render('player-anim', {
 								anchor: {x: 48,	y: 64},
-								animation: 'stand_right', 
-							})
+								animation: 'stand_right' 
+							}),
+							new $sr.JumpNRunController()
 						);
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
@@ -54,62 +55,16 @@ var game = {
 		$sr.stage.setFocus($scope.player,0,-64);
 		
 		/*
-		function setAnimation(){
-			$scope.player.setAnimation($scope.player.state);
-		}
-
-
-
-		
-		$scope.player.state = 'stand_right';
-		setAnimation();
-		$sr.controls.onKeyDown('a', 'left', function(){
-			$scope.player.state = 'walk_left';
-			setAnimation();
-		});
-		$sr.controls.onKeyDown('d', 'right', function(){
-			$scope.player.state = 'walk_right';
-			setAnimation();
-		});
-			
-		$sr.controls.onKeyUp('a', 'left', function(){
-			if(!$sr.controls.isKeyPressed('d') && !$sr.controls.isKeyPressed('right')){
-				$scope.player.state = 'stand_left';
-				setAnimation();
-			}
-			
-		});
-		$sr.controls.onKeyUp('d', 'right', function(){
-			if(!$sr.controls.isKeyPressed('a') && !$sr.controls.isKeyPressed('left')){
-				$scope.player.state = 'stand_right';
-				setAnimation();
-			}
-		});
-
 		console.log($scope.player.stateManager.states);
 		console.log($scope.player.stateManager.getCurrentState());
 		$scope.player.stateManager.setCurrentState('run_left');
-		console.log($scope.player.stateManager.getCurrentState());*/
+		console.log($scope.player.stateManager.getCurrentState());
+		*/
 	},
 
 	run: function($scope) {
-		
-
-
-
-
 
 		$scope.fpsdom.innerHTML = $sr.fps.getFps();
-
-		/*var lastDir = $scope.player.currentDirection;
-		$scope.player.currentDirection = -1;
-
-		if($scope.player.state === 'walk_left'){
-			$scope.player.position.x -= 2;
-		}
-		if($scope.player.state === 'walk_right'){
-			$scope.player.position.x += 2;
-		}*/
 
 	},
 
