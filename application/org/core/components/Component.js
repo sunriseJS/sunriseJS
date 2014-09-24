@@ -15,7 +15,6 @@
 		Component = function(){
 			var self = this;
 			this.receiver = {}
-			console.log("self:",self,this.receiver);
 			this.on('setEntity', function(data){
 				self.entity = data;
 			});
