@@ -192,7 +192,15 @@
 
 
 			this.on('changeAnimation', function(data){
-		
+				if(animations[data.animation] === undefined){
+					throw new Error('No animation with name '+data.animation+' found');
+				}
+				
+				if(self.currentAnimation === animations[data.animation] && !data.restart){
+					return;	
+				}
+				self.currentAnimation = animations[data.animation];
+				self.currentFrame = data.frame || 0;
 			});
 
 			this.on('changeOpacity', function(data){
