@@ -29,6 +29,8 @@ module.exports = function (grunt) {
                     'application/org/core/Sprite.js',
                     'application/org/core/Entity.js',
                     'application/org/core/Stage.js',
+                    'application/org/core/components/Component.js',
+                    'application/org/core/components/Render.js',
                     'application/org/core/init.js'
 
             ],
