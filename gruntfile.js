@@ -3,17 +3,40 @@ module.exports = function (grunt) {
 
     // define source files and their destinations
     uglify: {
-        options: {
-          sourceMap: 'sunrise.min.js.map'
+        buildCore: {
+            options: {
+                sourceMap: 'sunrise.min.js.map'
+            },
+            files: [{ 
+                src: 'debug/sunrise.js',  // source files mask
+                dest: '',    // destination folder
+                expand: true,    // allow dynamic building
+                flatten: true,   // remove all unnecessary nesting
+                ext: '.min.js'   // replace .js to .min.js
+            }]
+        },  
+        buildPlugins: {
+            options: {
+                sourceMap: function(path) {
+                    return path.split('/')[1] + ".map";
+                },
+                sourceMappingURL: function(path) {
+                    console.log(path);
+                    return '../'+path.split('/')[1]+'.map';
+                }
+            },
+            files: [{
+
+                    flatten: true,   // remove all unnecessary nesting
+                    expand: true,     // Enable dynamic expansion.
+                    src: ['application/org/plugins/**/*.js'], // Actual pattern(s) to match.
+                    dest: 'plugins/',   // Destination path prefix.
+                    ext: '.js',   // Dest filepaths will have this extension.
+            }]
         },
-        files: { 
-            src: 'debug/sunrise.js',  // source files mask
-            dest: '',    // destination folder
-            expand: true,    // allow dynamic building
-            flatten: true,   // remove all unnecessary nesting
-            ext: '.min.js'   // replace .js to .min.js
-        }
+      
     },
+   
     concat: {
         files:{
             src: [
@@ -31,7 +54,6 @@ module.exports = function (grunt) {
                     'application/org/core/Stage.js',
                     'application/org/core/components/Component.js',
                     'application/org/core/components/Render.js',
-                    'application/org/core/components/JumpNRunController.js',
                     'application/org/core/init.js'
 
             ],

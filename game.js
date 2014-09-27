@@ -2,7 +2,7 @@ var game = {
 	config: {
 		screenWidth: 640,
 		screenHeight: 360,
-		plugins: ['testplugin'],
+		plugins: ['JumpNRunController'],
 		images: {
 			'player-anim': {
 				source: 'assets/graphics/sheet_soldier.png',
