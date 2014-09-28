@@ -20,10 +20,12 @@ $sr.Entity = (function(){
     	this.y = arguments[1];
     	this.width = arguments[2];
     	this.height = arguments[3];
- 		for(var i=4; i<arguments.length; i++){
+        this.stateMachine = arguments[4];
+
+ 		for(var i=5; i<arguments.length; i++){
  			this.components.push(arguments[i]);
  			arguments[i].receive('setEntity', this);
- 		}
+ 		} 
 	} 
 
 	$sr.CoreObject.extend(Entity);
