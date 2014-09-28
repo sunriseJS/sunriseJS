@@ -42,10 +42,15 @@ var game = {
 	init: function($scope) {
 		var playerBehavior = new $sr.Component();
 		playerBehavior.on('collision', function(){
-			console.log("col");
 			playerBehavior.entity.emit('changeOpacity', {
 				opacity: 0.5
 			});
+			clearTimeout(playerBehavior.reset);
+			playerBehavior.reset = setTimeout(function(){
+				playerBehavior.entity.emit('changeOpacity', {
+					opacity: 1
+				});
+			}, 20);
 		});
 		$scope.player = new $sr.Entity(688,260,96,128,
 							new $sr.Render('player-anim', {
