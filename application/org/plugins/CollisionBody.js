@@ -14,11 +14,12 @@
  * Detects collisions with other entities
  *
  * emits:
- *
+ * testCollision
  * collision
  *
  * receives:
  * tick
+ * testCollision
  *
 */
 
@@ -28,17 +29,78 @@
 	$sr.CollisionBody = (function(){ 
 
 
+		var colliderTesters = {
+			rectangle : {
+				rectangle : function(first, second){
+					return false;
+				},
+				circle : function(first, second){
+					return false;
+				},
+				pixel : function(first, second){
+					return false;
+				}
+			},
+			circle : {
+				rectangle : function(first, second){
+					colliderTesters.rectangle.circle(second, first);
+				},
+				circle : function(first, second){
+					return false;
+				},
+				pixel : function(first, second){
+					return false;
+				}
+			},
+			pixel : {
+				rectangle : function(first, second){
+					colliderTesters.rectangle.pixel(second, first);
+				},
+				circle : function(first, second){
+					colliderTesters.circle.pixel(second, first);
+				},
+				pixel : function(first, second){
+					return false;
+				}
+			}
+		}
+
 		/**
 		 * Contructor of CollisionBody Component
 		 */
-		CollisionBody = function(stage, option){
+		CollisionBody = function(stageObserver, options){
 			$sr.Component.call(this);
 			var self = this;
-
+			this.colliderType = options.colliderType || 'rectangle';
+			if(colliderTesters[this.colliderType] === undefined){
+				throw new Error('Invalid colliderType "'+this.colliderType+'"');
+			}
 
 			this.on('tick', function(){
 
+				stageObserver.getEntities().forEach(function(entity){
+					entity.emit('testCollision', {
+						other: self,
+						colliderType : self.colliderType,
+					});
+				});
+
 			});
+
+			this.on('testCollision', function(data){
+				if (colliderTesters[self.colliderType][data.colliderType](self,other)){
+					other.emit('collision', {
+						other : self
+					});
+					self.emit('collision', {
+						other : data.other
+					});
+				}
+			});
+
+			this.on('collision', function(data){
+				console.log('Collision between',self,'and',data.other);
+			})
 
 	
 		}
