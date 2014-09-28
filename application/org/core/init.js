@@ -7,12 +7,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
-(function($sr){	
-	var $rootScope = $sr.$rootScope;
 
-	$rootScope.on('all_plugins_loaded',$sr.sunrise);
-	$rootScope.initPlugins();
-
-	
-})($sr = window.$sr = window.$sr || {});
+$rootScope.on('all_plugins_loaded',$sr.sunrise);
+$rootScope.initPlugins();
 

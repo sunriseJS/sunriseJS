@@ -7,9 +7,3 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
-(function($sr){	
-	var $rootScope = $sr.$rootScope;
-	
-
-	
-})($sr = window.$sr = window.$sr || {});

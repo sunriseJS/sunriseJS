@@ -8,25 +8,20 @@
  *
  * */
 
+$sr.CoreObject = (function(){
 
-(function($sr){	
-	$sr.CoreObject = (function(){
+	function CoreObject(){
+	} 
 
-		function CoreObject(){
-		} 
+	//Make sure all derived ovjects can be extended
+	CoreObject.extend = function(sub){
+		sub.prototype = Object.create(this.prototype);
+		sub.prototype.constructor = sub;
+		sub.prototype.super_ = this.prototype;
+		sub.extend = this.extend;
+	}
 
-		//Make sure all derived ovjects can be extended
-		CoreObject.extend = function(sub){
-			sub.prototype = Object.create(this.prototype);
-			sub.prototype.constructor = sub;
-			sub.prototype.super_ = this.prototype;
-			sub.extend = this.extend;
-		}
-
-	    
-	   
-	    return CoreObject;
-	})();
-
-	
-})($sr = window.$sr = window.$sr || {});
+    
+   
+    return CoreObject;
+})();
