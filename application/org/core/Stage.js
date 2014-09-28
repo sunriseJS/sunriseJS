@@ -184,6 +184,14 @@
 		});
 	}
 
+	$rootScope.getStageObserver = function(){
+		return {
+			getEntities : function(){
+				return entities;
+			}
+		};
+	}
+
 	/**
 	 * Draw stage which all layers and entities.
 	 * Layers are drawn first in order of the layers array in the json file of the layer
