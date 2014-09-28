@@ -31,35 +31,40 @@
 
 		var colliderTesters = {
 			rectangle : {
-				rectangle : function(first, second){
+				rectangle : function(f, s){
+					var colX = (s.x >= f.x && s.x <= f.x + f.width);
+					colX = colX || (f.x >= s.x && f.x <= s.x + s.width);
+					var colY = (s.y >= f.y && s.y <= f.y + f.height);
+					colY = colY || (f.y >= s.y && f.y <= s.y + s.height);
+					//console.log('testCollision rectangle:',colX, colY, f, s);
+					return colX && colY;
+				},
+				circle : function(f, s){
 					return false;
 				},
-				circle : function(first, second){
-					return false;
-				},
-				pixel : function(first, second){
+				pixel : function(f, s){
 					return false;
 				}
 			},
 			circle : {
-				rectangle : function(first, second){
+				rectangle : function(f, s){
 					colliderTesters.rectangle.circle(second, first);
 				},
-				circle : function(first, second){
+				circle : function(f, s){
 					return false;
 				},
-				pixel : function(first, second){
+				pixel : function(f, s){
 					return false;
 				}
 			},
 			pixel : {
-				rectangle : function(first, second){
+				rectangle : function(f, s){
 					colliderTesters.rectangle.pixel(second, first);
 				},
-				circle : function(first, second){
+				circle : function(f, s){
 					colliderTesters.circle.pixel(second, first);
 				},
-				pixel : function(first, second){
+				pixel : function(f, s){
 					return false;
 				}
 			}
@@ -79,28 +84,28 @@
 			this.on('tick', function(){
 
 				stageObserver.getEntities().forEach(function(entity){
-					entity.emit('testCollision', {
-						other: self,
-						colliderType : self.colliderType,
-					});
+					if(entity !== self.entity){
+						entity.emit('testCollision', {
+							other: self.entity,
+							colliderType : self.colliderType,
+						});
+					}
 				});
 
 			});
 
 			this.on('testCollision', function(data){
-				if (colliderTesters[self.colliderType][data.colliderType](self,other)){
-					other.emit('collision', {
-						other : self
+				if (colliderTesters[self.colliderType][data.colliderType](self.entity,data.other)){
+					
+					data.other.emit('collision', {
+						other : self.entity
 					});
-					self.emit('collision', {
+					self.entity.emit('collision', {
 						other : data.other
 					});
+				}else{
 				}
 			});
-
-			this.on('collision', function(data){
-				console.log('Collision between',self,'and',data.other);
-			})
 
 	
 		}
