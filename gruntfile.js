@@ -40,6 +40,7 @@ module.exports = function (grunt) {
     concat: {
         files:{
             src: [
+                    'application/org/core/start.js',
                     'application/org/core/sunrise.js',
                     'application/org/core/pluginManager.js',
                     'application/org/core/finitStateMachine.js',
@@ -54,7 +55,8 @@ module.exports = function (grunt) {
                     'application/org/core/Stage.js',
                     'application/org/core/components/Component.js',
                     'application/org/core/components/Render.js',
-                    'application/org/core/init.js'
+                    'application/org/core/init.js',
+                    'application/org/core/end.js'
 
             ],
             dest :'debug/sunrise.js'

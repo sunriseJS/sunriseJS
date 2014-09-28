@@ -7,38 +7,35 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
-(function($sr){	
-	var $rootScope = $sr.$rootScope;
-	$sr.Component = (function(){ 
+
+$sr.Component = (function(){ 
 
 
-		Component = function(){
-			var self = this;
-			this.receiver = {}
-			this.on('setEntity', function(data){
-				self.entity = data;
-			});
+	Component = function(){
+		var self = this;
+		this.receiver = {}
+		this.on('setEntity', function(data){
+			self.entity = data;
+		});
+	}
+
+	$sr.CoreObject.extend(Component);
+
+	Component.prototype.on = function(what, callback){
+		if(this.receiver[what] !== undefined){
+			throw new Error('Already defined a callback for "'+what+'"');
+		}else{
+			this.receiver[what] = callback;
 		}
+	}
 
-		$sr.CoreObject.extend(Component);
-
-		Component.prototype.on = function(what, callback){
-			if(this.receiver[what] !== undefined){
-				throw new Error('Already defined a callback for "'+what+'"');
-			}else{
-				this.receiver[what] = callback;
-			}
+	Component.prototype.receive = function(what, data){
+		if(this.receiver[what] !== undefined){
+			this.receiver[what](data);
 		}
+	}
 
-		Component.prototype.receive = function(what, data){
-			if(this.receiver[what] !== undefined){
-				this.receiver[what](data);
-			}
-		}
+	return Component;
 
-		return Component;
+})();
 
-	})();
-
-	
-})($sr = window.$sr = window.$sr || {});

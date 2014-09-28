@@ -7,9 +7,6 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
-(function($sr){	
-	var $rootScope = $sr.$rootScope;
-	
 
 /**
  * Excample for player
@@ -23,45 +20,43 @@
  * 
  */
 
-	$sr.StateMachine = (function(){ 
-	   
+$sr.StateMachine = (function(){ 
+   
 
-	    /**
-	     * construktor
-	     * @param {[type]} states min 1 = default
-	     */
-	    function StateMachine(){ 
-	    	this.states = {};
-	    	this.currentState = 'default';
-	    };
+    /**
+     * construktor
+     * @param {[type]} states min 1 = default
+     */
+    function StateMachine(){ 
+    	this.states = {};
+    	this.currentState = 'default';
+    };
 
-	    StateMachine.prototype.getCurrentState = function(){
-	    	return this.states[this.currentState];
-	    };
+    StateMachine.prototype.getCurrentState = function(){
+    	return this.states[this.currentState];
+    };
 
-		StateMachine.prototype.setCurrentState = function(name){
-	    	if(this.states[name] != undefined){
-	    		this.currentState = name;
-	    		return;
-	    	}
-	    	throw 'no State with name: '+name;
-	    };
+	StateMachine.prototype.setCurrentState = function(name){
+    	if(this.states[name] != undefined){
+    		this.currentState = name;
+    		return;
+    	}
+    	throw 'no State with name: '+name;
+    };
 
-		StateMachine.prototype.addStates = function(){
-	    	for(var i = 0; i < arguments.length; ++i){
-	    		console.log(arguments[i].name);
-	    		if(this.states[arguments[i].name] != undefined){
-	    			console.info('State: '+arguments[i].name+' overwrites a previously defined state!');
-	    		}
-	    		this.states[arguments[i].name] = arguments[i];
-	    	}
-	    };
-
-
-
-	    return StateMachine;
-	})();
+	StateMachine.prototype.addStates = function(){
+    	for(var i = 0; i < arguments.length; ++i){
+    		console.log(arguments[i].name);
+    		if(this.states[arguments[i].name] != undefined){
+    			console.info('State: '+arguments[i].name+' overwrites a previously defined state!');
+    		}
+    		this.states[arguments[i].name] = arguments[i];
+    	}
+    };
 
 
-})($sr = window.$sr = window.$sr || {});
+
+    return StateMachine;
+})();
+
 

@@ -38,182 +38,177 @@
  * 			y - vertical position of anchor
  * }
  */
-(function($sr){	
-	var $rootScope = $sr.$rootScope;
-	$sr.Render = (function(){ 
+$sr.Render = (function(){ 
 
 
-		var image,
-			animations,
-			width,
-			height,
-			rotation = 0,
-			alpha = 1,
-			anchor = { x: 0, y:0};
+	var image,
+		animations,
+		width,
+		height,
+		rotation = 0,
+		alpha = 1,
+		anchor = { x: 0, y:0};
 
-		/**
-		 * Contructor of Render Component
-		 * @param {String} image_name name of the image
-		 * @param {Object} data       optional and may contain animation, rotation, alpha or anchor
-		 */
-		Render = function(image_name, extended_data){
-			$sr.Component.call(this);
-			var self = this;
-			//Test whether image exists
-			if(game.config.images[image_name] === undefined){
-				throw new Error('No image with name "'+image_name+'" found');
-			}
-			var data = game.config.images[image_name];
-			var data_ = extended_data || {};
+	/**
+	 * Contructor of Render Component
+	 * @param {String} image_name name of the image
+	 * @param {Object} data       optional and may contain animation, rotation, alpha or anchor
+	 */
+	Render = function(image_name, extended_data){
+		$sr.Component.call(this);
+		var self = this;
+		//Test whether image exists
+		if(game.config.images[image_name] === undefined){
+			throw new Error('No image with name "'+image_name+'" found');
+		}
+		var data = game.config.images[image_name];
+		var data_ = extended_data || {};
 
-			//Test whether all required parameters are given
-			var requiredParams = [];
-			if(data.tileWidth !== undefined || data.tileHeight !== undefined || data.animations !== undefined){
-				requiredParams.push('tileWidth');
-				requiredParams.push('tileHeight');
-			}
-
-			requiredParams.forEach(function(param){
-				if(data[param] === undefined || data[param] === ""){
-					throw new Error('No element "'+param+'" specified in data');
-				}
-			});
-
-			image = $rootScope.ressources.images[image_name];
-			if(data.tileWidth === undefined){
-				data.tileWidth = image.width;
-				data.tileHeight = image.height;
-			}
-			if(data.animations === undefined){
-				data.animations = {};
-			}
-			//Make sure there is at least one animation
-			if(data.animations.default === undefined){
-				data.animations.default = [0];
-			}
-
-			//private attributes
-			width = data.tileWidth;
-			height = data.tileHeight;
-			rotation = data_.rotation || 0;
-			alpha = (data_.alpha === undefined) ? 1 : data_.alpha;
-			animations = data.animations;
-			anchor = data_.anchor || { x: 0, y:0};
-
-			//Context from other modules
-			this.context = $rootScope.canvas.context;
-
-			if(data_.animation === undefined || animations[data_.animation] === undefined){
-				//Until an actual animation is set, use first one
-				for(anim in animations){
-					this.currentAnimation = animations[anim];
-					break;
-				}
-			}else{
-				this.currentAnimation = animations[data_.animation];
-			}
-
-			this.currentFrame = 0;
-			this.lastDrawTime = Date.now();
-			this.frameDuration = 60; //in Milliseconds
-
-			//Calculate values for spritesheet
-			this.cols = Math.floor( image.width / width );
-			this.rows = Math.floor( image.height / height );
-
-
-
-			this.on('draw', function(data){
-				x = self.entity.x + data.offsetX,
-				y = self.entity.y + data.offsetY;
-
-				x -= anchor.x;
-				y -= anchor.y;
-
-				if(alpha !== 1){
-					var oldAlpha = self.context.globalAlpha;
-					self.context.globalAlpha = alpha;
-				}
-
-				if(rotation !== 0){
-					self.context.save();
-					self.context.translate(x,y);
-					self.context.rotate(rotation);
-					self.context.translate(-x,-y);
-				}
-			
-				var drawWidth = self.entity.width || width;
-				var drawHeight = self.entity.height || height;
-				var frame = self.currentAnimation[self.currentFrame];
-
-
-				var sourceX = (frame % self.cols)*width;
-				var sourceY = Math.floor(frame / self.cols)*height;
-
-				self.context.drawImage(image, sourceX, sourceY, width, height, 
-							x, y, drawWidth, drawHeight);
-				 
-
-				var now = Date.now();
-				var delta = now - self.lastDrawTime;
-				if(delta >= self.frameDuration){
-					self.currentFrame++;
-					if(self.currentFrame >= self.currentAnimation.length){
-						self.currentFrame = 0;
-					}
-					self.lastDrawTime = now;
-				}
-
-
-				if(alpha !== 1){
-					self.context.globalAlpha = oldAlpha;
-				}
-				if(rotation !== 0){
-					self.context.restore();
-				}
-
-			});
-
-
-			this.on('rotate', function(data){
-				var rads = 0;
-				if(data.degree !== undefined){
-					rads = data.degree* Math.PI / 180
-				}else{
-					rads = data.radian;
-				}
-				if(data.isRelative){
-					rotation += rads;
-				}else{
-					rotation = rads;
-				}
-				rotation %= 2*Math.PI; //handle angles larger then 2*pi
-			});
-
-
-			this.on('changeAnimation', function(data){
-				if(animations[data.animation] === undefined){
-					throw new Error('No animation with name '+data.animation+' found');
-				}
-				
-				if(self.currentAnimation === animations[data.animation] && !data.restart){
-					return;	
-				}
-				self.currentAnimation = animations[data.animation];
-				self.currentFrame = data.frame || 0;
-			});
-
-			this.on('changeOpacity', function(data){
-				opacity = data.opacity || 0;
-				opacity = opacity > 1 ? 1: (opacity < 0 ? 0: opacity);
-			});
+		//Test whether all required parameters are given
+		var requiredParams = [];
+		if(data.tileWidth !== undefined || data.tileHeight !== undefined || data.animations !== undefined){
+			requiredParams.push('tileWidth');
+			requiredParams.push('tileHeight');
 		}
 
-		$sr.Component.extend(Render);
+		requiredParams.forEach(function(param){
+			if(data[param] === undefined || data[param] === ""){
+				throw new Error('No element "'+param+'" specified in data');
+			}
+		});
 
-		return Render;
+		image = $rootScope.ressources.images[image_name];
+		if(data.tileWidth === undefined){
+			data.tileWidth = image.width;
+			data.tileHeight = image.height;
+		}
+		if(data.animations === undefined){
+			data.animations = {};
+		}
+		//Make sure there is at least one animation
+		if(data.animations.default === undefined){
+			data.animations.default = [0];
+		}
 
-	})();
+		//private attributes
+		width = data.tileWidth;
+		height = data.tileHeight;
+		rotation = data_.rotation || 0;
+		alpha = (data_.alpha === undefined) ? 1 : data_.alpha;
+		animations = data.animations;
+		anchor = data_.anchor || { x: 0, y:0};
 
-	
-})($sr = window.$sr = window.$sr || {});
+		//Context from other modules
+		this.context = $rootScope.canvas.context;
+
+		if(data_.animation === undefined || animations[data_.animation] === undefined){
+			//Until an actual animation is set, use first one
+			for(anim in animations){
+				this.currentAnimation = animations[anim];
+				break;
+			}
+		}else{
+			this.currentAnimation = animations[data_.animation];
+		}
+
+		this.currentFrame = 0;
+		this.lastDrawTime = Date.now();
+		this.frameDuration = 60; //in Milliseconds
+
+		//Calculate values for spritesheet
+		this.cols = Math.floor( image.width / width );
+		this.rows = Math.floor( image.height / height );
+
+
+
+		this.on('draw', function(data){
+			x = self.entity.x + data.offsetX,
+			y = self.entity.y + data.offsetY;
+
+			x -= anchor.x;
+			y -= anchor.y;
+
+			if(alpha !== 1){
+				var oldAlpha = self.context.globalAlpha;
+				self.context.globalAlpha = alpha;
+			}
+
+			if(rotation !== 0){
+				self.context.save();
+				self.context.translate(x,y);
+				self.context.rotate(rotation);
+				self.context.translate(-x,-y);
+			}
+		
+			var drawWidth = self.entity.width || width;
+			var drawHeight = self.entity.height || height;
+			var frame = self.currentAnimation[self.currentFrame];
+
+
+			var sourceX = (frame % self.cols)*width;
+			var sourceY = Math.floor(frame / self.cols)*height;
+
+			self.context.drawImage(image, sourceX, sourceY, width, height, 
+						x, y, drawWidth, drawHeight);
+			 
+
+			var now = Date.now();
+			var delta = now - self.lastDrawTime;
+			if(delta >= self.frameDuration){
+				self.currentFrame++;
+				if(self.currentFrame >= self.currentAnimation.length){
+					self.currentFrame = 0;
+				}
+				self.lastDrawTime = now;
+			}
+
+
+			if(alpha !== 1){
+				self.context.globalAlpha = oldAlpha;
+			}
+			if(rotation !== 0){
+				self.context.restore();
+			}
+
+		});
+
+
+		this.on('rotate', function(data){
+			var rads = 0;
+			if(data.degree !== undefined){
+				rads = data.degree* Math.PI / 180
+			}else{
+				rads = data.radian;
+			}
+			if(data.isRelative){
+				rotation += rads;
+			}else{
+				rotation = rads;
+			}
+			rotation %= 2*Math.PI; //handle angles larger then 2*pi
+		});
+
+
+		this.on('changeAnimation', function(data){
+			if(animations[data.animation] === undefined){
+				throw new Error('No animation with name '+data.animation+' found');
+			}
+			
+			if(self.currentAnimation === animations[data.animation] && !data.restart){
+				return;	
+			}
+			self.currentAnimation = animations[data.animation];
+			self.currentFrame = data.frame || 0;
+		});
+
+		this.on('changeOpacity', function(data){
+			opacity = data.opacity || 0;
+			opacity = opacity > 1 ? 1: (opacity < 0 ? 0: opacity);
+		});
+	}
+
+	$sr.Component.extend(Render);
+
+	return Render;
+
+})();
