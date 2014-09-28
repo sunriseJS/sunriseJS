@@ -182,7 +182,7 @@ $rootScope.updateStage = function(){
 	});
 }
 
-$rootScope.getStageObserver = function(){
+$sr.stage.getStageObserver = function(){
 	return {
 		getEntities : function(){
 			return entities;
