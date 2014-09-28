@@ -2,7 +2,10 @@ var game = {
 	config: {
 		screenWidth: 640,
 		screenHeight: 360,
-		plugins: ['JumpNRunController'],
+		plugins: [
+					'JumpNRunController',
+					'CollisionBody'
+				],
 		images: {
 			'player-anim': {
 				source: 'assets/graphics/sheet_soldier.png',
@@ -37,6 +40,13 @@ var game = {
 
 
 	init: function($scope) {
+		var playerBehavior = new $sr.Component();
+		playerBehavior.on('collision', function(){
+			console.log("col");
+			playerBehavior.entity.emit('changeOpacity', {
+				opacity: 0.5
+			});
+		});
 		$scope.player = new $sr.Entity(688,260,96,128,
 							new $sr.Render('player-anim', {
 								anchor: {x: 48,	y: 64},
@@ -47,7 +57,11 @@ var game = {
 									left:['a','left'], 
 									right:['d','right']
 								}
-							})
+							}),
+							new $sr.CollisionBody($sr.stage.getStageObserver(), {
+								colliderType: 'rectangle'
+							}),
+							playerBehavior
 						);
 		
 		var cheapAI = new $sr.Component();
@@ -74,7 +88,10 @@ var game = {
 								anchor: {x: 48,	y: 64},
 								animation: 'stand_right' 
 							}),
-							cheapAI
+							cheapAI,
+							new $sr.CollisionBody($sr.stage.getStageObserver(), {
+								colliderType: 'rectangle'
+							})
 						));
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
