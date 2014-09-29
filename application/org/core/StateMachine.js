@@ -27,11 +27,9 @@ $sr.StateMachine = (function(){
      * construktor
      * @param {[type]} states min 1 = default
      */
-    function StateMachine(){ 
-    	this.states = {};
+    function StateMachine(states){ 
+    	this.states = states;
     	this.currentState = 'default';
-
-        this.addStates.apply(this, arguments);
     };
 
     StateMachine.prototype.getCurrentState = function(){
@@ -46,15 +44,13 @@ $sr.StateMachine = (function(){
     	throw 'no State with name: '+name;
     };
 
-	StateMachine.prototype.addStates = function(){
-    	for(var i = 0; i < arguments.length; ++i){
-    		console.log(arguments[i].name);
-    		if(this.states[arguments[i].name] != undefined){
-    			console.info('State: '+arguments[i].name+' overwrites a previously defined state!');
-    		}
-    		this.states[arguments[i].name] = arguments[i];
-    	}
-    };
+	StateMachine.prototype.addState = function(name,state){
+        if(this.states[name] == undefined){
+            this.states[name] = state;
+        } else {
+            throw "State: "+name+" already exists";
+        }
+    };  
 
     return StateMachine;
 })();
