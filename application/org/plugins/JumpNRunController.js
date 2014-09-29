@@ -25,7 +25,7 @@
 	var $rootScope = $sr.$rootScope;
 	$sr.JumpNRunController = (function(){ 
 
-		console.log('AUSGABÄÄ');
+
 	
 
 		/**
