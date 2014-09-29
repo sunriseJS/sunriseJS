@@ -56,14 +56,6 @@ $sr.StateMachine = (function(){
     	}
     };
 
-    StateMachine.prototype.clone = function(){
-        var temp = new $sr.StateMachine();
-        temp.states = this.states;
-        temp.currentState = this.currentState;
-        
-        return temp;
-    }
-
     return StateMachine;
 })();
 
