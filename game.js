@@ -53,6 +53,17 @@ var game = {
 			}, 20);
 		});
 		$scope.player = new $sr.Entity(688,260,96,128,
+							new $sr.StateMachine({	
+													name: "default",
+													speed: "2",
+													madness: "minimum"
+												},
+												{
+													name: "mad",
+													speed: "5",
+													madness: "maximum"
+												}
+							),
 							new $sr.Render('player-anim', {
 								anchor: {x: 48,	y: 64},
 								animation: 'stand_right' 
@@ -71,14 +82,23 @@ var game = {
 		
 		var cheapAI = new $sr.Component();
 		cheapAI.direction = 2;
+		cheapAI.on('collision', function(){
+			cheapAI.entity.emit('go_mad');
+		});			
+		cheapAI.on('go_mad', function(){
+			cheapAI.entity.stateMachine.setCurrentState('mad');
+
+		});
+
 		cheapAI.on('tick', function(){
 			if(cheapAI.direction === 2){
 				cheapAI.direction = Math.floor(Math.random()*3)-1;
 				setTimeout(function(){
 					cheapAI.direction = 2;
+					cheapAI.entity.stateMachine.setCurrentState('default');
 				},1000*(Math.random(3)+3));
 			}
-			cheapAI.entity.x += cheapAI.direction*1.5;
+			cheapAI.entity.x += cheapAI.direction*cheapAI.entity.stateMachine.getCurrentState().speed;
 			if(cheapAI.direction === -1){
 				cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
 			}else if(cheapAI.direction === 1){
@@ -89,6 +109,17 @@ var game = {
 		});
 
 		$sr.stage.add(new $sr.Entity(688+128,260,96,128,
+							new $sr.StateMachine({	
+													name: "default",
+													speed: "1.5",
+													madness: "minimum"
+												},
+												{
+													name: "mad",
+													speed: "3",
+													madness: "maximum"
+												}
+							),
 							new $sr.Render('player-anim', {
 								anchor: {x: 48,	y: 64},
 								animation: 'stand_right' 

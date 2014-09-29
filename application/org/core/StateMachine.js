@@ -12,7 +12,7 @@
  * Excample for player
  * 
  * {
- * 		name: "default",
+ * 		name: "default",!!!!!!!
  * 		speed: 0,
  * 		sound: "none"
  * }
@@ -30,6 +30,8 @@ $sr.StateMachine = (function(){
     function StateMachine(){ 
     	this.states = {};
     	this.currentState = 'default';
+
+        this.addStates.apply(this, arguments);
     };
 
     StateMachine.prototype.getCurrentState = function(){
@@ -54,7 +56,13 @@ $sr.StateMachine = (function(){
     	}
     };
 
-
+    StateMachine.prototype._clone = function(){
+        var temp = new $sr.StateMachine();
+        temp.states = this.states;
+        temp.currentState = this.currentState;
+        
+        return temp;
+    }
 
     return StateMachine;
 })();

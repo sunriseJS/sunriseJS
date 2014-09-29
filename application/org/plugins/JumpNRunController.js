@@ -99,10 +99,7 @@
 						direction = 0;
 					}
 				}
-
 				self.entity.x += 2*direction;
-
-
 			});
 		}
 
