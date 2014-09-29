@@ -108,27 +108,28 @@ var game = {
 			}
 		});
 
-		$sr.stage.add(new $sr.Entity(688+128,260,96,128,
-							new $sr.StateMachine({	
-													name: "default",
-													speed: "1.5",
-													madness: "minimum"
-												},
-												{
-													name: "mad",
-													speed: "3",
-													madness: "maximum"
-												}
-							),
-							new $sr.Render('player-anim', {
-								anchor: {x: 48,	y: 64},
-								animation: 'stand_right' 
-							}),
-							cheapAI,
-							new $sr.CollisionBody($sr.stage.getStageObserver(), {
-								colliderType: 'rectangle'
-							})
-						));
+		window.bot = new $sr.Entity(688+128,260,96,128,
+				new $sr.StateMachine({	
+						name: "default",
+						speed: "1.5",
+						madness: "minimum"
+					},
+					{
+						name: "mad",
+						speed: "3",
+						madness: "maximum"
+					}
+				),
+				new $sr.Render('player-anim', {
+					anchor: {x: 48,	y: 64},
+					animation: 'stand_right' 
+				}),
+				cheapAI,
+				new $sr.CollisionBody($sr.stage.getStageObserver(), {
+					colliderType: 'rectangle'
+				})
+			);
+		$sr.stage.add(bot);
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
