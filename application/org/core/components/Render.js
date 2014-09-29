@@ -130,7 +130,7 @@ $sr.Render = (function(){
 			if(self.rotation !== 0){
 				self.context.save();
 				self.context.translate(x,y);
-				self.context.rotate(rotation);
+				self.context.rotate(self.rotation);
 				self.context.translate(-x,-y);
 			}
 		
