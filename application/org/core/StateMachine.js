@@ -56,7 +56,7 @@ $sr.StateMachine = (function(){
     	}
     };
 
-    StateMachine.prototype._clone = function(){
+    StateMachine.prototype.clone = function(){
         var temp = new $sr.StateMachine();
         temp.states = this.states;
         temp.currentState = this.currentState;
