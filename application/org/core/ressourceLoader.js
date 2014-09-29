@@ -23,8 +23,14 @@ $sr.loadImages = function(sources_raw, callback){
 	//copy source object, so original object isn't affected by
 	//removin already loaded images from this object
 	var sources = {};
+	var sourcesLength = 0;
 	for(key in sources_raw){
 		sources[key] = sources_raw[key];
+		sourcesLength++;
+	}
+	if(sourcesLength === 0){
+		callback();
+		return;
 	}
 
 
@@ -88,9 +94,19 @@ $sr.loadLevels = function(levelSources, callback){
 
 	//copy source object, so original object isn't affected by
 	//removin already loaded images from this object
+	
+
+	
 	var sources = {};
+	var sourcesLength = 0;
 	for(key in levelSources){
 		sources[key] = levelSources[key];
+		sourcesLength++;
+	}
+	//no levels to load? gtfo!
+	if(sourcesLength === 0){
+		callback();
+		return;
 	}
 
 	for(key in sources){
