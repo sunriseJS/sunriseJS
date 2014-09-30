@@ -43,6 +43,7 @@ module.exports = function (grunt) {
                     'application/org/core/start.js',
                     'application/org/core/sunrise.js',
                     'application/org/core/pluginManager.js',
+                    'application/org/core/componentManager.js',
                     'application/org/core/StateMachine.js',
                     'application/org/core/io.js',
                     'application/org/core/controls.js',
