@@ -109,5 +109,10 @@
 
 	})();
 
+
+	$sr.components.add('JumpNRunController', function(config){
+		return new $sr.JumpNRunController(config);
+	});
+
 	
 })($sr = window.$sr = window.$sr || {});

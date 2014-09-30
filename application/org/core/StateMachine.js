@@ -13,7 +13,8 @@ $sr.StateMachine = (function(){
      * construktor
      * @param {[type]} states min 1 = default
      */
-    function StateMachine(states){ 
+    function StateMachine(entity, states){ 
+        this.entity = entity;
     	this.states = states;
     	this.currentState = 'default';
     };
@@ -22,7 +23,7 @@ $sr.StateMachine = (function(){
      * returns current state.
      */
     StateMachine.prototype.getCurrentState = function(){
-    	return this.states[this.currentState];
+    	return this.states[this.currentState].values;
     };
 
     /**
@@ -31,11 +32,14 @@ $sr.StateMachine = (function(){
      * @param {[type]} name [the name of the new current state]
      */
 	StateMachine.prototype.setCurrentState = function(name){
-    	if(this.states[name] != undefined){
-    		this.currentState = name;
-    		return;
+    	if(this.states[name] === undefined){
+            throw new Error('no State with name: '+name);
     	}
-    	throw 'no State with name: '+name;
+        this.currentState = name;
+        for(name in this.states[name].events){
+            this.entity.emit(name, this.states[name].events[name]);
+        }
+    	
     };
 
     /**

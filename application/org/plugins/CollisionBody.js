@@ -73,7 +73,7 @@
 		/**
 		 * Contructor of CollisionBody Component
 		 */
-		CollisionBody = function(stageObserver, options){
+		CollisionBody = function(options){
 			$sr.Component.call(this);
 			var self = this;
 			this.colliderType = options.colliderType || 'rectangle';
@@ -83,7 +83,7 @@
 
 			this.on('tick', function(){
 
-				stageObserver.getEntities().forEach(function(entity){
+				$sr.stage.getStageObserver().getEntities().forEach(function(entity){
 					if(entity !== self.entity){
 						entity.emit('testCollision', {
 							other: self.entity,
@@ -115,6 +115,10 @@
 		return CollisionBody;
 
 	})();
+
+	$sr.components.add('CollisionBody', function(config){
+		return new $sr.CollisionBody(config);
+	});
 
 	
 })($sr = window.$sr = window.$sr || {});
