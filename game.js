@@ -64,7 +64,7 @@ var game = {
 									}
 								}
 							},
-							"Render":{
+							"Renderer":{
 								"image": "player-anim",
 								"anchor": {"x": 48,	"y": 64},
 								"animation": 'stand_right' 
@@ -139,7 +139,7 @@ var game = {
 						}
 					}
 				},
-				"Render":{
+				"Renderer":{
 					"image": "player-anim",
 					"anchor": {"x": 48,	"y": 64},
 					"animation": "stand_right" 
