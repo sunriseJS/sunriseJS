@@ -116,5 +116,9 @@
 
 	})();
 
+	$sr.components.add('CollisionBody', function(config){
+		return new $sr.CollisionBody(config);
+	});
+
 	
 })($sr = window.$sr = window.$sr || {});

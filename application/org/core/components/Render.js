@@ -48,15 +48,16 @@ $sr.Render = (function(){
 	 * @param {String} image_name name of the image
 	 * @param {Object} data       optional and may contain animation, rotation, alpha or anchor
 	 */
-	Render = function(image_name, extended_data){
+	Render = function(config){
 		$sr.Component.call(this);
 		var self = this;
 		//Test whether image exists
+		var image_name = config.image;
 		if(game.config.images[image_name] === undefined){
 			throw new Error('No image with name "'+image_name+'" found');
 		}
 		var data = game.config.images[image_name];
-		var data_ = extended_data || {};
+		var data_ = config || {};
 
 		//Test whether all required parameters are given
 		var requiredParams = [];
@@ -207,3 +208,8 @@ $sr.Render = (function(){
 	return Render;
 
 })();
+
+
+$sr.components.add('Render', function(config){
+	return new $sr.Render(config);
+});
