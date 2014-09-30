@@ -13,7 +13,7 @@ $sr.Entity = (function(){
     //constructor
     function Entity(x, y, width, height, config){
     	this.components = [];
-    	
+    	this.id = $sr.guid();
     	this.x = x;
     	this.y = y;
     	this.width = width;

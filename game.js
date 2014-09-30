@@ -82,6 +82,8 @@ var game = {
 
 							}
 		});
+
+		$sr.addEntityToGroup('player',$scope.player);
 		
 		$sr.components.add('cheapAI', function(config){
 
@@ -152,7 +154,9 @@ var game = {
 			});
 		$sr.stage.add(bot);
 		for(var i=0; i<8; i++){
-			$sr.stage.add(bot.clone());
+			var clone = bot.clone();
+			$sr.stage.add(clone);
+			$sr.addEntityToGroup('bots',clone);
 		}
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
@@ -170,6 +174,8 @@ var game = {
 		$scope.player.stateManager.setCurrentState('run_left');
 		console.log($scope.player.stateManager.getCurrentState());
 		*/
+	
+		$sr.defineCollidingGroups('player','bots');
 	},
 
 	run: function($scope) {
