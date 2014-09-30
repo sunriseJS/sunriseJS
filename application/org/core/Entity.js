@@ -27,7 +27,7 @@ $sr.Entity = (function(){
         if(stateMachineConfig.states === undefined){
             throw new Error ('Please provide states for StateMachine!');
         }
-        this.stateMachine = new $sr.StateMachine(stateMachineConfig);
+        this.stateMachine = new $sr.StateMachine(this, stateMachineConfig.states);
 
         for(type in config){
             if(type !== 'StateMachine'){
