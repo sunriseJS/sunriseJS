@@ -40,95 +40,116 @@ var game = {
 
 
 	init: function($scope) {
-		var playerBehavior = new $sr.Component();
-		playerBehavior.on('collision', function(){
-			playerBehavior.entity.emit('changeOpacity', {
-				opacity: 0.5
-			});
-			clearTimeout(playerBehavior.reset);
-			playerBehavior.reset = setTimeout(function(){
+
+		$sr.components.add('playerBehavior',function(config){
+			var playerBehavior = new $sr.Component();
+			playerBehavior.on('collision', function(){
 				playerBehavior.entity.emit('changeOpacity', {
-					opacity: 1
+					opacity: 0.5
 				});
-			}, 20);
+				clearTimeout(playerBehavior.reset);
+				playerBehavior.reset = setTimeout(function(){
+					playerBehavior.entity.emit('changeOpacity', {
+						opacity: 1
+					});
+				}, 20);
+			});
+			return playerBehavior;
 		});
-		$scope.player = new $sr.Entity(688,260,96,128,
-							new $sr.StateMachine({	
-													name: "default",
-													speed: "2",
-													madness: "minimum"
-												},
-												{
-													name: "mad",
-													speed: "5",
-													madness: "maximum"
-												}
-							),
-							new $sr.Render('player-anim', {
-								anchor: {x: 48,	y: 64},
-								animation: 'stand_right' 
-							}),
-							new $sr.JumpNRunController({
-								keys:{
-									left:['a','left'], 
-									right:['d','right']
+
+		$scope.player = new $sr.Entity(688,260,96,128,{	
+							"StateMachine":{
+								"states":{
+									"default":{
+									}
 								}
-							}),
-							new $sr.CollisionBody($sr.stage.getStageObserver(), {
-								colliderType: 'rectangle'
-							}),
-							playerBehavior
-						);
+							},
+							"Render":{
+								"image": "player-anim",
+								"anchor": {"x": 48,	"y": 64},
+								"animation": 'stand_right' 
+							},
+							"JumpNRunController":{
+								"keys":{
+									"left":['a','left'], 
+									"right":['d','right']
+								}
+							},
+							"CollisionBody":{
+								"colliderType": 'rectangle'
+							},
+							"playerBehavior":{
+
+							}
+		});
 		
-		var cheapAI = new $sr.Component();
-		cheapAI.direction = 2;
-		cheapAI.on('collision', function(){
-			cheapAI.entity.emit('go_mad');
-		});			
-		cheapAI.on('go_mad', function(){
-			cheapAI.entity.stateMachine.setCurrentState('mad');
+		$sr.components.add('cheapAI', function(config){
 
+			var cheapAI = new $sr.Component();
+			cheapAI.direction = 2;
+			cheapAI.on('collision', function(){
+				cheapAI.entity.emit('go_mad');
+			});			
+			cheapAI.on('go_mad', function(){
+				cheapAI.entity.stateMachine.setCurrentState('mad');
+
+			});
+
+			cheapAI.on('tick', function(){
+				if(cheapAI.direction === 2){
+					cheapAI.direction = Math.floor(Math.random()*3)-1;
+					setTimeout(function(){
+						cheapAI.direction = 2;
+						cheapAI.entity.stateMachine.setCurrentState('default');
+					},1000*(Math.random(3)+3));
+				}
+				cheapAI.entity.x += cheapAI.direction*cheapAI.entity.stateMachine.getCurrentState().speed;
+				if(cheapAI.direction === -1){
+					cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
+				}else if(cheapAI.direction === 1){
+					cheapAI.entity.emit('changeAnimation', {animation: 'walk_right'});
+				}else{
+					cheapAI.entity.emit('changeAnimation', {animation: 'stand_right'});
+				}
+			});
+
+			return cheapAI;
 		});
 
-		cheapAI.on('tick', function(){
-			if(cheapAI.direction === 2){
-				cheapAI.direction = Math.floor(Math.random()*3)-1;
-				setTimeout(function(){
-					cheapAI.direction = 2;
-					cheapAI.entity.stateMachine.setCurrentState('default');
-				},1000*(Math.random(3)+3));
-			}
-			cheapAI.entity.x += cheapAI.direction*cheapAI.entity.stateMachine.getCurrentState().speed;
-			if(cheapAI.direction === -1){
-				cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
-			}else if(cheapAI.direction === 1){
-				cheapAI.entity.emit('changeAnimation', {animation: 'walk_right'});
-			}else{
-				cheapAI.entity.emit('changeAnimation', {animation: 'stand_right'});
-			}
-		});
+		window.bot = new $sr.Entity(688+128,260,96,128,{
+				"StateMachine":{
+					"states":{
+						"default":{
+							"events":{
 
-		window.bot = new $sr.Entity(688+128,260,96,128,
-				new $sr.StateMachine({	
-						name: "default",
-						speed: "1.5",
-						madness: "minimum"
-					},
-					{
-						name: "mad",
-						speed: "3",
-						madness: "maximum"
+							},
+							"values":{
+								"speed": "2",
+								"madness": "minimum"
+							}
+						},
+						"mad":{
+							"events":{
+
+							},
+							"values":{
+								"speed": "5",
+								"madness": "maximum"
+							}
+						}
 					}
-				),
-				new $sr.Render('player-anim', {
-					anchor: {x: 48,	y: 64},
-					animation: 'stand_right' 
-				}),
-				cheapAI,
-				new $sr.CollisionBody($sr.stage.getStageObserver(), {
-					colliderType: 'rectangle'
-				})
-			);
+				},
+				"Render":{
+					"image": "player-anim",
+					"anchor": {"x": 48,	"y": 64},
+					"animation": "stand_right" 
+				},
+				"cheapAI":{
+				},
+				"CollisionBody": {
+					"colliderType": "rectangle"
+				}
+			});
 		$sr.stage.add(bot);
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
