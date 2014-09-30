@@ -55,6 +55,7 @@ module.exports = function (grunt) {
                     'application/org/core/Entity.js',
                     'application/org/core/Stage.js',
                     'application/org/core/groupSystem.js',
+                    'application/org/core/collisionSolver.js',
                     'application/org/core/components/Component.js',
                     'application/org/core/components/Renderer.js',
                     'application/org/core/init.js',
