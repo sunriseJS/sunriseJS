@@ -11,21 +11,31 @@ $sr.Entity = (function(){
 
 
     //constructor
-    function Entity(){
+    function Entity(x, y, width, height, config){
     	this.components = [];
-    	if(arguments.length < 4){
-    		throw new Error('Define at least x, y, width and height!');
-    	}
-    	this.x = arguments[0];
-    	this.y = arguments[1];
-    	this.width = arguments[2];
-    	this.height = arguments[3];
-        this.stateMachine = arguments[4];
+    	
+    	this.x = x;
+    	this.y = y;
+    	this.width = width;
+    	this.height = height;
+        this.config = config;
 
- 		for(var i=5; i<arguments.length; i++){
- 			this.components.push(arguments[i]);
- 			arguments[i].receive('setEntity', this);
- 		} 
+        var stateMachineConfig = config["StateMachine"];
+        if(stateMachineConfig === undefined){
+            throw new Error ('Please provide options for StateMachine!');
+        }
+        if(stateMachineConfig.states === undefined){
+            throw new Error ('Please provide states for StateMachine!');
+        }
+        this.stateMachine = new $sr.StateMachine(stateMachineConfig);
+
+        for(type in config){
+            if(type !== 'StateMachine'){
+                var component = $sr.components.create(type, config[type]);
+                this.components.push(component);
+                component.receive('setEntity', this);
+            }
+        }
 	} 
 
 	$sr.CoreObject.extend(Entity);
@@ -36,6 +46,14 @@ $sr.Entity = (function(){
 			component.receive(what, data);
 		});
 	}	    
+
+    Entity.prototype.clone = function(x, y, width, height){
+        x = (x === undefined) ? this.x : x;
+        y = (y === undefined) ? this.y : y;
+        width = (width === undefined) ? this.width : width;
+        height = (height === undefined) ? this.height : height;
+        return new $sr.Entity(x, y, width, height, this.config);
+    }
 
     return Entity;
 })();
