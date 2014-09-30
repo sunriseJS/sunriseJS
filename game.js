@@ -116,7 +116,7 @@ var game = {
 			return cheapAI;
 		});
 
-		window.bot = new $sr.Entity(688+128,260,96,128,{
+		window.bot = new $sr.Entity(688+128,260+64,96/2,128/2,{
 				"StateMachine":{
 					"states":{
 						"default":{
@@ -124,7 +124,7 @@ var game = {
 
 							},
 							"values":{
-								"speed": "2",
+								"speed": "0.5",
 								"madness": "minimum"
 							}
 						},
@@ -133,7 +133,7 @@ var game = {
 
 							},
 							"values":{
-								"speed": "5",
+								"speed": "1",
 								"madness": "maximum"
 							}
 						}
@@ -151,6 +151,9 @@ var game = {
 				}
 			});
 		$sr.stage.add(bot);
+		for(var i=0; i<8; i++){
+			$sr.stage.add(bot.clone());
+		}
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
