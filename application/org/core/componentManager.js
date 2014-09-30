@@ -8,20 +8,22 @@
  *
  */
 
-var components = {};
+(function(){
+	var components = {};
 
-$sr.components = {};
+	$sr.components = {};
 
-$sr.components.add = function(type, creator){
-	if(components[type] !== undefined){
-		throw new Error('Component of type "'+type+'" already exist.');
+	$sr.components.add = function(type, creator){
+		if(components[type] !== undefined){
+			throw new Error('Component of type "'+type+'" already exist.');
+		}
+		components[type] = creator;
 	}
-	components[type] = creator;
-}
 
-$sr.components.create = function(type, config){
-	if(components[type] !== undefined){
-		throw new Error('No component of type "'+type+'" exists.');
+	$sr.components.create = function(type, config){
+		if(components[type] === undefined){
+			throw new Error('No component of type "'+type+'" exists.');
+		}
+		return components[type](config);
 	}
-	return components[type](config);
-}
+})();
