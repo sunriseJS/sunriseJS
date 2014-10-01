@@ -84,8 +84,8 @@ $sr.defineCollidingGroups = function(collider, toCollide){
 };
 
 
-$sr.removeEntityFromGroup = function(group, entity){
-	//to be done
+$sr.removeEntityFromGroup = function(entity,group){
+	
 };
 
 
@@ -113,6 +113,6 @@ $rootScope.groups.addEntityToCollingObjects = function(collidingPair){
 
 $sr.getGroups = function(){
 	return $rootScope.groups;
-}
+};
 
 
