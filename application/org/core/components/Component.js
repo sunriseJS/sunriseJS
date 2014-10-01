@@ -21,8 +21,8 @@ $sr.Component = (function(){
 
 	$sr.CoreObject.extend(Component);
 
-	Component.prototype.on = function(what, callback){
-		if(this.receiver[what] !== undefined){
+	Component.prototype.on = function(what, callback, force){
+		if(this.receiver[what] !== undefined && !force){
 			throw new Error('Already defined a callback for "'+what+'"');
 		}else{
 			this.receiver[what] = callback;

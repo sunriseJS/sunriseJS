@@ -150,13 +150,13 @@ var game = {
 				}
 			});
 		var bots = [];
-		$sr.stage.add(bot);
 		for(var i=0; i<8; i++){
 			var clone = bot.clone();
-			$sr.stage.add(clone);
 			bots.push(clone);
 		}
 		$sr.addToGroup(bots,'bots');
+		$sr.addToGroup(bots,'toRender');
+
 
 
 		$sr.components.add('elevator', function(data){
@@ -213,8 +213,9 @@ var game = {
 				"maxY" : 320
 			}
 		});
+		$sr.addToGroup(elevator,'toRender');
+
 		
-		$sr.stage.add(elevator);
 
 
 		var testBots = [];
@@ -236,7 +237,7 @@ var game = {
 		
 		$scope.fpsdom = document.querySelector('#fps');
 		window.player = $scope.player; // only for testing purposes
-		$sr.stage.add($scope.player);
+		$sr.addToGroup($scope.player,'toRender');
 		$sr.stage.setFocus($scope.player,0,-64);
 		
 		/*
