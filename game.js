@@ -75,9 +75,6 @@ var game = {
 									"right":['d','right']
 								}
 							},
-							"CollisionBody":{
-								"colliderType": 'rectangle'
-							},
 							"playerBehavior":{
 
 							}
@@ -147,9 +144,6 @@ var game = {
 					"animation": "stand_right" 
 				},
 				"cheapAI":{
-				},
-				"CollisionBody": {
-					"colliderType": "rectangle"
 				}
 			});
 		var bots = [];
