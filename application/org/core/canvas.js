@@ -27,18 +27,12 @@ $sr.initCanvas 		= function(){
 	canvas.height 	= screenHeight;
 
 	canvas.tabIndex ='1';
-	//call canvas is loaded
-	
 	$rootScope.dom.appendChild(canvas);
 	$rootScope.canvas = canvas;
 	$rootScope.canvas.context = canvas.getContext('2d');
 	canvas.focus();
 	$rootScope.emit('canvas-fully-loaded');
 };
-
-
-
-
 
 $rootScope.clearCanvas = function(){
 	// Store the current transformation matrix
