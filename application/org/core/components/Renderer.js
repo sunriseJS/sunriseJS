@@ -115,7 +115,6 @@ $sr.Renderer = (function(){
         this.rows = Math.floor( self.image.height / self.height );
 
 
-
         this.on('draw', function(data){
             x = self.entity.x + data.offsetX,
             y = self.entity.y + data.offsetY;

@@ -8,7 +8,6 @@
  *
  *
  */
-var entities = [];
 var layerBuffers = [];
 
 $sr.stage = {};
@@ -89,17 +88,6 @@ var layerCreator = {
 };
 
 /**
- * Adds an entity to the stage so it is drawn every render step
- * @param {[Entity]} entity which sould be added to stage
- */
-$sr.stage.add = function(entity){
-	if(!entity instanceof $sr.Entity){
-		throw new Error('Only entities can be added to stage');
-	}
-	entities.push(entity);
-};
-
-/**
  * sets level for the stage. a level defines, 
  * where different entites are spawned (TODO: not implemented yet)
  * and different layers of tiles / background images/ foreground images
@@ -177,18 +165,11 @@ $sr.stage.setFocus = function(x,y,yy){
 
 
 $rootScope.updateStage = function(){
-	entities.forEach(function(entity){
+	$rootScope.groups['groups']['toRender'].forEach(function(entity){
 		entity.emit('tick',{});
 	});
 };
 
-$sr.stage.getStageObserver = function(){
-	return {
-		getEntities : function(){
-			return entities;
-		}
-	};
-};
 
 /**
  * Draw stage which all layers and entities.
@@ -224,7 +205,7 @@ $rootScope.drawStage = function(){
 	offset.x = focus.centerX - focus.x;
 	offset.y = focus.centerY - focus.y;
 
-	entities.forEach(function(entity){
+	$rootScope.groups['groups']['toRender'].forEach(function(entity){
 		entity.emit('draw',{offsetX:offset.x,offsetY:offset.y});
 	});
 
