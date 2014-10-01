@@ -212,7 +212,9 @@ Array.prototype.unique = function() {
     return a;
 };
 
-
+/**
+ * Creates a unique id 128 byts
+ */
 $sr.guid = function() {
     function _p8(s) {
         var p = (Math.random().toString(16)+"000000000").substr(2,8);
@@ -223,6 +225,48 @@ $sr.guid = function() {
 
 
 
+/**
+ * will fail after minification!
+ * @param  {[type]} obj object to test
+ */
+$sr.getClass = function  (obj) {
+  if (obj && typeof obj === 'object' &&
+      Object.prototype.toString.call(obj) !== '[object Array]' &&
+      obj.constructor && obj !== this.window) {
+    var arr = obj.constructor.toString().match(/function\s*(\w+)/);
+
+    if (arr && arr.length === 2) {
+      return arr[1];
+    }
+  }
+  return false;
+}
+
+/**
+ * returns -1 if element is not in array
+ * @param  {[type]} elem [to search for]
+ * @param  {[type]} arr  [to search in]
+ * @param  {[type]} i    [from specific i]
+ * @return {[type]}      [-1 || index]
+ */
+$sr.inArray = function (elem, arr, i) {
+    var len;
+    if (arr) {
+        if (arr.indexOf) {
+            return arr.indexOf.call(arr, elem, i);
+        }
+        len = arr.length;
+        i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
+        for (; i < len; i++) {
+            // Skip accessing in sparse arrays
+            if (i in arr && arr[i] === elem) {
+                return i;
+            }
+        }
+    }
+
+    return -1;
+}
 
 
 
