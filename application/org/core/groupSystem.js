@@ -7,15 +7,13 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
-
-
 $rootScope.groups = {
-	'public': 	{
-		'grpnme': []
-	},
+	'public': 	{},
 	'private':  {},
 	'collidingObjects': []
 };
+
+
 /**
  * Public method to add entites to a group, 
  * @param {[type]} entities  [formats are $sr.Entity and array of $sr.Entity's]
@@ -36,10 +34,9 @@ console.log(entities);
 	}
 };
 
+
 /**
  * adds a single entity in a group
- * @param {[type]} entity    [description]
- * @param {[type]} groupName [description]
  */
 $rootScope.groups.addEntityToGroup = function(entity, groupName){
 	if($rootScope.groups['public'][groupName] == undefined){
@@ -53,7 +50,6 @@ $rootScope.groups.addEntityToGroup = function(entity, groupName){
 	  		}
 		}
 	}
-
 	$rootScope.groups['public'][groupName].push(entity);
 	
 };
@@ -61,8 +57,7 @@ $rootScope.groups.addEntityToGroup = function(entity, groupName){
 
 /**
  * adds an array for entities to a group
- * @param {[type]} entities  [description]
- * @param {[type]} groupName [description]
+ * @param {[type]} entities  [array]
  */
 $rootScope.groups.addEntitiesToGroup = function(entities, groupName){
 	if($rootScope.groups['public'][groupName] == undefined){
@@ -81,6 +76,7 @@ $rootScope.groups.addEntitiesToGroup = function(entities, groupName){
 		$rootScope.groups.addEntitiesToGroup(entities, groupName);
 	}
 };
+
 
 /**
  * define groups where the objects will collide
@@ -106,12 +102,12 @@ $sr.removeEntityFromGroup = function(group, entity){
 	//to be done
 };
 
+
 /**
  * array, the two objects that shall be testet for collision
  * @param {[type]} collideingPair [description]
  */
 $rootScope.groups.addEntityToCollingObjects = function(collidingPair){
-	
 	for(var i = 0; i < $rootScope.groups['collidingObjects'].length; ++i){
 		if(($rootScope.groups['collidingObjects'][i][0] == collidingPair[0] 
 			&& $rootScope.groups['collidingObjects'][i][1] == collidingPair[1])
