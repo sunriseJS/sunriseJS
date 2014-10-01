@@ -29,6 +29,9 @@ var game = {
 			},
 			'signs':{
 				source: 'assets/graphics/signs.png'
+			},
+			'elevator':{
+				source: 'assets/graphics/elevator.png'
 			}
 		},
 		levels: {
@@ -154,7 +157,64 @@ var game = {
 			bots.push(clone);
 		}
 		$sr.addToGroup(bots,'bots');
+
+
+		$sr.components.add('elevator', function(data){
+			console.log(data);
+			var elevator = new $sr.Component();
+			elevator.on('tick', function(){
+
+				elevator.entity.y += elevator.entity.stateMachine.getCurrentState().ySpeed;
+				if(elevator.entity.y < data.minY){
+					elevator.entity.stateMachine.setCurrentState('down');
+				}
+				if(elevator.entity.y > data.maxY){
+					elevator.entity.stateMachine.setCurrentState('up');
+				}
+			});
+			return elevator;
+		});
+
+		window.elevator = new $sr.Entity(1216,256,128,8,{
+			"StateMachine":{
+				"states":{
+					"default":{
+						"events":{
+
+						},
+						"values":{
+							"ySpeed": 1
+						}
+					},
+					"up":{
+						"events":{
+
+						},
+						"values":{
+							"ySpeed": -1
+						}
+					},
+					"down":{
+						"events":{
+
+						},
+						"values":{
+							"ySpeed": 1
+						}
+					}
+				}
+			},
+			"Renderer":{
+				"image": "elevator",
+				"anchor": {"x": 64,	"y": 4}
+			},
+			"elevator":{
+				"minY" : 64,
+				"maxY" : 320
+			}
+		});
 		
+		$sr.stage.add(elevator);
 
 
 		var testBots = [];
