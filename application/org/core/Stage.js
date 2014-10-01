@@ -16,7 +16,7 @@ var focus = {};
 var offset = {
 	x : 0,
 	y : 0
-}
+};
 
 //Creator functions for different layer types
 var layerCreator = {
@@ -86,7 +86,7 @@ var layerCreator = {
 
 		return {buffer:canvas, scrollX: layer['scroll-x'],scrollY: layer['scroll-y']};
 	}
-}
+};
 
 /**
  * Adds an entity to the stage so it is drawn every render step
@@ -97,7 +97,7 @@ $sr.stage.add = function(entity){
 		throw new Error('Only entities can be added to stage');
 	}
 	entities.push(entity);
-}
+};
 
 /**
  * sets level for the stage. a level defines, 
@@ -155,7 +155,7 @@ $sr.stage.setLevel = function(levelname){
 	console.log("style:",style);
 	$rootScope.canvas.style.background = style;
 
-}
+};
 
 /**
  * Sets focus of the stage to an Entity or a position (x,y), moves with entity
@@ -173,14 +173,14 @@ $sr.stage.setFocus = function(x,y,yy){
 		focus.y = y;
 		focus.entity = undefined;
 	}
-}
+};
 
 
 $rootScope.updateStage = function(){
 	entities.forEach(function(entity){
 		entity.emit('tick',{});
 	});
-}
+};
 
 $sr.stage.getStageObserver = function(){
 	return {
@@ -188,7 +188,7 @@ $sr.stage.getStageObserver = function(){
 			return entities;
 		}
 	};
-}
+};
 
 /**
  * Draw stage which all layers and entities.
@@ -231,4 +231,4 @@ $rootScope.drawStage = function(){
 	for(;bufferIndex<layerBuffers.length; bufferIndex++){
 		drawLayer(layerBuffers[bufferIndex]);		
 	}
-}
+};

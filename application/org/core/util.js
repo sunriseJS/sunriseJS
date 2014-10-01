@@ -37,8 +37,7 @@ $sr.util.ajax = function(url,callback, data){
 	}else{
 		request.send();
 	}
-	
-}
+};
 
 /**
  * Used so some functions (e.g. add ) can be
@@ -59,7 +58,7 @@ function executeCalculation(x, y, calculation){
 		}
 		calculation(new $sr.util.Vec2(x,y));
 	}
-}
+};
 
 
 /**
@@ -78,7 +77,7 @@ $sr.util.Vec2 = function(x, y){
 		this.x = x;
 		this.y = y;
 	}
-}
+};
 
 
 /**
@@ -92,7 +91,7 @@ $sr.util.Vec2.prototype.add = function(x, y){
 		self.x += other.x;
 		self.y += other.y;
 	});
-}
+};
 
 
 /**
@@ -103,7 +102,7 @@ $sr.util.Vec2.prototype.add = function(x, y){
  */
 $sr.util.Vec2.add = function(first, second){
 	return new $sr.util.Vec2(first.x+second.x, first.y+second.y);
-}
+};
 
 /**
  * Subtracts a Vec2 from itself
@@ -116,7 +115,7 @@ $sr.util.Vec2.prototype.subtract = function(x, y){
 		self.x -= other.x;
 		self.y -= other.y;
 	});
-}
+};
 
 
 /**
@@ -127,7 +126,7 @@ $sr.util.Vec2.prototype.subtract = function(x, y){
  */
 $sr.util.Vec2.subtract = function(first, second){
 	return new $sr.util.Vec2(first.x-second.x, first.y-second.y);
-}
+};
 
 //shorter versions
 $sr.util.Vec2.prototype.sub = $sr.util.Vec2.prototype.subtract;
@@ -143,7 +142,7 @@ $sr.util.Vec2.sub = $sr.util.Vec2.subtract;
 $sr.util.Vec2.prototype.multiply = function(factor){
 	this.x *= factor;
 	this.y *= factor;
-}
+};
 
 /**
  * multiplies a vector by a scalar
@@ -155,7 +154,7 @@ $sr.util.Vec2.multiply = function(vector, scalar){
 	var vec =  new $sr.util.Vec2(vector);
 	vec.multiply(scalar);
 	return vec;
-}
+};
 
 
 //shorter version
@@ -170,7 +169,7 @@ $sr.util.Vec2.mul = $sr.util.Vec2.multiply;
  */
 $sr.util.Vec2.prototype.divide = function(factor){
 	this.multiply(1/factor);
-}
+};
 
 /**
  * divides a vector by a scalar
@@ -182,7 +181,7 @@ $sr.util.Vec2.divide = function(vector, scalar){
 	var vec =  new $sr.util.Vec2(vector);
 	vec.divide(scalar);
 	return vec;
-}
+};
 
 
 //shorter version
@@ -208,7 +207,7 @@ $sr.guid = function() {
         return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
     }
     return _p8() + _p8(true) + _p8(true) + _p8();
-}
+};
 
 
 
@@ -227,7 +226,7 @@ $sr.getClass = function  (obj) {
     }
   }
   return false;
-}
+};
 
 /**
  * returns -1 if element is not in array
@@ -253,7 +252,7 @@ $sr.inArray = function (elem, arr, i) {
     }
 
     return -1;
-}
+};
 
 
 
