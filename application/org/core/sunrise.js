@@ -53,6 +53,7 @@ $sr.sunrise = function(){
 $sr.run = function(){
 	$rootScope.clearCanvas();
 	$rootScope.updateStage();
+	$rootScope.checkCollisions();
 	game.run($rootScope.$scope);
 	$rootScope.drawStage();
 	$rootScope.animationFrame.call(window, $sr.run);
