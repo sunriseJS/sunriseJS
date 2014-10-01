@@ -81,7 +81,7 @@ $sr.loadImages = function(sources_raw, callback){
 		})(title, sources[title]);
 	}
 
-}
+};
 
 /**
  * loads levels from files.
@@ -124,4 +124,4 @@ $sr.loadLevels = function(levelSources, callback){
 			}
 		});
 	}
-}
+};

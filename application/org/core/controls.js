@@ -21,7 +21,7 @@ $rootScope.controls = {
 };
 $sr.controls.init = function() {
 	$rootScope.generateKeys();
-}
+};
 
 /**
  * onKeyDown and onKeyUp work with function arguments 
