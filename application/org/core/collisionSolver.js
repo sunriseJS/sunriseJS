@@ -46,7 +46,7 @@
 
 	$rootScope.checkCollisions = function(){
 		var objs = $rootScope.groups['collidingObjects'];
-		for (i = values.length - 1; i >= 0; --i) {
+		for (i = objs.length - 1; i >= 0; --i) {
 		    //TODO: check Entites collider type
 		    var o = objs[i];
 		    if(colliderTesters.rectangle.rectangle(o[0],o[1])){
