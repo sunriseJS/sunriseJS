@@ -74,8 +74,8 @@ $sr.Renderer = (function(){
 
         this.image = $rootScope.ressources.images[image_name];
         if(data.tileWidth === undefined){
-            data.tileWidth = image.width;
-            data.tileHeight = image.height;
+            data.tileWidth = this.image.width;
+            data.tileHeight = this.image.height;
         }
         if(data.animations === undefined){
             data.animations = {};
