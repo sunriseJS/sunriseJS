@@ -83,7 +83,7 @@ var game = {
 							}
 		});
 
-		$sr.addEntityToGroup('player',$scope.player);
+		$sr.addToGroup($scope.player,'player');
 		
 		$sr.components.add('cheapAI', function(config){
 
@@ -152,12 +152,29 @@ var game = {
 					"colliderType": "rectangle"
 				}
 			});
+		var bots = [];
 		$sr.stage.add(bot);
 		for(var i=0; i<8; i++){
 			var clone = bot.clone();
 			$sr.stage.add(clone);
-			$sr.addEntityToGroup('bots',clone);
+			bots.push(clone);
 		}
+		$sr.addToGroup(bots,'bots');
+		
+
+
+		var testBots = [];
+		testBots.push(bots[0]);
+		testBots.push(bots[2]);
+		testBots.push(bots[4]);
+		testBots.push(bots[6]);
+
+		$sr.addToGroup(testBots,'testBots');
+
+		$sr.defineCollidingGroups('player','bots');
+		$sr.defineCollidingGroups('testBots','player');
+
+		
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
@@ -175,7 +192,6 @@ var game = {
 		console.log($scope.player.stateManager.getCurrentState());
 		*/
 	
-		$sr.defineCollidingGroups('player','bots');
 	},
 
 	run: function($scope) {
