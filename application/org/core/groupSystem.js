@@ -42,16 +42,9 @@ $rootScope.groups.addEntityToGroup = function(entity, groupName){
 	if($rootScope.groups['public'][groupName] == undefined){
 		$rootScope.groups['public'][groupName] = [];
 	}
-	if($rootScope.groups['public'][groupName].length > 0){ 
-		for (var i = 0; i < $rootScope.groups['public'][groupName].length;++i) {
-	  		if($rootScope.groups['public'][groupName][i].id == entity.id){
-	  			throw new Error('Entity: ['+entity+'] is already in group: ['+groupName+']');
-	  			return;
-	  		}
-		}
+	if($sr.inArray(entity,$rootScope.groups['public'][groupName])){
+		$rootScope.groups['public'][groupName].push(entity);
 	}
-	$rootScope.groups['public'][groupName].push(entity);
-	
 };
 
 
@@ -63,18 +56,11 @@ $rootScope.groups.addEntitiesToGroup = function(entities, groupName){
 	if($rootScope.groups['public'][groupName] == undefined){
 		$rootScope.groups['public'][groupName] = [];
 	}
-	if($rootScope.groups['public'][groupName].length > 0){ 
-		for (var i = 0; i < $rootScope.groups['public'][groupName].length; ++i) {
-			for (var j = 0; j < entities.length; ++j) {
-		  		if($sr.inArray(entities[j],$rootScope.groups['public'][groupName]) === -1){
-		  			$rootScope.groups['public'][groupName].push(entities[j]);
-		  		}
-		  	}
-		}
-	} else {
-		$rootScope.groups['public'][groupName].push(entities[0]);
-		$rootScope.groups.addEntitiesToGroup(entities, groupName);
-	}
+	for (var j = 0; j < entities.length; ++j) {
+  		if($sr.inArray(entities[j],$rootScope.groups['public'][groupName]) === -1){
+  			$rootScope.groups['public'][groupName].push(entities[j]);
+  		}
+  	}
 };
 
 
