@@ -47,7 +47,7 @@ $sr.Entity = (function(){
         }
 	}	  
 
-    Entity.prototype.getComponentValue = function(type, variable){
+    Entity.prototype.getComponentData = function(type, variable){
         if(this.components[type] === undefined){
             throw new Error('No component "'+type+'" found in entity.');
         }
