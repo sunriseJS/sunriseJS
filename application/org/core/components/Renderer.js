@@ -200,6 +200,12 @@ $sr.Renderer = (function(){
             self.alpha = data.opacity || 0;
             self.alpha = self.alpha > 1 ? 1: (self.alpha < 0 ? 0: self.alpha);
         });
+
+
+
+        //set up public data
+        
+        this.data.anchor = this.anchor;
     }
 
     $sr.Component.extend(Renderer);

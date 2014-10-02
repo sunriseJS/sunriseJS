@@ -20,21 +20,10 @@ srfn.Entity = (function(){
     	this.height = height;
         this.config = config;
 
-        var stateMachineConfig = config["StateMachine"];
-        if(stateMachineConfig === undefined){
-            throw new Error ('Please provide options for StateMachine!');
-        }
-        if(stateMachineConfig.states === undefined){
-            throw new Error ('Please provide states for StateMachine!');
-        }
-        this.stateMachine = new srfn.StateMachine(this, stateMachineConfig.states);
-
         for(type in config){
-            if(type !== 'StateMachine'){
-                var component = srfn.components.create(type, config[type]);
-                this.components[type] = component;
-                component.receive('setEntity', this);
-            }
+            var component = srfn.components.create(type, config[type]);
+            this.components[type] = component;
+            component.receive('setEntity', this);
         }
 	} 
 
@@ -49,9 +38,10 @@ srfn.Entity = (function(){
 
     Entity.prototype.getComponentData = function(type, variable){
         if(this.components[type] === undefined){
+            console.warn('Error in Entity '+this);
             throw new Error('No component "'+type+'" found in entity.');
         }
-        return this.components[type][variable];
+        return this.components[type].data[variable];
     }  
 
     Entity.prototype.clone = function(x, y, width, height){
