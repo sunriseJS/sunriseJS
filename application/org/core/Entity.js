@@ -49,9 +49,10 @@ $sr.Entity = (function(){
 
     Entity.prototype.getComponentData = function(type, variable){
         if(this.components[type] === undefined){
+            console.warn('Error in Entity '+this);
             throw new Error('No component "'+type+'" found in entity.');
         }
-        return this.components[type][variable];
+        return this.components[type].data[variable];
     }  
 
     Entity.prototype.clone = function(x, y, width, height){
