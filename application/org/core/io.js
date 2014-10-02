@@ -15,11 +15,8 @@
 $rootScope.events = {};
 $rootScope.$scope.events = {};
 
-$sr.log = function() {
-	return console.log.apply(console,arguments);
-};
 
-$rootScope.emit = function(event, data){
+rootfn.emit = function(event, data){
 	if($rootScope.events[event] != undefined){
 		$rootScope.events[event].forEach(function(entry) {
 				entry(data);
@@ -29,7 +26,7 @@ $rootScope.emit = function(event, data){
 	}
 };
 
-$rootScope.on = function(event, callback){
+rootfn.on = function(event, callback){
 	if($rootScope.events[event] != undefined){
 		$rootScope.events[event].push(callback); 
 	} else {
@@ -39,7 +36,7 @@ $rootScope.on = function(event, callback){
 	
 };
 
-$rootScope.$scope.emit = function(event, data){
+srfn.emit = function(event, data){
 	if($rootScope.$scope.events[event] != undefined){
 		$rootScope.$scope.events[event].forEach(function(entry) {
 				entry(data);
@@ -50,7 +47,7 @@ $rootScope.$scope.emit = function(event, data){
 		
 };
 
-$rootScope.$scope.on = function(event, callback){
+srfn.on = function(event, callback){
 	if($rootScope.$scope.events[event] != undefined){
 		$rootScope.$scope.events[event].push(callback); 
 	} else {

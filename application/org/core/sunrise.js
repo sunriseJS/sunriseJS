@@ -13,9 +13,14 @@
 
 
 //private functions
-$rootScope.functions = {};
 
-	_seal = $sr._seal = $sr._seal || function () {
+var $rootScope = root = $sr.$rootScope = $sr.$rootScope || {};
+rootfn = root.fn = {};
+root.$scope = {};
+
+srfn = root.$scope.fn = {};
+
+_seal = $sr._seal = $sr._seal || function () {
 	delete $sr.$rootScope;
 	delete $sr._seal;
 	delete $sr._unseal;
@@ -27,39 +32,30 @@ _unseal = $sr._unseal = $sr._unseal || function () {
 };
 
 
-/**
- * To check if a parameter is a function
- * @param  {[expect: function]}  function to check 
- * @return {true if parameter is a function}
- */
-$sr.isFunction = function(functionToCheck) {
- 	var getType = {};
- 	return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-};
 
-$sr.sunrise = function(){
+rootfn.sunrise = function(){
 	$sr._seal();
-	$sr.initCanvas();
+	$rootScope.fn.initCanvas();
 	$sr.loadImages(game.config.images, function(){
 		//todo: make this better :D
 		$sr.loadLevels(game.config.levels, function(){
 			game.init($rootScope.$scope);
-			$sr.run();	
+			$rootScope.run();	
 		});
 	});
 };
 
 
-$sr.run = function(){
+rootfn.run = function(){
 	$rootScope.clearCanvas();
 	$rootScope.updateStage();
 	$rootScope.checkCollisions();
 	game.run($rootScope.$scope);
 	$rootScope.drawStage();
-	$rootScope.animationFrame.call(window, $sr.run);
+	$rootScope.animationFrame.call(window, rootfn.run);
 };
 
-$sr.fps = {
+srfn.fps = {
 	startTime : 0,
 	frameNumber : 0,
 	getFps : function(){
@@ -76,20 +72,19 @@ $sr.fps = {
 };
 
 	
-$sr.init = function(){
+rootfn.init = function(){
 	$rootScope.animationFrame = 	window.requestAnimationFrame       ||
 				          			window.webkitRequestAnimationFrame ||
 				          			window.mozRequestAnimationFrame    ||
 				          			function( callback ){
 				            			window.setTimeout(callback, 1000 / 60);
 				          			};
-	$rootScope.$scope = {};
 }
 
 
-$rootScope.dom = document.querySelector('div[sunriseJS-app]');
-if($rootScope.dom != undefined){
-	$sr.init();
+root.dom = document.querySelector('div[sunriseJS-app]');
+if(root.dom != undefined){
+	rootfn.init();
 }
 else {
 	alert('no jsengine-app found');

@@ -12,15 +12,15 @@
  * @return {[type]}
  */
 
-$sr.controls = {};
-$rootScope.controls = {
+srfn.controls = {};
+root.controls = {
 	'keys': {},
 	'keycallbacksDown': {},
 	'keycallbacksUp': {},
 	'keysPressed': {}
 };
-$sr.controls.init = function() {
-	$rootScope.generateKeys();
+srfn.controls.init = function() {
+	root.fn.generateKeys();
 };
 
 /**
@@ -40,19 +40,19 @@ function saveCallbacksToArray(type, args){
 	for (; (i < args.length);) {
 		keys = [];
 		callbacks = [];
-		while(!$sr.isFunction(args[i])){
+		while(!utilfn.isFunction(args[i])){
 			keys.push(args[i]);
 			i++;
 		}
-		while($sr.isFunction(args[i])){
+		while(utilfn.isFunction(args[i])){
 			callbacks.push(args[i]);
 			i++;
 		}
 		for(var k = 0; k < keys.length;k++){
-			if($rootScope.controls[type][keys[k]] == undefined){
-				$rootScope.controls[type][keys[k]]= callbacks;
+			if(root.controls[type][keys[k]] == undefined){
+				root.controls[type][keys[k]]= callbacks;
 			}
-			$rootScope.controls[type][keys[k]] = $rootScope.controls[type][keys[k]].concat(callbacks).unique();
+			root.controls[type][keys[k]] = $rootScope.controls[type][keys[k]].concat(callbacks).unique();
 		}
 	}
 };
@@ -60,14 +60,14 @@ function saveCallbacksToArray(type, args){
 /**
  * Handel the key - function callbacks for keyDown
  */
-$sr.controls.onKeyDown = function() {
+srfn.controls.onKeyDown = function() {
 	saveCallbacksToArray('keycallbacksDown', arguments);
 };
 
 /**
  * Handel the key - function callbacks for keyUp
  */
-$sr.controls.onKeyUp = function() {
+srfn.controls.onKeyUp = function() {
 	saveCallbacksToArray('keycallbacksUp', arguments);
 };
 
@@ -76,7 +76,7 @@ $sr.controls.onKeyUp = function() {
  * @param  {[type]} event [description]
  * @return {[type]}       [description]
  */
-$rootScope.handleKeyDown = function(event) {
+rootfn.handleKeyDown = function(event) {
 	// 1. if key has been pressed before and haven't been release by now, there is no need to access the array again.
 	// 2. the callback funtions gets fired just once
 	if($rootScope.controls.keysPressed[event.keyCode]){
@@ -96,18 +96,18 @@ $rootScope.handleKeyDown = function(event) {
  * @param  {[type]} event [description]
  * @return {[type]}       [description]
  */
-$rootScope.handleKeyUp = function(event) {
-	if($rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
-		for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
-			$rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
+rootfn.handleKeyUp = function(event) {
+	if(rootfn.controls.keycallbacksUp[root.controls.keys.names[event.keyCode]]!= undefined){ 
+		for(var i = 0; i < root.controls.keycallbacksUp[root.controls.keys.names[event.keyCode]].length; ++i){
+			rootfn.controls.keycallbacksUp[root.controls.keys.names[event.keyCode]][i]();
 		}
 	}
-	$rootScope.controls.keysPressed[event.keyCode] = false;
+	root.controls.keysPressed[event.keyCode] = false;
 };
 
 $rootScope.on('canvas-fully-loaded', function() {
-	$rootScope.canvas.addEventListener('keydown', $rootScope.handleKeyDown);
-	$rootScope.canvas.addEventListener('keyup', $rootScope.handleKeyUp);
+	root.canvas.addEventListener('keydown', $rootScope.handleKeyDown);
+	root.canvas.addEventListener('keyup', $rootScope.handleKeyUp);
 });
 
 /**

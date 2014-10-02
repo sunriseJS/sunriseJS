@@ -256,7 +256,7 @@ var game = {
 
 	run: function($scope) {
 
-		$scope.fpsdom.innerHTML = $sr.fps.getFps();
+		$scope.fpsdom.innerHTML = $scope.fn.fps.getFps();
 
 	},
 

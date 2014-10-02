@@ -7,13 +7,13 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
-$sr.Entity = (function(){ 
+srfn.Entity = (function(){ 
 
 
     //constructor
     function Entity(x, y, width, height, config){
     	this.components = {};
-    	this.id = $sr.guid();
+    	this.id = utilfn.guid();
     	this.x = x;
     	this.y = y;
     	this.width = width;
@@ -27,18 +27,18 @@ $sr.Entity = (function(){
         if(stateMachineConfig.states === undefined){
             throw new Error ('Please provide states for StateMachine!');
         }
-        this.stateMachine = new $sr.StateMachine(this, stateMachineConfig.states);
+        this.stateMachine = new srfn.StateMachine(this, stateMachineConfig.states);
 
         for(type in config){
             if(type !== 'StateMachine'){
-                var component = $sr.components.create(type, config[type]);
+                var component = srfn.components.create(type, config[type]);
                 this.components[type] = component;
                 component.receive('setEntity', this);
             }
         }
 	} 
 
-	$sr.CoreObject.extend(Entity);
+	srfn.CoreObject.extend(Entity);
 
 
 	Entity.prototype.emit = function(what, data){
@@ -59,7 +59,7 @@ $sr.Entity = (function(){
         y = (y === undefined) ? this.y : y;
         width = (width === undefined) ? this.width : width;
         height = (height === undefined) ? this.height : height;
-        return new $sr.Entity(x, y, width, height, this.config);
+        return new srfn.Entity(x, y, width, height, this.config);
     }
 
     return Entity;

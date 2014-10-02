@@ -11,7 +11,7 @@
  * @param  {[type]} sr
  * @return {[type]}
  */
-$sr.Sprite = (function(){ 
+srfn.Sprite = (function(){ 
 
 
 	//private Data
@@ -83,7 +83,7 @@ $sr.Sprite = (function(){
 
 	}
 
-	$sr.CoreObject.extend(Sprite);
+	srfn.CoreObject.extend(Sprite);
 
 	/**
 	 * Draws itselfs at the specified position.

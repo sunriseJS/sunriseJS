@@ -10,7 +10,7 @@
  */
 var layerBuffers = [];
 
-$sr.stage = {};
+root.$scope.stage = {};
 var focus = {};
 var offset = {
 	x : 0,
@@ -94,7 +94,7 @@ var layerCreator = {
  * @param {[String]} levelname name is looked up in ressources manager, where 
  * level was initial stored
  */
-$sr.stage.setLevel = function(levelname){
+srfn.stage.setLevel = function(levelname){
 	if($rootScope.ressources.levels[levelname] === undefined){
 		throw new Error('No level with name "'+levelname+'" found.');
 	}
@@ -151,7 +151,7 @@ $sr.stage.setLevel = function(levelname){
  * @param {[type]} y  If x is an Entity, offset on x-axis, otherwise position on y-axis
  * @param {[type]} yy Only needed if x is an Entity. Offset on y-axis
  */
-$sr.stage.setFocus = function(x,y,yy){
+srfn.stage.setFocus = function(x,y,yy){
 	if(x instanceof $sr.Entity){
 		focus.entity = x;
 		focus.xoffset = y || 0;
