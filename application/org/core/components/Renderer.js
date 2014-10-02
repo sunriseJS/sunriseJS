@@ -216,5 +216,5 @@ srfn.Renderer = (function(){
 
 
 srfn.components.add('Renderer', function(config){
-    return new $sr.Renderer(config);
+    return new srfn.Renderer(config);
 });

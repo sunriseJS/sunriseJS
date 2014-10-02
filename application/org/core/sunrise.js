@@ -48,11 +48,11 @@ rootfn.sunrise = function(){
 
 rootfn.run = function(){
 	rootfn.clearCanvas();
-	rootfn.updateStage();
+	rootfn.stage.update();
 	rootfn.checkCollisions();
 	game.run($rootScope.$scope);
-	rootfn.drawStage();
-	rootfn.animationFrame.call(window, rootfn.run);
+	rootfn.stage.draw();
+	$rootScope.animationFrame.call(window, rootfn.run);
 };
 
 srfn.fps = {

@@ -43,10 +43,10 @@
 			}
 		}
 
-	$rootScope.colliderTesters = colliderTesters;
+	rootfn.colliderTesters = colliderTesters;
 
 
-	$rootScope.checkCollisions = function(){
+	rootfn.checkCollisions = function(){
 		var objs = $rootScope.groups['collidingObjects'];
 		for (i = objs.length - 1; i >= 0; --i) {
 		    var o = objs[i],
@@ -62,7 +62,6 @@
 	    	f.y += o[0].y;
 	    	s.x += o[1].x;
 	    	s.y += o[1].y;
-
 
 		    if(colliderTesters[c1][c2](f,s)){
 		    	o[0].emit('collision',{other: o[1]});

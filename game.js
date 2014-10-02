@@ -45,7 +45,7 @@ var game = {
 	init: function($) {
 
 		$.fn.components.add('playerBehavior',function(config){
-			var playerBehavior = new $sr.Component();
+			var playerBehavior = new $.fn.Component();
 			playerBehavior.on('collision', function(){
 				playerBehavior.entity.emit('changeOpacity', {
 					opacity: 0.5

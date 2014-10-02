@@ -10,7 +10,7 @@
  */
 var layerBuffers = [];
 
-srfn.stage = {};
+srfn.stage = rootfn.stage = {};
 var focus = {};
 var offset = {
 	x : 0,
@@ -152,7 +152,7 @@ srfn.stage.setLevel = function(levelname){
  * @param {[type]} yy Only needed if x is an Entity. Offset on y-axis
  */
 srfn.stage.setFocus = function(x,y,yy){
-	if(x instanceof $sr.Entity){
+	if(x instanceof srfn.Entity){
 		focus.entity = x;
 		focus.xoffset = y || 0;
 		focus.yoffset = yy || 0;
@@ -164,7 +164,7 @@ srfn.stage.setFocus = function(x,y,yy){
 };
 
 
-$rootScope.updateStage = function(){
+srfn.stage.update = function(){
 	$rootScope.groups['groups']['toRender'].forEach(function(entity){
 		entity.emit('tick',{});
 	});
@@ -176,7 +176,7 @@ $rootScope.updateStage = function(){
  * Layers are drawn first in order of the layers array in the json file of the layer
  * Entities are drawn on top (TODO: implement foreground layers)
  */
-$rootScope.drawStage = function(){
+srfn.stage.draw = function(){
 
 	//Quick & dirty, maybe add a init function to stage?
 	if(focus.x === undefined){
