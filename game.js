@@ -78,7 +78,12 @@ var game = {
 									"right":['d','right']
 								}
 							},
-							"CollisionBody":{},
+							"CollisionBody":{
+								"x":25,
+								"y":10,
+								"width":48,
+								"height":120
+							},
 							"playerBehavior":{
 
 							}
