@@ -8,7 +8,7 @@
  *
  * */
 
-$sr.CoreObject = (function(){
+srfn.CoreObject = (function(){
 
 	function CoreObject(){
 	} 

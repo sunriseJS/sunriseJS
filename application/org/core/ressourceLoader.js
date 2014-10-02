@@ -8,7 +8,12 @@
  *
  */
 
-$rootScope.ressources = {images:{}, sprites:{}, audio:{}, levels: {}};
+$rootScope.ressources = {
+	images:{}, 
+	sprites:{}, 
+	audio:{}, 
+	levels: {}
+};
 
 
 /**
@@ -18,7 +23,7 @@ $rootScope.ressources = {images:{}, sprites:{}, audio:{}, levels: {}};
  * @param   sources imagefiles and names
  * @param  callback which is called when all images are loaded
  */
-$sr.loadImages = function(sources_raw, callback){
+srfn.loadImages = function(sources_raw, callback){
 
 	//copy source object, so original object isn't affected by
 	//removin already loaded images from this object
@@ -90,7 +95,7 @@ $sr.loadImages = function(sources_raw, callback){
  * @param   sources imagefiles and names
  * @param  callback which is called when all images are loaded
  */
-$sr.loadLevels = function(levelSources, callback){
+srfn.loadLevels = function(levelSources, callback){
 
 	//copy source object, so original object isn't affected by
 	//removin already loaded images from this object
@@ -110,7 +115,7 @@ $sr.loadLevels = function(levelSources, callback){
 	}
 
 	for(key in sources){
-		$sr.util.ajax(sources[key], function(data){
+		utilfn.ajax(sources[key], function(data){
 			$rootScope.ressources.levels[key] = JSON.parse(data);
 			delete sources[key];
 			//Last level got loaded? notify callback!

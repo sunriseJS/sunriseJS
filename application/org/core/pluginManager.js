@@ -16,7 +16,7 @@
  * @param  {Function} callback
  * @return {[type]}
  */
-$sr.loadScript = function(src, callback) {
+srfn.loadScript = function(src, callback) {
 
     var s = document.createElement('script');
     s.type = 'text/javascript';
@@ -26,17 +26,17 @@ $sr.loadScript = function(src, callback) {
     document.body.appendChild(s);
 };
 
-$rootScope.initPlugins = function(){
+rootfn.initPlugins = function(){
 	var plugs = {},
 	    i = game.config.plugins.length -1; 
 	while(i >= 0 && (plugs[i--] = 'plugins/'+game.config.plugins.pop()+'.js')){}
 	for(var title in plugs){
 		(function(name, source){
-			$sr.loadScript(source, 
+			srfn.loadScript(source, 
 					function() {
 					delete plugs[name];
 					if(Object.keys(plugs).length === 0){
-						$rootScope.emit('all_plugins_loaded');
+						rootfn.emit('all_plugins_loaded');
 					}
 			});
 		})(title, plugs[title]);

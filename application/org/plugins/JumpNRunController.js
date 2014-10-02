@@ -22,8 +22,9 @@
 
 
 (function($sr){	
-	var $rootScope = $sr.$rootScope;
-	$sr.JumpNRunController = (function(){ 
+	var $rootScope = $sr.$rootScope,
+		srfn = $rootScope.$scope.fn;
+	srfn.JumpNRunController = (function(){ 
 
 
 	
@@ -33,7 +34,7 @@
 		 * @param {Object} config      optional and may contain keys for the controll
 		 */
 		JumpNRunController = function(config_){
-			$sr.Component.call(this);
+			srfn.Component.call(this);
 			var self = this;
 			var config = config_ || {};
 			config.keys = config.keys || {};
@@ -62,11 +63,11 @@
 
 				var run_left = false;
 				config.keys.left.forEach(function(key){
-					run_left = run_left || $sr.controls.isKeyPressed(key);
+					run_left = run_left || srfn.controls.isKeyPressed(key);
 				});
 				var run_right = false;
 				config.keys.right.forEach(function(key){
-					run_right = run_right || $sr.controls.isKeyPressed(key);
+					run_right = run_right || srfn.controls.isKeyPressed(key);
 				});
 
 				if(run_left && !run_right){
@@ -103,15 +104,15 @@
 			});
 		}
 
-		$sr.Component.extend(JumpNRunController);
+		srfn.Component.extend(JumpNRunController);
 
 		return JumpNRunController;
 
 	})();
 
 
-	$sr.components.add('JumpNRunController', function(config){
-		return new $sr.JumpNRunController(config);
+	srfn.components.add('JumpNRunController', function(config){
+		return new srfn.JumpNRunController(config);
 	});
 
 	

@@ -19,7 +19,7 @@
 		if($rootScope.groups['groups'][groupName] == undefined){
 			$rootScope.groups['groups'][groupName] = [];
 		}
-		if($sr.inArray(entity,$rootScope.groups['groups'][groupName])){
+		if(utilfn.inArray(entity,$rootScope.groups['groups'][groupName])){
 			$rootScope.groups['groups'][groupName].push(entity);
 		}
 	};
@@ -32,7 +32,7 @@
 			$rootScope.groups['groups'][groupName] = [];
 		}
 		for (var j = 0; j < entities.length; ++j) {
-	  		if($sr.inArray(entities[j],$rootScope.groups['groups'][groupName]) === -1){
+	  		if(utilfn.inArray(entities[j],$rootScope.groups['groups'][groupName]) === -1){
 	  			$rootScope.groups['groups'][groupName].push(entities[j]);
 	  		}
 	  	}
@@ -66,12 +66,10 @@
 	 * @param {[type]} entities  [formats are $sr.Entity and array of $sr.Entity's]
 	 * @param {[type]} groupName [group to add the entites in]
 	 */
-	$sr.addToGroup = function(entities, groupName){
+	srfn.addToGroup = function(entities, groupName){
 		if(entities instanceof Array){
-			console.log('array');
 			groupFn.addEntitiesToGroup(entities, groupName);
-		} else if(entities instanceof $sr.Entity){
-			console.log('entity');
+		} else if(entities instanceof srfn.Entity){
 			groupFn.addEntityToGroup(entities,groupName);
 		} else {
 			throw new Error('No valid object is given to put in group: '+groupName);
@@ -83,7 +81,7 @@
 	 * @param  {[type]} collider  [the first group : String]
 	 * @param  {[type]} toCollide [secound group : String]
 	 */
-	$sr.defineCollidingGroups = function(collider, toCollide){
+	srfn.defineCollidingGroups = function(collider, toCollide){
 		if($rootScope.groups['groups'][collider] == undefined || $rootScope.groups['groups'][toCollide] == undefined){
 			throw 'One of the given groups is undefined!',collider,toCollide;
 			return;
@@ -98,7 +96,7 @@
 	};
 
 
-	$sr.removeEntityFromGroup = function(entity,group){
+	srfn.removeEntityFromGroup = function(entity,group){
 		
 	};
 
@@ -106,7 +104,7 @@
 
 
 	//debuging
-	$sr.getGroups = function(){
+	srfn.getGroups = function(){
 		return $rootScope.groups;
 	};
 })();

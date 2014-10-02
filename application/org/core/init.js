@@ -8,6 +8,6 @@
  *
  */
 
-$rootScope.on('all_plugins_loaded',$sr.sunrise);
-$rootScope.initPlugins();
+rootfn.on('all_plugins_loaded',rootfn.sunrise);
+rootfn.initPlugins();
 

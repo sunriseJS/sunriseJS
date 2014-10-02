@@ -12,15 +12,16 @@
  * @return {[type]}
  */
 
-$sr.controls = {};
+srfn.controls = {};
 $rootScope.controls = {
 	'keys': {},
 	'keycallbacksDown': {},
 	'keycallbacksUp': {},
 	'keysPressed': {}
 };
-$sr.controls.init = function() {
-	$rootScope.generateKeys();
+rootfn.controls = {};
+rootfn.controls.init = function() {
+	rootfn.controls.generateKeys();
 };
 
 /**
@@ -40,11 +41,11 @@ function saveCallbacksToArray(type, args){
 	for (; (i < args.length);) {
 		keys = [];
 		callbacks = [];
-		while(!$sr.isFunction(args[i])){
+		while(!utilfn.isFunction(args[i])){
 			keys.push(args[i]);
 			i++;
 		}
-		while($sr.isFunction(args[i])){
+		while(utilfn.isFunction(args[i])){
 			callbacks.push(args[i]);
 			i++;
 		}
@@ -60,14 +61,14 @@ function saveCallbacksToArray(type, args){
 /**
  * Handel the key - function callbacks for keyDown
  */
-$sr.controls.onKeyDown = function() {
+srfn.controls.onKeyDown = function() {
 	saveCallbacksToArray('keycallbacksDown', arguments);
 };
 
 /**
  * Handel the key - function callbacks for keyUp
  */
-$sr.controls.onKeyUp = function() {
+srfn.controls.onKeyUp = function() {
 	saveCallbacksToArray('keycallbacksUp', arguments);
 };
 
@@ -76,7 +77,7 @@ $sr.controls.onKeyUp = function() {
  * @param  {[type]} event [description]
  * @return {[type]}       [description]
  */
-$rootScope.handleKeyDown = function(event) {
+rootfn.handleKeyDown = function(event) {
 	// 1. if key has been pressed before and haven't been release by now, there is no need to access the array again.
 	// 2. the callback funtions gets fired just once
 	if($rootScope.controls.keysPressed[event.keyCode]){
@@ -96,18 +97,18 @@ $rootScope.handleKeyDown = function(event) {
  * @param  {[type]} event [description]
  * @return {[type]}       [description]
  */
-$rootScope.handleKeyUp = function(event) {
-	if($rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
+rootfn.handleKeyUp = function(event) {
+	if(rootfn.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
 		for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
-			$rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
+			rootfn.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
 		}
 	}
 	$rootScope.controls.keysPressed[event.keyCode] = false;
 };
 
-$rootScope.on('canvas-fully-loaded', function() {
-	$rootScope.canvas.addEventListener('keydown', $rootScope.handleKeyDown);
-	$rootScope.canvas.addEventListener('keyup', $rootScope.handleKeyUp);
+rootfn.on('canvas-fully-loaded', function() {
+	$rootScope.canvas.addEventListener('keydown', rootfn.handleKeyDown);
+	$rootScope.canvas.addEventListener('keyup', rootfn.handleKeyUp);
 });
 
 /**
@@ -115,7 +116,7 @@ $rootScope.on('canvas-fully-loaded', function() {
  * workin with javascript arguments: MDN docu: http://goo.gl/FSZ196
  * 
  */
-$sr.controls.isKeyPressed = function() {
+srfn.controls.isKeyPressed = function() {
 	var result = true;
 		i = -1;
 	for (; (++i < arguments.length) && result;) {
@@ -124,7 +125,7 @@ $sr.controls.isKeyPressed = function() {
 	return result;
 };
 
-$rootScope.generateKeys = function() {
+rootfn.controls.generateKeys = function() {
 	var codes = {
 		'backspace': 8,
 		'tab': 9,
@@ -227,5 +228,5 @@ $rootScope.generateKeys = function() {
 
 };
 
-$sr.controls.init();
+rootfn.controls.init();
 
