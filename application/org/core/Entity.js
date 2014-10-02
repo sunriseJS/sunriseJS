@@ -12,7 +12,7 @@ $sr.Entity = (function(){
 
     //constructor
     function Entity(x, y, width, height, config){
-    	this.components = [];
+    	this.components = {};
     	this.id = $sr.guid();
     	this.x = x;
     	this.y = y;
@@ -32,7 +32,7 @@ $sr.Entity = (function(){
         for(type in config){
             if(type !== 'StateMachine'){
                 var component = $sr.components.create(type, config[type]);
-                this.components.push(component);
+                this.components[type] = component;
                 component.receive('setEntity', this);
             }
         }
@@ -42,10 +42,17 @@ $sr.Entity = (function(){
 
 
 	Entity.prototype.emit = function(what, data){
-		this.components.forEach(function(component){
-			component.receive(what, data);
-		});
-	}	    
+		for(type in this.components){
+            this.components[type].receive(what, data);
+        }
+	}	  
+
+    Entity.prototype.getComponentValue = function(type, variable){
+        if(this.components[type] === undefined){
+            throw new Error('No component "'+type+'" found in entity.');
+        }
+        return this.components[type][variable];
+    }  
 
     Entity.prototype.clone = function(x, y, width, height){
         x = (x === undefined) ? this.x : x;
