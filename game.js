@@ -78,6 +78,7 @@ var game = {
 									"right":['d','right']
 								}
 							},
+							"CollisionBody":{},
 							"playerBehavior":{
 
 							}
@@ -146,6 +147,7 @@ var game = {
 					"anchor": {"x": 48,	"y": 64},
 					"animation": "stand_right" 
 				},
+				"CollisionBody":{},
 				"cheapAI":{
 				}
 			});
@@ -213,6 +215,7 @@ var game = {
 				"maxY" : 320
 			}
 		});
+		$sr.addToGroup(elevator,'elevator');
 		$sr.addToGroup(elevator,'toRender');
 
 		
@@ -228,6 +231,7 @@ var game = {
 
 		$sr.defineCollidingGroups('player','bots');
 		$sr.defineCollidingGroups('testBots','player');
+		$sr.defineCollidingGroups('player','elevator');
 
 		
 		//set player states
