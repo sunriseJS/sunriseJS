@@ -13,50 +13,53 @@ $sr.StateMachine = (function(){
      * construktor
      * @param {[type]} states min 1 = default
      */
-    function StateMachine(entity, states){ 
-        this.entity = entity;
-    	this.states = states;
+    StateMachine = function(config){ 
+        $sr.Component.call(this);
+        var self = this;
+    	this.states = config.states || {};
     	this.currentState = 'default';
+        this.data = this.states.default.values;
+
+        this.on('setState', function(name){
+            if(self.states[name] === undefined){
+                throw new Error('no State with name: '+name);
+            }
+            self.currentState = name;
+            if(self.states[name].events !== undefined){
+                for(name in self.states[name].events){
+                    self.entity.emit(name, self.states[name].events[name]);
+                }
+            }
+            self.data = self.states[self.currentState].values;
+        });
+
+        this.on('addState', function(data){
+            if(data.name === undefined){
+                console.warn('Error in statemachine '+self);
+                throw new Error('No name provided for new state');
+            }
+            if(data.state === undefined){
+                console.warn('Error in statemachine '+self);
+                throw new Error('No state provided to add');
+            }
+
+            if(self.states[data.name] == undefined){
+                self.states[data.name] = data.state;
+            } else {
+                console.warn('Error in statemachine '+self);
+                throw new Error("State: "+data.name+" already exists");
+            }
+        });
     };
 
-    /**
-     * returns current state.
-     */
-    StateMachine.prototype.getCurrentState = function(){
-    	return this.states[this.currentState].values;
-    };
-
-    /**
-     * Sets current state.
-     * Throws error if state is not defined.
-     * @param {[type]} name [the name of the new current state]
-     */
-	StateMachine.prototype.setCurrentState = function(name){
-    	if(this.states[name] === undefined){
-            throw new Error('no State with name: '+name);
-    	}
-        this.currentState = name;
-        for(name in this.states[name].events){
-            this.entity.emit(name, this.states[name].events[name]);
-        }
-    	
-    };
-
-    /**
-     * Adds a new state to the states object.
-     * Will throw error if name is already in use
-     * @param {[type]} name  [the name of the new state]
-     * @param {[type]} state [the state object]
-     */
-	StateMachine.prototype.addState = function(name,state){
-        if(this.states[name] == undefined){
-            this.states[name] = state;
-        } else {
-            throw "State: "+name+" already exists";
-        }
-    };  
-
+	
+    $sr.Component.extend(StateMachine);
     return StateMachine;
 })();
+
+
+$sr.components.add('StateMachine', function(config){
+    return new $sr.StateMachine(config);
+});
 
 

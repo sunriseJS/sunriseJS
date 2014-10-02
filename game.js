@@ -96,22 +96,18 @@ var game = {
 			var cheapAI = new $sr.Component();
 			cheapAI.direction = 2;
 			cheapAI.on('collision', function(){
-				cheapAI.entity.emit('go_mad');
-			});			
-			cheapAI.on('go_mad', function(){
-				cheapAI.entity.stateMachine.setCurrentState('mad');
-
-			});
+				cheapAI.entity.emit('setState', 'mad');
+			});	
 
 			cheapAI.on('tick', function(){
 				if(cheapAI.direction === 2){
 					cheapAI.direction = Math.floor(Math.random()*3)-1;
 					setTimeout(function(){
 						cheapAI.direction = 2;
-						cheapAI.entity.stateMachine.setCurrentState('default');
+						cheapAI.entity.emit('setState','default');
 					},1000*(Math.random(3)+3));
 				}
-				cheapAI.entity.x += cheapAI.direction*cheapAI.entity.stateMachine.getCurrentState().speed;
+				cheapAI.entity.x += cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
 				if(cheapAI.direction === -1){
 					cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
 				}else if(cheapAI.direction === 1){
@@ -128,18 +124,12 @@ var game = {
 				"StateMachine":{
 					"states":{
 						"default":{
-							"events":{
-
-							},
 							"values":{
 								"speed": "0.5",
 								"madness": "minimum"
 							}
 						},
 						"mad":{
-							"events":{
-
-							},
 							"values":{
 								"speed": "1",
 								"madness": "maximum"
@@ -171,12 +161,12 @@ var game = {
 			var elevator = new $sr.Component();
 			elevator.on('tick', function(){
 
-				elevator.entity.y += elevator.entity.stateMachine.getCurrentState().ySpeed;
+				elevator.entity.y += elevator.entity.getComponentData('StateMachine','ySpeed');
 				if(elevator.entity.y < data.minY){
-					elevator.entity.stateMachine.setCurrentState('down');
+					elevator.entity.emit('setState','down');
 				}
 				if(elevator.entity.y > data.maxY){
-					elevator.entity.stateMachine.setCurrentState('up');
+					elevator.entity.emit('setState','up');
 				}
 			});
 			return elevator;
@@ -186,25 +176,16 @@ var game = {
 			"StateMachine":{
 				"states":{
 					"default":{
-						"events":{
-
-						},
 						"values":{
 							"ySpeed": 1
 						}
 					},
 					"up":{
-						"events":{
-
-						},
 						"values":{
 							"ySpeed": -1
 						}
 					},
 					"down":{
-						"events":{
-
-						},
 						"values":{
 							"ySpeed": 1
 						}

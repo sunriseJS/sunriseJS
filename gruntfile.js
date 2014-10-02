@@ -44,7 +44,6 @@ module.exports = function (grunt) {
                     'application/org/core/sunrise.js',
                     'application/org/core/pluginManager.js',
                     'application/org/core/componentManager.js',
-                    'application/org/core/StateMachine.js',
                     'application/org/core/io.js',
                     'application/org/core/controls.js',
                     'application/org/core/canvas.js',
@@ -58,6 +57,7 @@ module.exports = function (grunt) {
                     'application/org/core/collisionSolver.js',
                     'application/org/core/components/Component.js',
                     'application/org/core/components/Renderer.js',
+                    'application/org/core/StateMachine.js',
                     'application/org/core/init.js',
                     'application/org/core/end.js'
 

@@ -20,21 +20,11 @@ $sr.Entity = (function(){
     	this.height = height;
         this.config = config;
 
-        var stateMachineConfig = config["StateMachine"];
-        if(stateMachineConfig === undefined){
-            throw new Error ('Please provide options for StateMachine!');
-        }
-        if(stateMachineConfig.states === undefined){
-            throw new Error ('Please provide states for StateMachine!');
-        }
-        this.stateMachine = new $sr.StateMachine(this, stateMachineConfig.states);
 
         for(type in config){
-            if(type !== 'StateMachine'){
-                var component = $sr.components.create(type, config[type]);
-                this.components[type] = component;
-                component.receive('setEntity', this);
-            }
+            var component = $sr.components.create(type, config[type]);
+            this.components[type] = component;
+            component.receive('setEntity', this);
         }
 	} 
 
