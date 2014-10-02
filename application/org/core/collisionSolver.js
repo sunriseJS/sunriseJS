@@ -43,6 +43,8 @@
 			}
 		}
 
+	$rootScope.colliderTesters = colliderTesters;
+
 
 	$rootScope.checkCollisions = function(){
 		var objs = $rootScope.groups['collidingObjects'];
