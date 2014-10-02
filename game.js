@@ -210,6 +210,7 @@ var game = {
 				"image": "elevator",
 				"anchor": {"x": 64,	"y": 4}
 			},
+			"CollisionBody":{},
 			"elevator":{
 				"minY" : 64,
 				"maxY" : 320
