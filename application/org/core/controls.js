@@ -13,14 +13,15 @@
  */
 
 srfn.controls = {};
-root.controls = {
+$rootScope.controls = {
 	'keys': {},
 	'keycallbacksDown': {},
 	'keycallbacksUp': {},
 	'keysPressed': {}
 };
-srfn.controls.init = function() {
-	root.fn.generateKeys();
+rootfn.controls = {};
+rootfn.controls.init = function() {
+	rootfn.controls.generateKeys();
 };
 
 /**
@@ -49,10 +50,10 @@ function saveCallbacksToArray(type, args){
 			i++;
 		}
 		for(var k = 0; k < keys.length;k++){
-			if(root.controls[type][keys[k]] == undefined){
-				root.controls[type][keys[k]]= callbacks;
+			if($rootScope.controls[type][keys[k]] == undefined){
+				$rootScope.controls[type][keys[k]]= callbacks;
 			}
-			root.controls[type][keys[k]] = $rootScope.controls[type][keys[k]].concat(callbacks).unique();
+			$rootScope.controls[type][keys[k]] = $rootScope.controls[type][keys[k]].concat(callbacks).unique();
 		}
 	}
 };
@@ -97,17 +98,17 @@ rootfn.handleKeyDown = function(event) {
  * @return {[type]}       [description]
  */
 rootfn.handleKeyUp = function(event) {
-	if(rootfn.controls.keycallbacksUp[root.controls.keys.names[event.keyCode]]!= undefined){ 
-		for(var i = 0; i < root.controls.keycallbacksUp[root.controls.keys.names[event.keyCode]].length; ++i){
-			rootfn.controls.keycallbacksUp[root.controls.keys.names[event.keyCode]][i]();
+	if(rootfn.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]]!= undefined){ 
+		for(var i = 0; i < $rootScope.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]].length; ++i){
+			rootfn.controls.keycallbacksUp[$rootScope.controls.keys.names[event.keyCode]][i]();
 		}
 	}
-	root.controls.keysPressed[event.keyCode] = false;
+	$rootScope.controls.keysPressed[event.keyCode] = false;
 };
 
-$rootScope.on('canvas-fully-loaded', function() {
-	root.canvas.addEventListener('keydown', $rootScope.handleKeyDown);
-	root.canvas.addEventListener('keyup', $rootScope.handleKeyUp);
+rootfn.on('canvas-fully-loaded', function() {
+	$rootScope.canvas.addEventListener('keydown', rootfn.handleKeyDown);
+	$rootScope.canvas.addEventListener('keyup', rootfn.handleKeyUp);
 });
 
 /**
@@ -115,7 +116,7 @@ $rootScope.on('canvas-fully-loaded', function() {
  * workin with javascript arguments: MDN docu: http://goo.gl/FSZ196
  * 
  */
-$sr.controls.isKeyPressed = function() {
+srfn.controls.isKeyPressed = function() {
 	var result = true;
 		i = -1;
 	for (; (++i < arguments.length) && result;) {
@@ -124,7 +125,7 @@ $sr.controls.isKeyPressed = function() {
 	return result;
 };
 
-$rootScope.generateKeys = function() {
+rootfn.controls.generateKeys = function() {
 	var codes = {
 		'backspace': 8,
 		'tab': 9,
@@ -227,5 +228,5 @@ $rootScope.generateKeys = function() {
 
 };
 
-$sr.controls.init();
+rootfn.controls.init();
 

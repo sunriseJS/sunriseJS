@@ -14,11 +14,11 @@
 
 //private functions
 
-var $rootScope = root = $sr.$rootScope = $sr.$rootScope || {};
-rootfn = root.fn = {};
-root.$scope = {};
+var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
+rootfn = $rootScope.fn = {};
+$rootScope.$scope = {};
 
-srfn = root.$scope.fn = {};
+srfn = $rootScope.$scope.fn = {};
 
 _seal = $sr._seal = $sr._seal || function () {
 	delete $sr.$rootScope;
@@ -35,24 +35,24 @@ _unseal = $sr._unseal = $sr._unseal || function () {
 
 rootfn.sunrise = function(){
 	$sr._seal();
-	$rootScope.fn.initCanvas();
-	$sr.loadImages(game.config.images, function(){
+	rootfn.initCanvas();
+	srfn.loadImages(game.config.images, function(){
 		//todo: make this better :D
-		$sr.loadLevels(game.config.levels, function(){
+		srfn.loadLevels(game.config.levels, function(){
 			game.init($rootScope.$scope);
-			$rootScope.run();	
+			rootfn.run();	
 		});
 	});
 };
 
 
 rootfn.run = function(){
-	$rootScope.clearCanvas();
-	$rootScope.updateStage();
-	$rootScope.checkCollisions();
+	rootfn.clearCanvas();
+	rootfn.updateStage();
+	rootfn.checkCollisions();
 	game.run($rootScope.$scope);
-	$rootScope.drawStage();
-	$rootScope.animationFrame.call(window, rootfn.run);
+	rootfn.drawStage();
+	rootfn.animationFrame.call(window, rootfn.run);
 };
 
 srfn.fps = {
@@ -82,8 +82,8 @@ rootfn.init = function(){
 }
 
 
-root.dom = document.querySelector('div[sunriseJS-app]');
-if(root.dom != undefined){
+$rootScope.dom = document.querySelector('div[sunriseJS-app]');
+if($rootScope.dom != undefined){
 	rootfn.init();
 }
 else {

@@ -8,13 +8,13 @@
  *
  */
 
-$sr.StateMachine = (function(){ 
+srfn.StateMachine = (function(){ 
     /**
      * construktor
      * @param {[type]} states min 1 = default
      */
     StateMachine = function(config){ 
-        $sr.Component.call(this);
+        srfn.Component.call(this);
         var self = this;
     	this.states = config.states || {};
     	this.currentState = 'default';
@@ -53,13 +53,13 @@ $sr.StateMachine = (function(){
     };
 
 	
-    $sr.Component.extend(StateMachine);
+    srfn.Component.extend(StateMachine);
     return StateMachine;
 })();
 
 
-$sr.components.add('StateMachine', function(config){
-    return new $sr.StateMachine(config);
+srfn.components.add('StateMachine', function(config){
+    return new srfn.StateMachine(config);
 });
 
 

@@ -38,7 +38,7 @@
  *          y - vertical position of anchor
  * }
  */
-$sr.Renderer = (function(){ 
+srfn.Renderer = (function(){ 
 
 
     
@@ -49,7 +49,7 @@ $sr.Renderer = (function(){
      * @param {Object} data       optional and may contain animation, rotation, alpha or anchor
      */
     Renderer = function(config){
-        $sr.Component.call(this);
+        srfn.Component.call(this);
         var self = this;
         //Test whether image exists
         var image_name = config.image;
@@ -208,13 +208,13 @@ $sr.Renderer = (function(){
         this.data.anchor = this.anchor;
     }
 
-    $sr.Component.extend(Renderer);
+    srfn.Component.extend(Renderer);
 
     return Renderer;
 
 })();
 
 
-$sr.components.add('Renderer', function(config){
+srfn.components.add('Renderer', function(config){
     return new $sr.Renderer(config);
 });

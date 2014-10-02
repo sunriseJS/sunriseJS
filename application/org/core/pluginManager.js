@@ -32,11 +32,11 @@ rootfn.initPlugins = function(){
 	while(i >= 0 && (plugs[i--] = 'plugins/'+game.config.plugins.pop()+'.js')){}
 	for(var title in plugs){
 		(function(name, source){
-			$sr.loadScript(source, 
+			srfn.loadScript(source, 
 					function() {
 					delete plugs[name];
 					if(Object.keys(plugs).length === 0){
-						$rootScope.emit('all_plugins_loaded');
+						rootfn.emit('all_plugins_loaded');
 					}
 			});
 		})(title, plugs[title]);

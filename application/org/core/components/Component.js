@@ -8,7 +8,7 @@
  *
  */
 
-$sr.Component = (function(){ 
+srfn.Component = (function(){ 
 
 
 	Component = function(){
@@ -20,7 +20,7 @@ $sr.Component = (function(){
 		this.data = {};
 	}
 
-	$sr.CoreObject.extend(Component);
+	srfn.CoreObject.extend(Component);
 
 	Component.prototype.on = function(what, callback, force){
 		if(this.receiver[what] !== undefined && !force){

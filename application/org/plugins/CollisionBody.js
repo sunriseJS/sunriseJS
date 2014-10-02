@@ -18,11 +18,12 @@
  * receives:
  *
 */
-
+$rootScope.$scope.fn
 
 (function($sr){	
-	var $rootScope = $sr.$rootScope;
-	$sr.CollisionBody = (function(){ 
+	var $rootScope = $sr.$rootScope,
+		srfn = $rootScope.$scope.fn;
+	srfn.CollisionBody = (function(){ 
 
 
 		
@@ -31,7 +32,7 @@
 		 * Contructor of CollisionBody Component
 		 */
 		CollisionBody = function(options){
-			$sr.Component.call(this);
+			srfn.Component.call(this);
 			var self = this;
 			this.data.colliderType = options.colliderType || 'rectangle';
 			if($rootScope.colliderTesters[this.data.colliderType] === undefined){
@@ -56,14 +57,14 @@
 					
 		}
 
-		$sr.Component.extend(CollisionBody);
+		srfn.Component.extend(CollisionBody);
 
 		return CollisionBody;
 
 	})();
 
-	$sr.components.add('CollisionBody', function(config){
-		return new $sr.CollisionBody(config);
+	srfn.components.add('CollisionBody', function(config){
+		return new srfn.CollisionBody(config);
 	});
 
 	

@@ -31,7 +31,7 @@ $rootScope.fn.initCanvas 		= function(){
 	$rootScope.canvas = canvas;
 	$rootScope.canvas.context = canvas.getContext('2d');
 	canvas.focus();
-	$rootScope.emit('canvas-fully-loaded');
+	rootfn.emit('canvas-fully-loaded');
 };
 
 $rootScope.fn.clearCanvas = function(){

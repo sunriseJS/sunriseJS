@@ -10,7 +10,7 @@
  */
 var layerBuffers = [];
 
-root.$scope.stage = {};
+srfn.stage = {};
 var focus = {};
 var offset = {
 	x : 0,

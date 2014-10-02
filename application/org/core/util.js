@@ -9,7 +9,7 @@
 */
 
 
-var utilfn = root.$scope.util = {};
+var utilfn = $rootScope.$scope.util = {};
 
 /**
  * Loads data asynchronous from URL
