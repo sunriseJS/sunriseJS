@@ -42,9 +42,9 @@ var game = {
 	},
 
 
-	init: function($scope) {
+	init: function($) {
 
-		$sr.components.add('playerBehavior',function(config){
+		$.fn.components.add('playerBehavior',function(config){
 			var playerBehavior = new $sr.Component();
 			playerBehavior.on('collision', function(){
 				playerBehavior.entity.emit('changeOpacity', {
@@ -60,7 +60,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$scope.player = new $sr.Entity(688,260,96,128,{	
+		$.player = new $.fn.Entity(688,260,96,128,{	
 							"StateMachine":{
 								"states":{
 									"default":{
@@ -89,11 +89,11 @@ var game = {
 							}
 		});
 
-		$sr.addToGroup($scope.player,'player');
+		$.fn.addToGroup($.player,'player');
 		
-		$sr.components.add('cheapAI', function(config){
+		$.fn.components.add('cheapAI', function(config){
 
-			var cheapAI = new $sr.Component();
+			var cheapAI = new $.fn.Component();
 			cheapAI.direction = 2;
 			cheapAI.on('collision', function(){
 				cheapAI.entity.emit('setState', 'mad');
@@ -120,7 +120,7 @@ var game = {
 			return cheapAI;
 		});
 
-		window.bot = new $sr.Entity(688+128,260+64,96/2,128/2,{
+		window.bot = new $.fn.Entity(688+128,260+64,96/2,128/2,{
 				"StateMachine":{
 					"states":{
 						"default":{
@@ -151,14 +151,14 @@ var game = {
 			var clone = bot.clone();
 			bots.push(clone);
 		}
-		$sr.addToGroup(bots,'bots');
-		$sr.addToGroup(bots,'toRender');
+		$.fn.addToGroup(bots,'bots');
+		$.fn.addToGroup(bots,'toRender');
 
 
 
-		$sr.components.add('elevator', function(data){
+		$.fn.components.add('elevator', function(data){
 			console.log(data);
-			var elevator = new $sr.Component();
+			var elevator = new $.fn.Component();
 			elevator.on('tick', function(){
 
 				elevator.entity.y += elevator.entity.getComponentData('StateMachine','ySpeed');
@@ -172,7 +172,7 @@ var game = {
 			return elevator;
 		});
 
-		window.elevator = new $sr.Entity(1216,256,128,8,{
+		window.elevator = new $.fn.Entity(1216,256,128,8,{
 			"StateMachine":{
 				"states":{
 					"default":{
@@ -202,8 +202,8 @@ var game = {
 				"maxY" : 320
 			}
 		});
-		$sr.addToGroup(elevator,'elevator');
-		$sr.addToGroup(elevator,'toRender');
+		$.fn.addToGroup(elevator,'elevator');
+		$.fn.addToGroup(elevator,'toRender');
 
 		
 
@@ -214,22 +214,22 @@ var game = {
 		testBots.push(bots[4]);
 		testBots.push(bots[6]);
 
-		$sr.addToGroup(testBots,'testBots');
+		$.fn.addToGroup(testBots,'testBots');
 
-		$sr.defineCollidingGroups('player','bots');
-		$sr.defineCollidingGroups('testBots','player');
-		$sr.defineCollidingGroups('player','elevator');
+		$.fn.defineCollidingGroups('player','bots');
+		$.fn.defineCollidingGroups('testBots','player');
+		$.fn.defineCollidingGroups('player','elevator');
 
 		
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
-		$sr.stage.setLevel('level1');
+		$.fn.stage.setLevel('level1');
 		
-		$scope.fpsdom = document.querySelector('#fps');
-		window.player = $scope.player; // only for testing purposes
-		$sr.addToGroup($scope.player,'toRender');
-		$sr.stage.setFocus($scope.player,0,-64);
+		$.fpsdom = document.querySelector('#fps');
+		window.player = $.player; // only for testing purposes
+		$.fn.addToGroup($.player,'toRender');
+		$.fn.stage.setFocus($.player,0,-64);
 		
 		/*
 		console.log($scope.player.stateManager.states);
@@ -240,9 +240,9 @@ var game = {
 	
 	},
 
-	run: function($scope) {
+	run: function($) {
 
-		$scope.fpsdom.innerHTML = $sr.fps.getFps();
+		$.fpsdom.innerHTML = $.fn.fps.getFps();
 
 	},
 
