@@ -55,9 +55,15 @@
 					//console.log(utilfn.Vec2.divide(forces[i],mass), data.delta*unit);
 				}
 				speed.multiply(inertia);
-				console.log(speed.y*(data.delta*unit));
 				self.entity.x += speed.x*(data.delta*unit);
 				self.entity.y += speed.y*(data.delta*unit);			
+			});
+
+			this.on('collision', function(data){
+				//self.entity.x -= speed.x;
+				speed.x = 0;
+				//self.entity.y -= speed.y;
+				speed.y = 0;
 			});
 
 

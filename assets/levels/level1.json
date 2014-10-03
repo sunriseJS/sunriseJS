@@ -12,9 +12,9 @@
 			"size-x": "loop",
 			"size-y": "original",
 			"scroll-x": 0.5,
-			"scroll-y": 1,
+			"scroll-y": 0.5,
 			"x": -600,
-			"y": -60,
+			"y": -128,
 			"z": 2
 		},
 		{
@@ -22,8 +22,8 @@
 			"image": "signs",
 			"size-x": "loop",
 			"size-y": "original",
-			"scroll-x": 0.75,
-			"scroll-y": 1,
+			"scroll-x": 0.95,
+			"scroll-y": 0.95,
 			"x": 0,
 			"y": 256,
 			"z": 1

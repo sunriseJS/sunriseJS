@@ -61,7 +61,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(688,100,96,128,{	
+		$.player = new $.fn.Entity(1216,100,96,128,{	
 							"StateMachine":{
 								"states":{
 									"default":{
@@ -89,8 +89,9 @@ var game = {
 
 							},
 							"Physics":{
+								"mass": 8,
 								"forces":[
-									{"x":0,"y":1}
+									{"x":0,"y":9.81}
 								]
 							}
 		});
