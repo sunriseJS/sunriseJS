@@ -4,7 +4,8 @@ var game = {
 		screenHeight: 360,
 		plugins: [
 					'JumpNRunController',
-					'CollisionBody'
+					'CollisionBody',
+					'Physics'
 				],
 		images: {
 			'player-anim': {
@@ -60,7 +61,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(688,260,96,128,{	
+		$.player = new $.fn.Entity(688,100,96,128,{	
 							"StateMachine":{
 								"states":{
 									"default":{
@@ -86,6 +87,11 @@ var game = {
 							},
 							"playerBehavior":{
 
+							},
+							"Physics":{
+								"forces":[
+									{"x":0,"y":1}
+								]
 							}
 		});
 
