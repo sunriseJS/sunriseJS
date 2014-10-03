@@ -163,12 +163,16 @@ srfn.stage.setFocus = function(x,y,yy){
 	}
 };
 
-
-srfn.stage.update = function(){
-	$rootScope.groups['groups']['toRender'].forEach(function(entity){
-		entity.emit('tick',{});
-	});
-};
+(function(){
+	var lastTick = Date.now();
+	srfn.stage.update = function(){
+		var now = Date.now();
+		$rootScope.groups['groups']['toRender'].forEach(function(entity){
+			entity.emit('tick',{delta: now-lastTick});
+		});
+		lastTick = now;
+	};
+})();
 
 
 /**

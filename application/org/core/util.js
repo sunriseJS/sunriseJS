@@ -46,9 +46,9 @@ utilfn.ajax = function(url,callback, data){
  * @param  Number y           value for y (optional if x is Vec2)
  * @param  function(Vec2) calculation function which will be called with an Vec2
  */
-utilfn.executeCalculation = function(x, y, calculation){
+var executeCalculation = function(x, y, calculation){
 	if(typeof x === 'object'){
-		if(!x instanceof $sr.util.Vec2){
+		if(!x instanceof utilfn.Vec2){
 			throw new Error('Can\'t use '+x+'as Vec2');
 		}
 		calculation(x);
