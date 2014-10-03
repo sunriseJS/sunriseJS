@@ -165,6 +165,7 @@ var game = {
 		$.fn.components.add('elevator', function(data){
 			console.log(data);
 			var elevator = new $.fn.Component();
+
 			elevator.on('tick', function(){
 
 				elevator.entity.y += elevator.entity.getComponentData('StateMachine','ySpeed');
@@ -177,6 +178,7 @@ var game = {
 			});
 			return elevator;
 		});
+
 
 		window.elevator = new $.fn.Entity(1216,256,128,8,{
 			"StateMachine":{
@@ -208,6 +210,9 @@ var game = {
 				"maxY" : 320
 			}
 		});
+
+
+
 		$.fn.addToGroup(elevator,'elevator');
 		$.fn.addToGroup(elevator,'toRender');
 
@@ -243,7 +248,6 @@ var game = {
 		$scope.player.stateManager.setCurrentState('run_left');
 		console.log($scope.player.stateManager.getCurrentState());
 		*/
-	
 	},
 
 	run: function($) {
@@ -251,9 +255,4 @@ var game = {
 		$.fpsdom.innerHTML = $.fn.fps.getFps();
 
 	},
-
-
-	generateStates: function($scope) {
-
-	}
 };
