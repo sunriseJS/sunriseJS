@@ -82,7 +82,7 @@ var game = {
 								"x":25,
 								"y":10,
 								"width":48,
-								"height":120
+								"height":116
 							},
 							"playerBehavior":{
 
