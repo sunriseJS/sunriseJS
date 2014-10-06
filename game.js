@@ -20,7 +20,7 @@ var game = {
 				}
 
 			},
-			'tileset1':{
+			'tileset1':{	//put to level file
 				source: 'assets/graphics/tileset1.png',
 				tileWidth: 64,
 				tileHeight: 64
@@ -43,10 +43,15 @@ var game = {
 	},
 
 
-	init: function($) {
+	init: function($) { //change to something else
 
 		$.fn.components.add('playerBehavior',function(config){
 			var playerBehavior = new $.fn.Component();
+			playerBehavior.on('tick', function(){
+				if(playerBehavior.entity.y > 1000){
+					playerBehavior.entity.y = -500;
+				}
+			});
 			playerBehavior.on('collision', function(){
 				playerBehavior.entity.emit('changeOpacity', {
 					opacity: 0.5
@@ -61,13 +66,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(1216,100,96,128,{	
-							"StateMachine":{
-								"states":{
-									"default":{
-									}
-								}
-							},
+		$.player = new $.fn.Entity(1216,64,96,128,{	
 							"Renderer":{
 								"image": "player-anim",
 								"anchor": {"x": 48,	"y": 64},
@@ -111,7 +110,7 @@ var game = {
 					cheapAI.direction = Math.floor(Math.random()*3)-1;
 					setTimeout(function(){
 						cheapAI.direction = 2;
-						cheapAI.entity.emit('setState','default');
+						cheapAI.entity.emit('setState','neutral');
 					},1000*(Math.random(3)+3));
 				}
 				cheapAI.entity.x += cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
@@ -129,8 +128,9 @@ var game = {
 
 		window.bot = new $.fn.Entity(688+128,260+64,96/2,128/2,{
 				"StateMachine":{
+					"default": "neutral",
 					"states":{
-						"default":{
+						"neutral":{
 							"values":{
 								"speed": "0.5",
 								"madness": "minimum"
@@ -183,8 +183,9 @@ var game = {
 
 		window.elevator = new $.fn.Entity(1216,256,128,8,{
 			"StateMachine":{
+				"default": "up",
 				"states":{
-					"default":{
+					"down":{
 						"values":{
 							"ySpeed": 1
 						}
@@ -192,11 +193,6 @@ var game = {
 					"up":{
 						"values":{
 							"ySpeed": -1
-						}
-					},
-					"down":{
-						"values":{
-							"ySpeed": 1
 						}
 					}
 				}

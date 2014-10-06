@@ -17,8 +17,12 @@ srfn.StateMachine = (function(){
         srfn.Component.call(this);
         var self = this;
     	this.states = config.states || {};
-    	this.currentState = 'default';
-        this.data = this.states.default.values;
+        if(config.default === undefined){
+            console.warn('Error in StateMachine '+this);
+            throw new Error('Can\'t find state "'+config.default+'"');
+        }
+    	this.currentState = config.default;
+        this.data = this.states[this.currentState].values;
 
         this.on('setState', function(name){
             if(self.states[name] === undefined){
