@@ -16,12 +16,12 @@
 							},
 							fHalfWidth = f.width/2,
 							sHalfWidth = s.width/2,
-							xOverlap = fHalfWidth + sHalfWidth - Math.abs(n.x);
+							xOverlap = fHalfWidth + sHalfWidth + Math.abs(n.x);
 
 						if(xOverlap > 0){
 							var fHalfHeight = f.height/2,
-								sHalfHeight = s.height/2
-								yOverlap = fHalfHeight + fHalfHeight - Math.abs(n.y);
+								sHalfHeight = s.height/2,
+								yOverlap = fHalfHeight + sHalfHeight + Math.abs(n.y);
 
 							if(yOverlap > 0){
 								if(xOverlap > yOverlap){
