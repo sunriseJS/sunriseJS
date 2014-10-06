@@ -15,10 +15,10 @@
 //private functions
 
 var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
-rootfn = $rootScope.fn = {};
+var rootfn = $rootScope.fn = {};
 $rootScope.$scope = {};
 
-srfn = $rootScope.$scope.fn = {};
+var srfn = $rootScope.$scope.fn = {};
 
 _seal = $sr._seal = $sr._seal || function () {
 	delete $sr.$rootScope;
