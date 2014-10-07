@@ -95,16 +95,73 @@
 		}
 	};
 
-
+	/**
+	 * Removes an entity from one specific group
+	 * @param  {[type]} entity [Entity to remove]
+	 * @param  {[type]} group  [group to remove the object from]
+	 * @return {[type]}        [undefined]
+	 */
 	srfn.removeEntityFromGroup = function(entity,group){
-		
+		if(!(entity instanceof srfn.Entity)){
+			throw new Error('Given object is not an Entity',entity);
+		}
+		var index = $rootScope.groups['groups'][group].indexOf(entity);
+		if(index == -1){
+			return;
+		}
+		$rootScope.groups['groups'][group].splice(index, 1);
 	};
 
+	/**
+	 * Removes an entity from all groups.
+	 * @param  {[type]} entity [Entity to remove]
+	 * @return {[type]}        [description]
+	 */
+	srfn.removeEntityFromAllGroups = function(entity){
+		if(!(entity instanceof srfn.Entity)){
+			throw new Error('Given object is not an Entity',entity);
+		}
+		var groups = $sr.getGroupsByEntity(entity);
+		if(!groups){
+			return;
+		}
+		for(var i = groups.length; i--;){
+			console.log(groups[i]);
+			$sr.removeEntityFromGroup(entity,groups[i]);
+		}
+	};
 
-
+	/**
+	 * Returns an array of groups which hold the Entity.
+	 * Returns false if entity is in no group. 
+	 * @param  {[type]} entity [entity to search for in all groups]
+	 * @return {[type]}        [array, false]
+	 */
+	srfn.getGroupsByEntity = function(entity){
+		if(!(entity instanceof srfn.Entity)){
+			throw new Error('Given object is not an Entity',entity);
+		}
+		var groups = [];
+		for (var key in $rootScope.groups['groups']) {
+		   if ($rootScope.groups['groups'].hasOwnProperty(key)) {
+		      var obj = $rootScope.groups['groups'][key];
+		      for (var prop in obj) {
+		         if (obj.hasOwnProperty(prop)) {
+	            	if(entity.id == obj[prop].id){
+	            		groups.push(key);
+	            	}
+		         }
+		      }
+		   }
+		}
+		if(groups.length == 0){
+			return false;
+		}
+		return groups;
+	};
 
 	//debuging
-	srfn.getGroups = function(){
+	$sr.getGroups = function(){
 		return $rootScope.groups;
 	};
 })();

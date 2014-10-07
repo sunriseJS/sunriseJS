@@ -29,7 +29,7 @@ utilfn.ajax = function(url,callback, data){
 	        callback(request.responseText);
 	    }
 	}       
-	request.open("POST",url,true);
+	request.open("GET",url,true);
 
 	if(data){
 		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
