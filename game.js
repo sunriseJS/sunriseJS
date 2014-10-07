@@ -1,3 +1,4 @@
+window.debug = true;
 var game = {
 	config: {
 		screenWidth: 640,
@@ -51,8 +52,14 @@ var game = {
 				if(playerBehavior.entity.y > 1000){
 					playerBehavior.entity.y = -500;
 				}
+				if($.fn.controls.isKeyPressed('w')){
+					playerBehavior.entity.y -= 1;
+				}
+				if($.fn.controls.isKeyPressed('s')){
+					playerBehavior.entity.y += 1;
+				}
 			});
-			playerBehavior.on('collision', function(){
+			playerBehavior.on('collision', function(data){
 				playerBehavior.entity.emit('changeOpacity', {
 					opacity: 0.5
 				});
@@ -66,7 +73,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(1216,64,96,128,{	
+		$.player = new $.fn.Entity(1216,64+196,96,128,{	
 							"Renderer":{
 								"image": "player-anim",
 								"anchor": {"x": 48,	"y": 64},
@@ -90,7 +97,7 @@ var game = {
 							"Physics":{
 								"mass": 8,
 								"forces":[
-									{"x":0,"y":9.81}
+									{"x":0,"y":9.81*0}
 								]
 							}
 		});
@@ -156,7 +163,7 @@ var game = {
 		var bots = [];
 		for(var i=0; i<8; i++){
 			var clone = bot.clone();
-			bots.push(clone);
+			//bots.push(clone);
 		}
 		$.fn.addToGroup(bots,'bots');
 		$.fn.addToGroup(bots,'toRender');
@@ -187,12 +194,12 @@ var game = {
 				"states":{
 					"down":{
 						"values":{
-							"ySpeed": 1
+							"ySpeed": 1*0
 						}
 					},
 					"up":{
 						"values":{
-							"ySpeed": -1
+							"ySpeed": -1*0
 						}
 					}
 				}
@@ -202,6 +209,10 @@ var game = {
 				"anchor": {"x": 64,	"y": 4}
 			},
 			"CollisionBody":{},
+			"Physics":{
+				"mass": 200,
+				"forces":[]
+			},
 			"elevator":{
 				"minY" : 64,
 				"maxY" : 320
@@ -213,19 +224,10 @@ var game = {
 		$.fn.addToGroup(elevator,'elevator');
 		$.fn.addToGroup(elevator,'toRender');
 
-		
+	
 
-
-		var testBots = [];
-		testBots.push(bots[0]);
-		testBots.push(bots[2]);
-		testBots.push(bots[4]);
-		testBots.push(bots[6]);
-
-		$.fn.addToGroup(testBots,'testBots');
 
 		$.fn.defineCollidingGroups('player','bots');
-		$.fn.defineCollidingGroups('testBots','player');
 		$.fn.defineCollidingGroups('player','elevator');
 
 		
