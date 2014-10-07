@@ -18,16 +18,16 @@
 						if(yOverlap > 0){
 							if(xOverlap < yOverlap){
 								if(n.x < 0){
-									collision.normal = {x: -1, y: 0};
-								}else{
 									collision.normal = {x: 1, y: 0};
+								}else{
+									collision.normal = {x: -1, y: 0};
 								}
 								collision.penetration = xOverlap;
 							}else{
 								if(n.y < 0){
-									collision.normal = {x: 0, y: -1};
-								}else{
 									collision.normal = {x: 0, y: 1};
+								}else{
+									collision.normal = {x: 0, y: -1};
 								}
 								collision.penetration = yOverlap;
 							}
@@ -90,16 +90,21 @@
 	    	s.x += o[1].x;
 	    	s.y += o[1].y;
 
+
+
 	    	var collision = colliderTesters[c1][c2](f,s);
-		    if(collision !== false){
-		    	//console.log('{'+collision.normal.x+','+collision.normal.y+'}, '+collision.penetration);
-		    	o[0].emit('collision',{other: o[1], collision: collision});
-		    	o[1].emit('collision',{other: o[0], collision: collision});
-		    }
-		    f.x -= o[0].x;
+
+	    	f.x -= o[0].x;
 	    	f.y -= o[0].y;
 	    	s.x -= o[1].x;
 	    	s.y -= o[1].y;
+	    	
+		    if(collision !== false){
+		    	console.log('{'+collision.normal.x+','+collision.normal.y+'}, '+collision.penetration);
+		    	o[0].emit('collision',{other: o[1], collision: collision});
+		    	o[1].emit('collision',{other: o[0], collision: collision});
+		    }
+		    
 
 		}
 	}
