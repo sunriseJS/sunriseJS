@@ -3,46 +3,38 @@
 	var colliderTesters = {
 			rectangle : {
 				rectangle : function(f, s){
-					var colX = (s.x >= f.x && s.x <= f.x + f.width);
-					colX = colX || (f.x >= s.x && f.x <= s.x + s.width);
-					var colY = (s.y >= f.y && s.y <= f.y + f.height);
-					colY = colY || (f.y >= s.y && f.y <= s.y + s.height);
-					//console.log('testCollision rectangle:',colX, colY, f, s);
-					if(colX && colY){
-						var collision = {},
-							n = {
-								x: f.x - s.x,
-								y : f.y - s.y
-							},
-							fHalfWidth = f.width/2,
-							sHalfWidth = s.width/2,
-							xOverlap = fHalfWidth + sHalfWidth + Math.abs(n.x);
-
-						if(xOverlap > 0){
-							var fHalfHeight = f.height/2,
-								sHalfHeight = s.height/2,
-								yOverlap = fHalfHeight + sHalfHeight + Math.abs(n.y);
-
-							if(yOverlap > 0){
-								if(xOverlap > yOverlap){
-									if(n.x < 0){
-										collision.normal = {x: -1, y: 0};
-									}else{
-										collision.normal = {x: 1, y: 0};
-									}
-									collision.penetration = xOverlap;
+					var collision = {},
+						n = {
+							x: f.x - s.x,
+							y : f.y - s.y,
+							ax : Math.abs(f.x - s.x),
+							ay : Math.abs(f.y - s.y)
+						},
+						realLength = (f.x < s.x) ? n.ax+s.width : n.ax+f.width,
+						xOverlap = (f.width+s.width) - realLength;
+					if(xOverlap > 0){
+						var	realHeight = (f.y < s.y) ? n.ay+s.height : n.ay+f.height,
+							yOverlap = (f.height+s.height) - realHeight;
+						if(yOverlap > 0){
+							if(xOverlap < yOverlap){
+								if(n.x < 0){
+									collision.normal = {x: -1, y: 0};
 								}else{
-									if(n.y < 0){
-										collision.normal = {x: 0, y: -1};
-									}else{
-										collision.normal = {x: 0, y: 1};
-									}
-									collision.penetration = yOverlap;
+									collision.normal = {x: 1, y: 0};
 								}
-								return collision;
+								collision.penetration = xOverlap;
+							}else{
+								if(n.y < 0){
+									collision.normal = {x: 0, y: -1};
+								}else{
+									collision.normal = {x: 0, y: 1};
+								}
+								collision.penetration = yOverlap;
 							}
+							return collision;
 						}
 					}
+					
 					return false;
 				},
 				circle : function(f, s){
@@ -100,6 +92,7 @@
 
 	    	var collision = colliderTesters[c1][c2](f,s);
 		    if(collision !== false){
+		    	//console.log('{'+collision.normal.x+','+collision.normal.y+'}, '+collision.penetration);
 		    	o[0].emit('collision',{other: o[1], collsion: collision});
 		    	o[1].emit('collision',{other: o[0], collision: collision});
 		    }
