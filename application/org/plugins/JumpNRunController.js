@@ -25,10 +25,6 @@
 	var $rootScope = $sr.$rootScope,
 		srfn = $rootScope.$scope.fn;
 	srfn.JumpNRunController = (function(){ 
-
-
-	
-
 		/**
 		 * Contructor of JumpNRunController Component
 		 * @param {Object} config      optional and may contain keys for the controll

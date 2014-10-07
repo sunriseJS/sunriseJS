@@ -22,7 +22,7 @@
 		if(utilfn.inArray(entity,$rootScope.groups['groups'][groupName])){
 			$rootScope.groups['groups'][groupName].push(entity);
 		}
-	};
+	}
 	/**
 	 * adds an array for entities to a group
 	 * @param {[type]} entities  [array]
@@ -36,7 +36,7 @@
 	  			$rootScope.groups['groups'][groupName].push(entities[j]);
 	  		}
 	  	}
-	};
+	}
 	/**
 	 * array, the two objects that shall be testet for collision
 	 * @param {[type]} collideingPair [description]
@@ -51,14 +51,14 @@
 			}
 		}
 		$rootScope.groups['collidingObjects'].push([collidingPair[0],collidingPair[1]]);	
-	};
+	}
 
 	$rootScope.groups = {
 		'groups': 	{
 			'toRender': []
 		},
 		'collidingObjects': []
-	};
+	}
 
 
 	/**
@@ -68,13 +68,18 @@
 	 */
 	srfn.addToGroup = function(entities, groupName){
 		if(entities instanceof Array){
+			for(var i = entities.length; i--;){
+				if(!(entities[i] instanceof srfn.Entity)){
+					throw new Error('Object is not an Entity.');
+				}
+			}
 			groupFn.addEntitiesToGroup(entities, groupName);
 		} else if(entities instanceof srfn.Entity){
 			groupFn.addEntityToGroup(entities,groupName);
 		} else {
-			throw new Error('No valid object is given to put in group: '+groupName);
+			throw new Error('Object is not an Entity.');
 		}
-	};
+	}
 
 	/**
 	 * define groups where the objects will collide
@@ -93,7 +98,7 @@
 				groupFn.addEntityToCollingObjects([colliderGrp[i],toCollideGrp[j]]);
 			}
 		}
-	};
+	}
 
 	/**
 	 * Removes an entity from one specific group
@@ -110,7 +115,7 @@
 			return;
 		}
 		$rootScope.groups['groups'][group].splice(index, 1);
-	};
+	}
 
 	/**
 	 * Removes an entity from all groups.
@@ -129,7 +134,7 @@
 			console.log(groups[i]);
 			$sr.removeEntityFromGroup(entity,groups[i]);
 		}
-	};
+	}
 
 	/**
 	 * Returns an array of groups which hold the Entity.
@@ -158,11 +163,11 @@
 			return false;
 		}
 		return groups;
-	};
+	}
 
 	//debuging
 	$sr.getGroups = function(){
 		return $rootScope.groups;
-	};
+	}
 })();
 
