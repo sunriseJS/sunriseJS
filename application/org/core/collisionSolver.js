@@ -93,7 +93,7 @@
 	    	var collision = colliderTesters[c1][c2](f,s);
 		    if(collision !== false){
 		    	//console.log('{'+collision.normal.x+','+collision.normal.y+'}, '+collision.penetration);
-		    	o[0].emit('collision',{other: o[1], collsion: collision});
+		    	o[0].emit('collision',{other: o[1], collision: collision});
 		    	o[1].emit('collision',{other: o[0], collision: collision});
 		    }
 		    f.x -= o[0].x;
