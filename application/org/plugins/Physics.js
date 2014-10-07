@@ -61,7 +61,7 @@
 			});
 
 			this.on('collision', function(data){
-				console.log(data);
+				//console.log(data);
 				var otherSpeed = data.other.getComponentData('Physics', 'speed'),
 					otherRestitution = data.other.getComponentData('Physics', 'restitution'),
 					otherMass = data.other.getComponentData('Physics', 'mass'),
