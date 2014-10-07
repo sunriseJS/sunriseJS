@@ -5,6 +5,7 @@ var game = {
 		plugins: [
 					'JumpNRunController',
 					'CollisionBody',
+					'SimpleInventory',
 					'Physics'
 				],
 		images: {
@@ -33,6 +34,9 @@ var game = {
 			},
 			'elevator':{
 				source: 'assets/graphics/elevator.png'
+			},
+			'item':{
+				source:'assets/items/item.png'
 			}
 		},
 		levels: {
@@ -87,6 +91,9 @@ var game = {
 							},
 							"playerBehavior":{
 
+							},
+							"SimpleInventory":{
+								"inventory": ['test']
 							},
 							"Physics":{
 								"mass": 8,
@@ -212,6 +219,16 @@ var game = {
 			}
 		});
 
+		window.item1 = new $.fn.Entity(1000, 200,50,50,{
+			"Renderer":{
+				"image": "item"
+			}
+			// "CollisionBody":{},
+			// "elevator":{
+			// 	"minY" : 64,
+			// 	"maxY" : 320
+			// }
+		});
 
 
 		$.fn.addToGroup(elevator,'elevator');
