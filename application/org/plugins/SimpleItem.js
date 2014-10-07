@@ -33,18 +33,19 @@
 			var self = this;
 			var config = config_ || {};
 			config.keys = config.keys || {};
-
-
 			this.data = {};
-			this.data.execute = function(entity){
-				entity.x -= 50;
-			}
+
+		this.on('collision', function(data){
+			config.use(data);
+			$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
+		});
 
 		}
 		srfn.Component.extend(SimpleItem);
 		return SimpleItem
 
 	})();
+
 
 
 	srfn.components.add('SimpleItem', function(config){
