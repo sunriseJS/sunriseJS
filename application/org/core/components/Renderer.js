@@ -165,6 +165,19 @@ srfn.Renderer = (function(){
                 self.context.restore();
             }
 
+            if(window.debug){
+                var bounds = self.entity.getComponentData('CollisionBody','bounds');
+                self.context.strokeStyle ="#FF0000";
+                self.context.strokeRect(x, y, self.entity.width, self.entity.height);
+                if(bounds !== undefined){
+                    self.context.strokeStyle ="#0000FF";
+                    self.context.strokeRect(self.entity.x + data.offsetX+bounds.x, self.entity.y + data.offsetY+bounds.y, bounds.width, bounds.height);
+                }
+                self.context.strokeStyle ="#00FF00"; 
+                self.context.strokeRect(x+self.anchor.x, y+self.anchor.y, 1,1);
+
+            }
+
         });
 
 
