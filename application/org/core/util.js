@@ -195,6 +195,11 @@ utilfn.Vec2.divide = function(vector, scalar){
 };
 
 
+utilfn.Vec2.dot = function(vector1, vector2){
+	return (vector1.x*vector2.x +  vector1.y*vector2.y);
+};
+
+
 //shorter version
 utilfn.Vec2.prototype.div = utilfn.Vec2.prototype.divide;
 utilfn.Vec2.div = utilfn.Vec2.divide;
