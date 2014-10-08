@@ -39,17 +39,19 @@
 			this.data = {};
 			var self = this,
 				speed = this.data.speed = new utilfn.Vec2(0,0),
-				forces = [];
+				forces = [],
 				unit = 1/60, //pixel/second
-				mass = this.data.mass = (config.mass === undefined) ? 1 : config.mass,
+				mass = (config.mass === undefined) ? 1 : config.mass,
+				imass = this.data.imass = (mass===0)? 0 : 1/mass;
 				inertia = (config.inertia === undefined) ? 0.99 : config.inertia,
-				restitution = this.data.restitution = 1;
+				restitution = this.data.restitution = 0.1;
 			config.forces = config.forces || [];
 			for(var i=0; i<config.forces.length; i++){
 				forces.push(new utilfn.Vec2(config.forces[i].x,config.forces[i].y));
 			}
 
 			this.on('tick', function(data){
+				//console.log(mass);
 				for (i = forces.length - 1; i >= 0; --i) {
 					
 					speed.add(utilfn.Vec2.multiply(utilfn.Vec2.divide(forces[i],mass), data.delta*unit));
@@ -64,9 +66,9 @@
 				//console.log(data);
 				var otherSpeed = data.other.getComponentData('Physics', 'speed'),
 					otherRestitution = data.other.getComponentData('Physics', 'restitution'),
-					otherMass = data.other.getComponentData('Physics', 'mass'),
+					otherImass = data.other.getComponentData('Physics', 'imass'),
 					normal = new utilfn.Vec2(data.collision.normal.x, data.collision.normal.y);
-				if(!(otherSpeed && otherRestitution && otherMass)){
+				if(!(otherSpeed && otherRestitution && otherImass)){
 					return;
 				}
 				var	relativeSpeed = utilfn.Vec2.sub(otherSpeed, speed),
@@ -77,11 +79,17 @@
 				}
 
 				var bounciness = Math.min(restitution, otherRestitution),
-					force = (-(1+bounciness)*speedNormal)/((1/mass) + (1/otherMass)),
+					force = (-(1+bounciness)*speedNormal)/(imass + otherImass),
 					impulse = utilfn.Vec2.multiply(normal, force);
 
-				speed.sub(utilfn.Vec2.multiply(impulse, 1/mass));
-				otherSpeed.sub(utilfn.Vec2.multiply(impulse, 1/otherMass));
+				speed.sub(utilfn.Vec2.multiply(impulse, imass));
+				otherSpeed.add(utilfn.Vec2.multiply(impulse, otherImass));
+
+				var correction = data.collision.penetration / (imass + otherImass);
+				self.entity.x -= imass * correction * normal.x;
+				self.entity.y -= imass * correction * normal.y;
+				data.other.x += otherImass * correction * normal.x;
+				data.other.y += otherImass * correction * normal.y;
 
 			});
 
