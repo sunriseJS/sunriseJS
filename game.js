@@ -7,7 +7,8 @@ var game = {
 					'JumpNRunController',
 					'CollisionBody',
 					'SimpleInventory',
-					'Physics'
+					'Physics',
+					'SimpleItem'
 				],
 		images: {
 			'player-anim': {
@@ -226,17 +227,26 @@ var game = {
 			}
 		});
 
-		window.item1 = new $.fn.Entity(1000, 200,50,50,{
+		window.item1 = new $.fn.Entity(830, 260,50,50,{
 			"Renderer":{
-				"image": "item"
-			}
-			// "CollisionBody":{},
-			// "elevator":{
-			// 	"minY" : 64,
-			// 	"maxY" : 320
-			// }
+				"image": "item",
+			},
+			"SimpleItem":{
+				"use": function(data){
+					data.other.x -= 400;
+				} 
+			},
+			"CollisionBody": {},
+			"Physics":{
+				"mass": 200,
+				"forces":[]
+			},
 		});
 
+
+		
+		$.fn.addToGroup(item1,'toRender');
+		$.fn.addToGroup(item1,'items');
 
 		$.fn.addToGroup(elevator,'elevator');
 		$.fn.addToGroup(elevator,'toRender');
@@ -245,6 +255,7 @@ var game = {
 
 
 		$.fn.defineCollidingGroups('player','bots');
+		$.fn.defineCollidingGroups('player','items');
 		$.fn.defineCollidingGroups('player','elevator');
 
 		
