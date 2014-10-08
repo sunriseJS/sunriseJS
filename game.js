@@ -77,7 +77,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(1216,64+196,96,128,{	
+		$.player = new $.fn.Entity(1216,64,96,128,{	
 							"Renderer":{
 								"image": "player-anim",
 								"anchor": {"x": 48,	"y": 64},
@@ -104,7 +104,7 @@ var game = {
 							"Physics":{
 								"mass": 8,
 								"forces":[
-									{"x":0,"y":9.81*0}
+									{"x":0,"y":9.81}
 								]
 							}
 		});
@@ -217,7 +217,7 @@ var game = {
 			},
 			"CollisionBody":{},
 			"Physics":{
-				"mass": 200,
+				"mass": 0,
 				"forces":[]
 			},
 			"elevator":{
