@@ -39,22 +39,22 @@
 			this.data = {};
 			var self = this,
 				speed = this.data.speed = new utilfn.Vec2(0,0),
-				forces = [],
+				forces = {},
 				unit = 1/60, //pixel/second
 				mass = (config.mass === undefined) ? 1 : config.mass,
 				imass = this.data.imass = (mass===0)? 0 : 1/mass;
 				inertia = (config.inertia === undefined) ? 0.99 : config.inertia,
-				restitution = this.data.restitution = 0.1;
+				restitution = this.data.restitution = 0.0001;
 			config.forces = config.forces || [];
-			for(var i=0; i<config.forces.length; i++){
-				forces.push(new utilfn.Vec2(config.forces[i].x,config.forces[i].y));
+			for(key in config.forces){
+				forces[key] = new utilfn.Vec2(config.forces[key].x,config.forces[key].y);
 			}
 
 			this.on('tick', function(data){
 				//console.log(mass);
-				for (i = forces.length - 1; i >= 0; --i) {
+				for (key in config.forces) {
 					
-					speed.add(utilfn.Vec2.multiply(utilfn.Vec2.divide(forces[i],mass), data.delta*unit));
+					speed.add(utilfn.Vec2.multiply(utilfn.Vec2.divide(forces[key],mass), data.delta*unit));
 					//console.log(utilfn.Vec2.divide(forces[i],mass), data.delta*unit);
 				}
 				speed.multiply(inertia);
@@ -85,11 +85,14 @@
 				speed.sub(utilfn.Vec2.multiply(impulse, imass));
 				otherSpeed.add(utilfn.Vec2.multiply(impulse, otherImass));
 
-				var correction = data.collision.penetration / (imass + otherImass);
-				self.entity.x -= imass * correction * normal.x;
-				self.entity.y -= imass * correction * normal.y;
-				data.other.x += otherImass * correction * normal.x;
-				data.other.y += otherImass * correction * normal.y;
+				if(data.collision.penetration > 1){
+					var correction = data.collision.penetration / (imass + otherImass);
+					correction *= 0.8;
+					self.entity.x -= imass * correction * normal.x;
+					self.entity.y -= imass * correction * normal.y;
+					data.other.x += otherImass * correction * normal.x;
+					data.other.y += otherImass * correction * normal.y;
+				}
 
 			});
 

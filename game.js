@@ -104,9 +104,9 @@ var game = {
 							},
 							"Physics":{
 								"mass": 8,
-								"forces":[
-									{"x":0,"y":9.81}
-								]
+								"forces":{
+									"gravity":{"x":0,"y":9.81}
+								}
 							}
 		});
 
@@ -202,12 +202,12 @@ var game = {
 				"states":{
 					"down":{
 						"values":{
-							"ySpeed": 1*0
+							"ySpeed": 1
 						}
 					},
 					"up":{
 						"values":{
-							"ySpeed": -1*0
+							"ySpeed": -1
 						}
 					}
 				}
@@ -219,7 +219,7 @@ var game = {
 			"CollisionBody":{},
 			"Physics":{
 				"mass": 0,
-				"forces":[]
+				"forces":{}
 			},
 			"elevator":{
 				"minY" : 64,
@@ -267,7 +267,7 @@ var game = {
 		$.fpsdom = document.querySelector('#fps');
 		window.player = $.player; // only for testing purposes
 		$.fn.addToGroup($.player,'toRender');
-		$.fn.stage.setFocus($.player,0,-64);
+		$.fn.stage.setFocus($.player,0,0);
 		
 		/*
 		console.log($scope.player.stateManager.states);
