@@ -1,4 +1,4 @@
-window.debug = true;
+//window.debug = true;
 var game = {
 	config: {
 		screenWidth: 640,

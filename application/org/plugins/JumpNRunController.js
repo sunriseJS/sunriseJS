@@ -50,7 +50,7 @@
 
 			config.keys.left = sanitiseConfig(config.keys.left,'a','left');
 			config.keys.right = sanitiseConfig(config.keys.right,'d','right');
-			config.keys.jump = sanitiseConfig(config.jump);
+			config.keys.jump = sanitiseConfig(config.keys.jump,'w','up','space');
 
 
 			var direction = 0;
@@ -65,7 +65,10 @@
 				config.keys.right.forEach(function(key){
 					run_right = run_right || srfn.controls.isKeyPressed(key);
 				});
-
+				var jump = false;
+				config.keys.jump.forEach(function(key){
+					jump = jump || srfn.controls.isKeyPressed(key);
+				});
 				if(run_left && !run_right){
 					self.entity.emit('changeAnimation', {
 						animation: 'walk_left',
@@ -96,7 +99,15 @@
 						direction = 0;
 					}
 				}
+
 				self.entity.x += 2*direction;
+
+				if(jump){
+					self.entity.emit('setForce',{name:'movement',x:0,y:-20});
+				}else{
+					self.entity.emit('setForce',{name:'movement',x:0,y:0});
+				}
+				
 			});
 		}
 

@@ -52,14 +52,19 @@
 
 			this.on('tick', function(data){
 				//console.log(mass);
-				for (key in config.forces) {
+				for (key in forces) {
 					
 					speed.add(utilfn.Vec2.multiply(utilfn.Vec2.divide(forces[key],mass), data.delta*unit));
+					//console.log('force: '+key+':',for)
 					//console.log(utilfn.Vec2.divide(forces[i],mass), data.delta*unit);
 				}
 				speed.multiply(inertia);
 				self.entity.x += speed.x*(data.delta*unit);
 				self.entity.y += speed.y*(data.delta*unit);			
+			});
+
+			this.on('setForce', function(data){
+				forces[data.name] = new utilfn.Vec2(data.x,data.y);
 			});
 
 			this.on('collision', function(data){
