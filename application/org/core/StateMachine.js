@@ -21,20 +21,33 @@ srfn.StateMachine = (function(){
             console.warn('Error in StateMachine '+this);
             throw new Error('Can\'t find state "'+config.default+'"');
         }
-    	this.currentState = config.default;
-        this.data = this.states[this.currentState].values;
+    	this.data.currentState = config.default;
+        this.data.currentStateObj = this.states[config.default].values;
 
-        this.on('setState', function(name){
-            if(self.states[name] === undefined){
-                throw new Error('no State with name: '+name);
-            }
-            self.currentState = name;
-            if(self.states[name].events !== undefined){
-                for(name in self.states[name].events){
-                    self.entity.emit(name, self.states[name].events[name]);
+        /**
+         * Set a new currentState. This state is a new, merged state of all state names provided in data.
+         * @param  {[type]} data [array of state names]
+         */
+        this.on('setStates', function(data){
+            var currentState = [];
+            var currentStateObj = {};
+            for(var i = data.length; i--;){ 
+                if(self.states[data[i]] === undefined){
+                    throw new Error('no State with name: '+name);
+                }
+                if(self.states[data[i]].events !== undefined){
+                    for(name in self.states[data[i]].events){
+                        self.entity.emit(name, self.states[data[i]].events[name]);
+                    }
+                }
+                for (var prop in self.states[data[i]].values) {
+                    if (self.states[data[i]].values.hasOwnProperty(prop)) {
+                        currentStateObj[prop] = self.states[data[i]].values[prop];
+                    }
                 }
             }
-            self.data = self.states[self.currentState].values;
+            self.data.currentState = data;
+            self.data.currentStateObj = currentStateObj;
         });
 
         this.on('addState', function(data){
