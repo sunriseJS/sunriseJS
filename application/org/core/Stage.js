@@ -36,6 +36,18 @@ var layerCreator = {
 				levelY = tile[1]*tileHeight;
 			context.drawImage(tileset,setX, setY, tileWidth, tileHeight,
 									levelX, levelY, tileWidth, tileHeight);
+			if(layer.group !==undefined){
+				var entity = new $rootScope.$scope.fn.Entity(levelX, levelY, tileWidth, tileHeight,{
+					"CollisionBody":{},
+					"Physics":{
+						"mass": 0,
+						"forces":{}
+					}
+				});
+				$rootScope.$scope.fn.addToGroup(entity,layer.group);
+			}
+			
+
 		});
 		return {buffer:canvas};
 	},
