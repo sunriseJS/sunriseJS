@@ -78,7 +78,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(1216,64,96,128,{	
+		$.player = new $.fn.Entity(436,-128,96,128,{	
 							"Renderer":{
 								"image": "player-anim",
 								"anchor": {"x": 48,	"y": 64},
@@ -116,19 +116,23 @@ var game = {
 
 			var cheapAI = new $.fn.Component();
 			cheapAI.direction = 2;
-			cheapAI.on('collision', function(){
-				cheapAI.entity.emit('setStates', ['mad']);
+			cheapAI.on('collision', function(data){
+				console.log("data.collision.normal");
+				if(data.collision.normal.x != 0){
+					cheapAI.entity.emit('setForce', {name:'movement', x:0, y: -15});
+				}
 			});	
 
 			cheapAI.on('tick', function(){
+				cheapAI.entity.emit('setForce', {name:'movement', x:0, y: 0});
 				if(cheapAI.direction === 2){
 					cheapAI.direction = Math.floor(Math.random()*3)-1;
 					setTimeout(function(){
 						cheapAI.direction = 2;
-						cheapAI.entity.emit('setStates',['neutral']);
+						//cheapAI.entity.emit('setStates',['neutral']);
 					},1000*(Math.random(3)+3));
 				}
-				cheapAI.entity.x += cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
+				cheapAI.entity.x += cheapAI.direction;//cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
 				if(cheapAI.direction === -1){
 					cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
 				}else if(cheapAI.direction === 1){
@@ -164,17 +168,22 @@ var game = {
 					"anchor": {"x": 48,	"y": 64},
 					"animation": "stand_right" 
 				},
-				"CollisionBody":{},
+				"CollisionBody":{
+					"x":12,
+					"y":5,
+					"width":24,
+					"height":58
+				},
+				"Physics":{
+					"mass": 8,
+					"forces":{
+						"gravity":{"x":0,"y":9.81}
+					}
+				},
 				"cheapAI":{
 				}
 			});
-		var bots = [];
-		for(var i=0; i<8; i++){
-			var clone = bot.clone();
-			//bots.push(clone);
-		}
-		$.fn.addToGroup(bots,'bots');
-		$.fn.addToGroup(bots,'toRender');
+		
 
 
 
@@ -196,7 +205,7 @@ var game = {
 		});
 
 
-		window.elevator = new $.fn.Entity(1216,256,128,8,{
+		window.elevator = new $.fn.Entity(832,256,128,8,{
 			"StateMachine":{
 				"default": "up",
 				"states":{
@@ -227,14 +236,22 @@ var game = {
 			}
 		});
 
-		var item1 = new $.fn.Entity(830, 260,50,50,{
+		var item1 = new $.fn.Entity(1344, 64,50,50,{
 			"Renderer":{
 				"image": "item",
 			},
 			"SimpleItem":{
 				"use": function(data){
-					data.other.x -= 400;
 					$.fn.removeEntityFromAllGroups(item1);
+					var bots = [];
+					for(var i=0; i<8; i++){
+						var clone = bot.clone(1360,64);
+						bots.push(clone);
+					}
+					$.fn.addToGroup(bots,'bots');
+					$.fn.addToGroup(bots,'toRender');
+					$.fn.defineCollidingGroups('bots','tiles');
+					$.fn.defineCollidingGroups('bots','elevator');
 				} 
 			},
 			"CollisionBody": {},
@@ -255,7 +272,7 @@ var game = {
 	
 
 
-		$.fn.defineCollidingGroups('player','bots');
+		
 		$.fn.defineCollidingGroups('player','items');
 		$.fn.defineCollidingGroups('player','elevator');
 		
