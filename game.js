@@ -117,7 +117,6 @@ var game = {
 			var cheapAI = new $.fn.Component();
 			cheapAI.direction = 2;
 			cheapAI.on('collision', function(data){
-				console.log("data.collision.normal");
 				if(data.collision.normal.x != 0){
 					cheapAI.entity.emit('setForce', {name:'movement', x:0, y: -15});
 				}
