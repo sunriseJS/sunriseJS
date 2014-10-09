@@ -52,7 +52,7 @@ function saveCallbacksToArray(type, args){
 			if(rootfn.controls[type][keys[k]] == undefined){
 				rootfn.controls[type][keys[k]]= callbacks;
 			}
-			rootfn.controls[type][keys[k]] = rootfn.controls[type][keys[k]].concat(callbacks).unique();
+			rootfn.controls[type][keys[k]] = rootfn.controls[type][keys[k]].concat(callbacks);
 		}
 	}
 };

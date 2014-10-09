@@ -41,7 +41,14 @@
 
 
 			this.on('addToInventory', function(data){
+				console.log(data);
 				self.addItem(data);
+			});
+
+			this.on('useItem', function(){
+				if(self.data['inventory'].length > 0){
+					self.data['inventory'][0].use();
+				}
 			});
 
 

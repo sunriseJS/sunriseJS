@@ -52,7 +52,9 @@
 			config.keys.right = sanitiseConfig(config.keys.right,'d','right');
 			config.keys.jump = sanitiseConfig(config.keys.jump,'w','up','space');
 
-
+			srfn.controls.onKeyDown('f',function(){
+				window.player.emit('useItem',{});
+			});
 			var direction = 0;
 
 			this.on('tick', function(data){

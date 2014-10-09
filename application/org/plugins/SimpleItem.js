@@ -28,7 +28,6 @@
 	srfn.SimpleItem = (function(){ 
 
 		SimpleItem = function(config_){
-			console.log(config_);
 			srfn.Component.call(this);
 			var self = this;
 			var config = config_ || {};
@@ -36,9 +35,13 @@
 			this.data = {};
 
 		this.on('collision', function(data){
-			data.self = self;
-			config.use(data);
-			delete data.self;
+			console.log('test',data);
+			data.other.emit('addToInventory', config);
+			console.log(self.entity);
+			$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
+			// data.self = self;
+			// config.use(data);
+			// delete data.self;
 		});
 
 		}
