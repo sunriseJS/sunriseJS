@@ -24,6 +24,10 @@ srfn.StateMachine = (function(){
     	this.data.currentState = config.default;
         this.data.currentStateObj = this.states[config.default].values;
 
+        /**
+         * Set a new currentState. This state is a new, merged state of all state names provided in data.
+         * @param  {[type]} data [array of state names]
+         */
         this.on('setStates', function(data){
             var currentState = [];
             var currentStateObj = {};
