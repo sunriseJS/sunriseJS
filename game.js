@@ -1,4 +1,4 @@
-window.debug = true;
+//window.debug = true;
 var game = {
 	config: {
 		screenWidth: 640,
@@ -78,7 +78,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(1216,64+196,96,128,{	
+		$.player = new $.fn.Entity(1216,64,96,128,{	
 							"Renderer":{
 								"image": "player-anim",
 								"anchor": {"x": 48,	"y": 64},
@@ -104,9 +104,9 @@ var game = {
 							},
 							"Physics":{
 								"mass": 8,
-								"forces":[
-									{"x":0,"y":9.81*0}
-								]
+								"forces":{
+									"gravity":{"x":0,"y":9.81}
+								}
 							}
 		});
 
@@ -202,12 +202,12 @@ var game = {
 				"states":{
 					"down":{
 						"values":{
-							"ySpeed": 1*0
+							"ySpeed": 1
 						}
 					},
 					"up":{
 						"values":{
-							"ySpeed": -1*0
+							"ySpeed": -1
 						}
 					}
 				}
@@ -218,8 +218,8 @@ var game = {
 			},
 			"CollisionBody":{},
 			"Physics":{
-				"mass": 200,
-				"forces":[]
+				"mass": 0,
+				"forces":{}
 			},
 			"elevator":{
 				"minY" : 64,
@@ -268,7 +268,7 @@ var game = {
 		$.fpsdom = document.querySelector('#fps');
 		window.player = $.player; // only for testing purposes
 		$.fn.addToGroup($.player,'toRender');
-		$.fn.stage.setFocus($.player,0,-64);
+		$.fn.stage.setFocus($.player,0,0);
 		
 		/*
 		console.log($scope.player.stateManager.states);
