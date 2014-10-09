@@ -258,12 +258,13 @@ var game = {
 		$.fn.defineCollidingGroups('player','bots');
 		$.fn.defineCollidingGroups('player','items');
 		$.fn.defineCollidingGroups('player','elevator');
-
 		
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
 		$.fn.stage.setLevel('level1');
+		$.fn.defineCollidingGroups('player','tiles');
+
 		
 		$.fpsdom = document.querySelector('#fps');
 		window.player = $.player; // only for testing purposes
