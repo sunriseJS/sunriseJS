@@ -36,8 +36,9 @@
 			this.data = {};
 
 		this.on('collision', function(data){
+			data.self = self;
 			config.use(data);
-			$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
+			delete data.self;
 		});
 
 		}

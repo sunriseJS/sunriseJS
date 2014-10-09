@@ -22,19 +22,32 @@ srfn.StateMachine = (function(){
             throw new Error('Can\'t find state "'+config.default+'"');
         }
     	this.currentState = config.default;
+        this.currentStateObj = this.states[config.default];
+
         this.data = this.states[this.currentState].values;
 
-        this.on('setState', function(name){
-            if(self.states[name] === undefined){
-                throw new Error('no State with name: '+name);
-            }
-            self.currentState = name;
-            if(self.states[name].events !== undefined){
-                for(name in self.states[name].events){
-                    self.entity.emit(name, self.states[name].events[name]);
+        this.on('setStates', function(){
+            var currentState = [];
+            var currentStateObj = {};
+            for(var i = arguments.length; --i;){ 
+                if(self.states[arguments[i]] === undefined){
+                    throw new Error('no State with name: '+name);
                 }
+                if(self.states[arguments[i]].events !== undefined){
+                    for(name in self.states[arguments[i]].events){
+                        self.entity.emit(name, self.states[arguments[i]].events[name]);
+                    }
+                }
+                for (var prop in self.states[arguments[i]]) {
+                    if (obj.hasOwnProperty(prop)) {
+                        currentStateObj[prob] = self.states[arguments[i]][prob];
+                    }
+                }
+                currentState.push(arguments[i]);
             }
-            self.data = self.states[self.currentState].values;
+            self.data = self.states[arguments[i]].values;
+            self.currentState = currentState;
+            self.currentStateObj = currentStateObj;
         });
 
         this.on('addState', function(data){
