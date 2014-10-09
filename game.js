@@ -241,10 +241,10 @@ var game = {
 			},
 			"SimpleItem":{
 				"use": function(data){
-					$.fn.removeEntityFromAllGroups(item1);
+					
 					var bots = [];
 					for(var i=0; i<8; i++){
-						var clone = bot.clone(1360,64);
+						var clone = bot.clone(window.player.x,window.player.y);
 						bots.push(clone);
 					}
 					$.fn.addToGroup(bots,'bots');
