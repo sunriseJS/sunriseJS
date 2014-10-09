@@ -118,6 +118,23 @@
 		groupFn.generateCollidingObjects();
 	}
 
+	/**
+	 * EXPERIMENTAL - NOT TESTET JET
+	 *
+	 * Removes a colliding pair from the list.
+	 * 
+	 * @param  {[type]} collider  [f]
+	 * @param  {[type]} toCollide [s]
+	 */
+	srfn.deleteCollidingGroups = function(collider, toCollide){
+		for(var i = $rootScope.groups['collidingGroups'].length; i--;){
+			if($rootScope.groups['collidingGroups'][i][0] === $rootScope.groups['groups'][collide] &&
+				$rootScope.groups['collidingGroups'][i][1] === $rootScope.groups[groups][toCollide]){
+				$rootScope.groups['collidingGroups'].splice(i,1);
+			}
+		}
+		groupFn.generateCollidingObjects();
+	}
 
 
 	/**
