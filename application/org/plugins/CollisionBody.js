@@ -43,8 +43,15 @@
 			this.on('setEntity', function(data){
 				self.entity = data;
 				self.data.bounds = {};
-				self.data.bounds.x = (options.x || 0)-(data.getComponentData('Renderer','anchor').x || 0);
-				self.data.bounds.y = (options.y || 0)-(data.getComponentData('Renderer','anchor').y || 0);
+				var anchor;
+				try{
+					anchor = data.getComponentData('Renderer','anchor');
+				}catch(e){
+					//No Renderer available
+					anchor = {};
+				}
+				self.data.bounds.x = (options.x || 0)-(anchor.x || 0);
+				self.data.bounds.y = (options.y || 0)-(anchor.y || 0);
 				switch(self.data.colliderType){
 					case 'rectangle':
 						self.data.bounds.width = (options.width === undefined) ? data.width : options.width;
