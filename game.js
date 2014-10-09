@@ -117,7 +117,7 @@ var game = {
 			var cheapAI = new $.fn.Component();
 			cheapAI.direction = 2;
 			cheapAI.on('collision', function(){
-				cheapAI.entity.emit('setStates', 'mad');
+				cheapAI.entity.emit('setStates', ['mad']);
 			});	
 
 			cheapAI.on('tick', function(){
@@ -125,7 +125,7 @@ var game = {
 					cheapAI.direction = Math.floor(Math.random()*3)-1;
 					setTimeout(function(){
 						cheapAI.direction = 2;
-						cheapAI.entity.emit('setStates','neutral');
+						cheapAI.entity.emit('setStates',['neutral']);
 					},1000*(Math.random(3)+3));
 				}
 				cheapAI.entity.x += cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
@@ -184,12 +184,12 @@ var game = {
 
 			elevator.on('tick', function(){
 
-				elevator.entity.y += elevator.entity.getComponentData('StateMachine','ySpeed');
+				elevator.entity.y += elevator.entity.getComponentData('StateMachine','currentStateObj')['ySpeed'];
 				if(elevator.entity.y < data.minY){
-					elevator.entity.emit('setStates','down');
+					elevator.entity.emit('setStates',['down']);
 				}
 				if(elevator.entity.y > data.maxY){
-					elevator.entity.emit('setStates','up');
+					elevator.entity.emit('setStates',['up']);
 				}
 			});
 			return elevator;

@@ -21,33 +21,29 @@ srfn.StateMachine = (function(){
             console.warn('Error in StateMachine '+this);
             throw new Error('Can\'t find state "'+config.default+'"');
         }
-    	this.currentState = config.default;
-        this.currentStateObj = this.states[config.default];
+    	this.data.currentState = config.default;
+        this.data.currentStateObj = this.states[config.default].values;
 
-        this.data = this.states[this.currentState].values;
-
-        this.on('setStates', function(){
+        this.on('setStates', function(data){
             var currentState = [];
             var currentStateObj = {};
-            for(var i = arguments.length; --i;){ 
-                if(self.states[arguments[i]] === undefined){
+            for(var i = data.length; i--;){ 
+                if(self.states[data[i]] === undefined){
                     throw new Error('no State with name: '+name);
                 }
-                if(self.states[arguments[i]].events !== undefined){
-                    for(name in self.states[arguments[i]].events){
-                        self.entity.emit(name, self.states[arguments[i]].events[name]);
+                if(self.states[data[i]].events !== undefined){
+                    for(name in self.states[data[i]].events){
+                        self.entity.emit(name, self.states[data[i]].events[name]);
                     }
                 }
-                for (var prop in self.states[arguments[i]]) {
-                    if (obj.hasOwnProperty(prop)) {
-                        currentStateObj[prob] = self.states[arguments[i]][prob];
+                for (var prop in self.states[data[i]].values) {
+                    if (self.states[data[i]].values.hasOwnProperty(prop)) {
+                        currentStateObj[prop] = self.states[data[i]].values[prop];
                     }
                 }
-                currentState.push(arguments[i]);
             }
-            self.data = self.states[arguments[i]].values;
-            self.currentState = currentState;
-            self.currentStateObj = currentStateObj;
+            self.data.currentState = data;
+            self.data.currentStateObj = currentStateObj;
         });
 
         this.on('addState', function(data){
