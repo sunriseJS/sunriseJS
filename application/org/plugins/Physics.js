@@ -40,7 +40,7 @@
 			var self = this,
 				speed = this.data.speed = new utilfn.Vec2(0,0),
 				forces = {},
-				unit = 1/60, //pixel/second
+				unit = 1/30, //pixel/second
 				mass = (config.mass === undefined) ? 1 : config.mass,
 				imass = this.data.imass = (mass===0)? 0 : 1/mass;
 				inertia = (config.inertia === undefined) ? 0.99 : config.inertia,
