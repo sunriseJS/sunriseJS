@@ -38,9 +38,11 @@ rootfn.sunrise = function(){
 	rootfn.initCanvas();
 	srfn.loadImages(game.config.images, function(){
 		//todo: make this better :D
-		srfn.loadLevels(game.config.levels, function(){
-			game.init($rootScope.$scope);
-			rootfn.run();	
+		srfn.loadSounds(game.config.sounds, function(){
+			srfn.loadLevels(game.config.levels, function(){
+				game.init($rootScope.$scope);
+				rootfn.run();	
+			});
 		});
 	});
 };
