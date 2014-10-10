@@ -11,7 +11,7 @@
 $rootScope.ressources = {
 	images:{}, 
 	sprites:{}, 
-	audio:{}, 
+	sounds:{}, 
 	levels: {}
 };
 
@@ -129,4 +129,74 @@ srfn.loadLevels = function(levelSources, callback){
 			}
 		});
 	}
+};
+
+
+srfn.loadSounds = function(sources_raw, callback){
+
+	//copy source object, so original object isn't affected by
+	//removin already loaded images from this object
+	var sources = {};
+	var sourcesLength = 0;
+	for(key in sources_raw){
+		sources[key] = sources_raw[key];
+		sourcesLength++;
+	}
+	if(sourcesLength === 0){
+		callback();
+		return;
+	}
+
+
+	for(title in sources){
+
+		//IFFE which is executed for every sounds
+		(function(name, source){
+			
+			if(source.file === undefined){
+				throw new Error('Please provide filename for sound "'+name+'".');
+			}
+			
+			if($rootScope.ressources.sounds[name] !== undefined){
+				throw new Error('Soundsressource with name '+name+' already exists');
+			}
+			var audio = new Audio();
+			audio.preload = "true";
+
+			if(source.loop === true){
+				//small hack since HTML5 Audio's own attribute 'loop' causes small delay
+				addEventListener('timeupdate', function(){
+	                var buffer = 0.5;
+	                if(this.currentTime > this.duration - buffer){
+	                    this.currentTime = 0;
+	                    this.play();
+                	}
+            	}, false);
+			}
+
+			audio.addEventListener('loadeddata',function() {
+				console.log('loaded sound "'+name+'"');
+				delete sources[name];
+				$rootScope.ressources.sounds[name] = this;
+
+				//Last sounds got loaded? notify callback!
+				var ready = true;
+				for(index in sources){
+					ready = false;
+					break;
+				}
+				if(ready){
+					callback();
+				}
+
+			}, false);
+
+			audio.onerror = function(){
+				throw new Error ('Error while loading sound "'+name+'"');
+			};
+			audio.src = source.file;
+			audio.load();
+		})(title, sources[title]);
+	}
+
 };
