@@ -50,6 +50,7 @@ module.exports = function (grunt) {
                     'application/org/core/ressourceLoader.js',
                     'application/org/core/util.js',
                     'application/org/core/CoreObject.js',
+                    'application/org/core/audioPlayer.js',
                     'application/org/core/Sprite.js',
                     'application/org/core/Entity.js',
                     'application/org/core/Stage.js',
