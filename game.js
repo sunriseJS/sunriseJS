@@ -43,6 +43,12 @@ var game = {
 		},
 		levels: {
 			level1: "assets/levels/level1.json"
+		},
+		sounds: {
+			steps: {
+				file: "assets/sounds/walking.mp3",
+				loop: true
+			}
 		}
 
 
