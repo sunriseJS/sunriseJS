@@ -85,6 +85,55 @@ srfn.Renderer = (function(){
             data.animations.default = [0];
         }
 
+        this.setAnimation = function(animationName){
+           var animation = this.animations[animationName];
+            if(animation instanceof Array){
+                if(this.currentAnimation.out.length === 0){
+                    this.currentAnimation = {"in":[], "out":[], "loop":animation};
+                    this.currentFrameNumber = 0;
+                    this.animationType = 'in';
+                    this.currentAnimation.name = animationName;
+                }else{
+                    this.nextAnimation = {"in":[], "out":[], "loop":animation, "name":animationName};
+                }
+            }else{
+                if(animation.loop === undefined || animation.loop.length === 0){
+                    throw new Error('Please provide at least a "loop" animation with 1 frame.');
+                }
+                this.nextAnimation = {};
+                this.nextAnimation['in'] = animation['in'] || [];
+                this.nextAnimation.loop = animation.loop;
+                this.nextAnimation.out = animation.out || [];
+                this.nextAnimation.name = animationName;
+            }
+        }
+
+        this.nextFrame = function(){
+            this.currentFrameNumber++;
+            while(this.currentFrameNumber >= this.currentAnimation[this.animationType].length){
+                switch(this.animationType){
+                    case 'in': 
+                        this.currentFrameNumber = 0;
+                        this.animationType = 'loop';
+                        break;
+                    case 'loop':
+                        this.currentFrameNumber = 0;
+                        if(this.nextAnimation !== undefined){
+                            this.animationType = 'out';
+                        }
+                        break;
+                    case 'out':
+                        this.currentFrameNumber = 0;
+                        this.currentAnimation = this.nextAnimation;
+                        this.nextAnimation = undefined;
+                        this.animationType = 'in';
+                        break;
+                }
+
+            }  
+            this.currentFrame = this.currentAnimation[this.animationType][this.currentFrameNumber]; 
+        }
+
     
         this.width = data.tileWidth;
         this.height = data.tileHeight;
@@ -96,24 +145,29 @@ srfn.Renderer = (function(){
         //Context from other modules
         this.context = $rootScope.canvas.context;
 
+        this.currentFrameNumber = 0;
+        this.currentAnimation = {"in":[],loop:[],out:[],name:''};
+        this.animationType = 'in';
+        this.lastDrawTime = Date.now();
+        this.frameDuration = 60; //in Milliseconds
+
         if(data_.animation === undefined || this.animations[data_.animation] === undefined){
             //Until an actual animation is set, use first one
             for(anim in this.animations){
-                this.currentAnimation = this.animations[anim];
+                this.setAnimation(anim);
                 break;
             }
         }else{
-            this.currentAnimation = this.animations[data_.animation];
+            this.setAnimation(data_.animation);
         }
 
-        this.currentFrame = 0;
-        this.lastDrawTime = Date.now();
-        this.frameDuration = 60; //in Milliseconds
+        
 
         //Calculate values for spritesheet
         this.cols = Math.floor( self.image.width / self.width );
         this.rows = Math.floor( self.image.height / self.height );
 
+        
 
         this.on('draw', function(data){
             x = self.entity.x + data.offsetX,
@@ -136,7 +190,7 @@ srfn.Renderer = (function(){
         
             var drawWidth = self.entity.width || self.width;
             var drawHeight = self.entity.height || self.height;
-            var frame = self.currentAnimation[self.currentFrame];
+            var frame = self.currentFrame;
 
 
             var sourceX = (frame % self.cols)*self.width;
@@ -150,10 +204,7 @@ srfn.Renderer = (function(){
             var now = Date.now();
             var delta = now - self.lastDrawTime;
             if(delta >= self.frameDuration){
-                self.currentFrame++;
-                if(self.currentFrame >= self.currentAnimation.length){
-                    self.currentFrame = 0;
-                }
+                self.nextFrame();
                 self.lastDrawTime = now;
             }
 
@@ -202,11 +253,11 @@ srfn.Renderer = (function(){
                 throw new Error('No animation with name '+data.animation+' found');
             }
             
-            if(self.currentAnimation === self.animations[data.animation] && !data.restart){
+            if((self.currentAnimation.name === data.animation ||
+                (self.nextAnimation && self.nextAnimation.name === data.animation)) && !data.restart){
                 return; 
             }
-            self.currentAnimation = self.animations[data.animation];
-            self.currentFrame = data.frame || 0;
+            self.setAnimation(data.animation);
         });
 
         this.on('changeOpacity', function(data){
