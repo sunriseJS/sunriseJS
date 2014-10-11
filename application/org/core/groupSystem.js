@@ -62,6 +62,10 @@
 		}
 	}
 
+	/**
+	 * note used anymore // deadCODE
+	 * @return {[type]} [description]
+	 */
 	groupFn.generateCollidingObjects = function(){
 		$rootScope.groups['collidingObjects'] = [];
 		for(var g = $rootScope.groups['collidingGroups'].length;g--;){
@@ -79,7 +83,6 @@
 		'groups': 	{
 			'toRender': []
 		},
-		'collidingObjects': [],
 		'collidingGroups': []
 	}
 
@@ -110,7 +113,6 @@
 		} else {
 			throw new Error('Object is not an Entity.');
 		}
-		groupFn.generateCollidingObjects();
 	}
 
 	/**
@@ -124,7 +126,6 @@
 			throw new Error('One of the given groups is undefined!',collider,toCollide);
 		}
 		$rootScope.groups['collidingGroups'].push([$rootScope.groups['groups'][collider],$rootScope.groups['groups'][toCollide]]);
-		groupFn.generateCollidingObjects();
 	}
 
 	/**
@@ -142,7 +143,6 @@
 				$rootScope.groups['collidingGroups'].splice(i,1);
 			}
 		}
-		groupFn.generateCollidingObjects();
 	}
 
 
@@ -161,7 +161,6 @@
 			return;
 		}
 		$rootScope.groups['groups'][group].splice(index, 1);
-		groupFn.generateCollidingObjects();
 	}
 
 	/**
@@ -181,7 +180,6 @@
 			console.log(groups[i]);
 			srfn.removeEntityFromGroup(entity,groups[i]);
 		}
-		groupFn.generateCollidingObjects();
 	}
 
 	/**
