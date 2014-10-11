@@ -1,0 +1,5 @@
+node_modules/
+sunrise.min.js
+/debug/
+/plugins/
+*.js.map
