@@ -1,0 +1,29 @@
+{
+	"width" : 640,
+	"height": 2048,
+	"layer": [
+		{
+			"type": "image",
+			"image": "space1",
+			"size-x": "original",
+			"size-y": "loop",
+			"scroll-x": 0.3,
+			"scroll-y": 0.3,
+			"x": -320,
+			"y": -1048,
+			"z": 2
+		},
+		{
+			"type": "image",
+			"image": "space2",
+			"size-x": "original",
+			"size-y": "loop",
+			"scroll-x": 0.5,
+			"scroll-y": 0.5,
+			"x": -320,
+			"y": -1048,
+			"z": 1
+		}
+
+	]
+}
