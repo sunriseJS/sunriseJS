@@ -74,37 +74,41 @@
 
 
 	rootfn.checkCollisions = function(){
-		var objs = $rootScope.groups['collidingObjects'];
+		var objs = $rootScope.groups['collidingGroups'];
 		for (i = objs.length - 1; i >= 0; --i) {
-		    var o = objs[i],
-		    	f = o[0].getComponentData('CollisionBody','bounds'),
-		    	s = o[1].getComponentData('CollisionBody','bounds'),
-		    	c1 = o[0].getComponentData('CollisionBody','colliderType'),
-		    	c2 = o[1].getComponentData('CollisionBody','colliderType');
+			for(var j = objs[i][0].length;j--;){ 
+				for(var k = objs[i][1].length; k--;){
+				    var first = objs[i][0][j],
+				    	second = objs[i][1][k],
+				    	f = first.getComponentData('CollisionBody','bounds'),
+				    	s = second.getComponentData('CollisionBody','bounds'),
+				    	c1 = first.getComponentData('CollisionBody','colliderType'),
+				    	c2 = second.getComponentData('CollisionBody','colliderType');
 
-	    	if(f === undefined || s === undefined){
-	    		throw new Error('Collision can only be tested on entities with a CollisionBody component.');
-	    	}
-	    	f.x += o[0].x;
-	    	f.y += o[0].y;
-	    	s.x += o[1].x;
-	    	s.y += o[1].y;
+			    	if(f === undefined || s === undefined){
+			    		throw new Error('Collision can only be tested on entities with a CollisionBody component.');
+			    	}
+			    	f.x += first.x;
+			    	f.y += first.y;
+			    	s.x += second.x;
+			    	s.y += second.y;
 
 
 
-	    	var collision = colliderTesters[c1][c2](f,s);
+			    	var collision = colliderTesters[c1][c2](f,s);
 
-	    	f.x -= o[0].x;
-	    	f.y -= o[0].y;
-	    	s.x -= o[1].x;
-	    	s.y -= o[1].y;
+			    	f.x -= first.x;
+			    	f.y -= first.y;
+			    	s.x -= second.x;
+			    	s.y -= second.y;
 
-		    if(collision !== false){
-		    	var otherCollision = {normal: {x:-collision.normal.x, y: -collision.normal.y}, penetration:collision.penetration};
-		    	o[0].emit('collision',{other: o[1], collision: collision});
-		    	o[1].emit('collision',{other: o[0], collision: otherCollision});
+				    if(collision !== false){
+				    	var otherCollision = {normal: {x:-collision.normal.x, y: -collision.normal.y}, penetration:collision.penetration};
+				    	first.emit('collision',{other: second, collision: collision});
+				    	objs[i][1][k].emit('collision',{other: first, collision: otherCollision});
+				    }
+				}
 		    }
-		    
 
 		}
 	}

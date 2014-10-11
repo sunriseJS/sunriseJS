@@ -52,13 +52,15 @@ function saveCallbacksToArray(type, args){
 			if(rootfn.controls[type][keys[k]] == undefined){
 				rootfn.controls[type][keys[k]]= callbacks;
 			}
-			rootfn.controls[type][keys[k]] = rootfn.controls[type][keys[k]].concat(callbacks);
+
+			rootfn.controls[type][keys[k]] = rootfn.controls[type][keys[k]].concat(callbacks).filter(utilfn.onlyUnique);
+			console.log('scheiße',rootfn.controls[type][keys[k]]);
 		}
 	}
 };
 
 /**
- * Handel the key - function callbacks for keyDown
+ * Handel the key - function callbackks for keyDown
  */
 srfn.controls.onKeyDown = function() {
 	saveCallbacksToArray('keycallbacksDown', arguments);

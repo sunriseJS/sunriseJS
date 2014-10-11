@@ -42,14 +42,14 @@
 	 * @param {[type]} collideingPair [description]
 	 */
 	groupFn.addPairToCollingObjects = function(collidingPair){
-		for(var i = 0; i < $rootScope.groups['collidingObjects'].length; ++i){
-			if(($rootScope.groups['collidingObjects'][i][0] == collidingPair[0] 
-				&& $rootScope.groups['collidingObjects'][i][1] == collidingPair[1])
-				|| ($rootScope.groups['collidingObjects'][i][0] == collidingPair[1] 
-					&& $rootScope.groups['collidingObjects'][i][1] == collidingPair[0])){
-					return;	
-			}
-		}
+		// for(var i = 0; i < $rootScope.groups['collidingObjects'].length; ++i){
+		// 	if(($rootScope.groups['collidingObjects'][i][0] == collidingPair[0] 
+		// 		&& $rootScope.groups['collidingObjects'][i][1] == collidingPair[1])
+		// 		|| ($rootScope.groups['collidingObjects'][i][0] == collidingPair[1] 
+		// 			&& $rootScope.groups['collidingObjects'][i][1] == collidingPair[0])){
+		// 			return;	
+		// 	}
+		// }
 		$rootScope.groups['collidingObjects'].push([collidingPair[0],collidingPair[1]]);	
 	}
 
@@ -62,6 +62,10 @@
 		}
 	}
 
+	/**
+	 * note used anymore // deadCODE
+	 * @return {[type]} [description]
+	 */
 	groupFn.generateCollidingObjects = function(){
 		$rootScope.groups['collidingObjects'] = [];
 		for(var g = $rootScope.groups['collidingGroups'].length;g--;){
@@ -79,10 +83,17 @@
 		'groups': 	{
 			'toRender': []
 		},
-		'collidingObjects': [],
 		'collidingGroups': []
 	}
 
+	/**
+	 * predefining groups is helpfull if there are no objects in the group from the start
+	 * @param  {[type]} groupName [description]
+	 * @return {[type]}           [description]
+	 */
+	srfn.defineEmptyGroup = function(groupName){
+		$rootScope.groups['groups'][groupName] = [];
+	}
 
 	/**
 	 * groups method to add entites to a group, 
@@ -111,11 +122,10 @@
 	 */
 	srfn.defineCollidingGroups = function(collider, toCollide){
 		if($rootScope.groups['groups'][collider] == undefined || $rootScope.groups['groups'][toCollide] == undefined){
-			throw 'One of the given groups is undefined!',collider,toCollide;
-			return;
+			console.log(collider,$rootScope.groups['groups'][collider] == undefined, toCollide,$rootScope.groups['groups'][toCollide] == undefined);
+			throw new Error('One of the given groups is undefined!',collider,toCollide);
 		}
 		$rootScope.groups['collidingGroups'].push([$rootScope.groups['groups'][collider],$rootScope.groups['groups'][toCollide]]);
-		groupFn.generateCollidingObjects();
 	}
 
 	/**
@@ -133,7 +143,6 @@
 				$rootScope.groups['collidingGroups'].splice(i,1);
 			}
 		}
-		groupFn.generateCollidingObjects();
 	}
 
 
@@ -152,7 +161,6 @@
 			return;
 		}
 		$rootScope.groups['groups'][group].splice(index, 1);
-		groupFn.generateCollidingObjects();
 	}
 
 	/**
@@ -172,7 +180,6 @@
 			console.log(groups[i]);
 			srfn.removeEntityFromGroup(entity,groups[i]);
 		}
-		groupFn.generateCollidingObjects();
 	}
 
 	/**
