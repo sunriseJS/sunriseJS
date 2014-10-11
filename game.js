@@ -241,6 +241,25 @@ var game = {
 			}
 		});
 		var bots = [];
+		$.fn.defineEmptyGroup('bots');
+		$.fn.defineEmptyGroup('tiles');
+
+
+
+		$.fn.addToGroup(elevator,'elevator');
+		$.fn.addToGroup(elevator,'toRender');
+
+	
+
+
+		
+
+		
+		//set player states
+		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
+		
+		$.fn.stage.setLevel('level1');
+		$.fn.defineCollidingGroups('player','tiles');
 		var item1 = new $.fn.Entity(1344, 64,50,50,{
 			"Renderer":{
 				"image": "item",
@@ -266,27 +285,14 @@ var game = {
 			},
 		});
 
+		$.fn.addToGroup(item1,'toRender');
+		$.fn.addToGroup(item1,'items');
+		$.fn.defineCollidingGroups('player','items');
+		$.fn.defineCollidingGroups('player','elevator');
 		$.fn.defineCollidingGroups('bots','tiles');
 		$.fn.defineCollidingGroups('bots','elevator');
 		
-		$.fn.addToGroup(item1,'toRender');
-		$.fn.addToGroup(item1,'items');
 
-		$.fn.addToGroup(elevator,'elevator');
-		$.fn.addToGroup(elevator,'toRender');
-
-	
-
-
-		
-		$.fn.defineCollidingGroups('player','items');
-		$.fn.defineCollidingGroups('player','elevator');
-		
-		//set player states
-		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
-		
-		$.fn.stage.setLevel('level1');
-		$.fn.defineCollidingGroups('player','tiles');
 
 		
 		$.fpsdom = document.querySelector('#fps');
