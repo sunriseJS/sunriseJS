@@ -234,7 +234,7 @@ var game = {
 				"maxY" : 320
 			}
 		});
-
+		var bots = [];
 		var item1 = new $.fn.Entity(1344, 64,50,50,{
 			"Renderer":{
 				"image": "item",
@@ -244,13 +244,13 @@ var game = {
 					
 					var bots = [];
 					for(var i=0; i<8; i++){
+						console.log(i, "new bot");
 						var clone = bot.clone(window.player.x,window.player.y);
 						bots.push(clone);
 					}
 					$.fn.addToGroup(bots,'bots');
 					$.fn.addToGroup(bots,'toRender');
-					$.fn.defineCollidingGroups('bots','tiles');
-					$.fn.defineCollidingGroups('bots','elevator');
+
 				} 
 			},
 			"CollisionBody": {},
@@ -260,7 +260,8 @@ var game = {
 			},
 		});
 
-
+		$.fn.defineCollidingGroups('bots','tiles');
+		$.fn.defineCollidingGroups('bots','elevator');
 		
 		$.fn.addToGroup(item1,'toRender');
 		$.fn.addToGroup(item1,'items');

@@ -225,6 +225,17 @@ utilfn.guid = function() {
     return _p8() + _p8(true) + _p8(true) + _p8();
 };
 
+/**
+ * [onlyUnique description]
+ * @param  {[type]} value [description]
+ * @param  {[type]} index [description]
+ * @param  {[type]} self  [description]
+ * @return {[type]}       [description]
+ */
+utilfn.onlyUnique = function(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
 
 
 /**
