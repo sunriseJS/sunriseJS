@@ -170,11 +170,10 @@ srfn.Renderer = (function(){
         
 
         this.on('draw', function(data){
-            x = self.entity.x + data.offsetX,
-            y = self.entity.y + data.offsetY;
-
-            x -= self.anchor.x;
-            y -= self.anchor.y;
+            var xo = self.entity.x + data.offsetX,
+                yo = self.entity.y + data.offsetY,
+                x = xo - self.anchor.x,
+                y = yo - self.anchor.y;
 
             if(self.alpha !== 1){
                 var oldAlpha = self.context.globalAlpha;
@@ -183,9 +182,9 @@ srfn.Renderer = (function(){
 
             if(self.rotation !== 0){
                 self.context.save();
-                self.context.translate(x,y);
+                self.context.translate(xo,yo);
                 self.context.rotate(self.rotation);
-                self.context.translate(-x,-y);
+                self.context.translate(-xo,-yo);
             }
         
             var drawWidth = self.entity.width || self.width;
