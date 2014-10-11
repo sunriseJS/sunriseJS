@@ -1,0 +1,2 @@
+!function(a){var b=a.$rootScope,c=b.$scope.fn;c.SimpleItem=function(){return SimpleItem=function(a){c.Component.call(this);var d=this,e=a||{};e.keys=e.keys||{},this.data={},this.on("collision",function(a){console.log("test",a),a.other.emit("addToInventory",e),console.log(d.entity),b.$scope.fn.removeEntityFromAllGroups(d.entity)})},c.Component.extend(SimpleItem),SimpleItem}(),c.components.add("SimpleItem",function(a){return new c.SimpleItem(a)})}($sr=window.$sr=window.$sr||{});
+//# sourceMappingURL=../SimpleItem.js.map

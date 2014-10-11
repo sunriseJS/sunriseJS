@@ -1,10 +1,14 @@
+//window.debug = true;
 var game = {
 	config: {
 		screenWidth: 640,
 		screenHeight: 360,
 		plugins: [
 					'JumpNRunController',
-					'CollisionBody'
+					'CollisionBody',
+					'SimpleInventory',
+					'Physics',
+					'SimpleItem'
 				],
 		images: {
 			'player-anim': {
@@ -19,7 +23,7 @@ var game = {
 				}
 
 			},
-			'tileset1':{
+			'tileset1':{	//put to level file
 				source: 'assets/graphics/tileset1.png',
 				tileWidth: 64,
 				tileHeight: 64
@@ -32,21 +36,41 @@ var game = {
 			},
 			'elevator':{
 				source: 'assets/graphics/elevator.png'
+			},
+			'item':{
+				source:'assets/items/item.png'
 			}
 		},
 		levels: {
 			level1: "assets/levels/level1.json"
+		},
+		sounds: {
+			steps: {
+				file: "assets/sounds/walking.mp3",
+				loop: true
+			}
 		}
 
 
 	},
 
 
-	init: function($) {
+	init: function($) { //change to something else
 
 		$.fn.components.add('playerBehavior',function(config){
 			var playerBehavior = new $.fn.Component();
-			playerBehavior.on('collision', function(){
+			playerBehavior.on('tick', function(){
+				if(playerBehavior.entity.y > 1000){
+					playerBehavior.entity.y = -500;
+				}
+				if($.fn.controls.isKeyPressed('w')){
+					playerBehavior.entity.y -= 1;
+				}
+				if($.fn.controls.isKeyPressed('s')){
+					playerBehavior.entity.y += 1;
+				}
+			});
+			playerBehavior.on('collision', function(data){
 				playerBehavior.entity.emit('changeOpacity', {
 					opacity: 0.5
 				});
@@ -60,13 +84,7 @@ var game = {
 			return playerBehavior;
 		});
 
-		$.player = new $.fn.Entity(688,260,96,128,{	
-							"StateMachine":{
-								"states":{
-									"default":{
-									}
-								}
-							},
+		$.player = new $.fn.Entity(436,-128,96,128,{	
 							"Renderer":{
 								"image": "player-anim",
 								"anchor": {"x": 48,	"y": 64},
@@ -82,10 +100,19 @@ var game = {
 								"x":25,
 								"y":10,
 								"width":48,
-								"height":120
+								"height":116
 							},
 							"playerBehavior":{
 
+							},
+							"SimpleInventory":{
+								"inventory": ['test']
+							},
+							"Physics":{
+								"mass": 8,
+								"forces":{
+									"gravity":{"x":0,"y":9.81}
+								}
 							}
 		});
 
@@ -95,19 +122,22 @@ var game = {
 
 			var cheapAI = new $.fn.Component();
 			cheapAI.direction = 2;
-			cheapAI.on('collision', function(){
-				cheapAI.entity.emit('setState', 'mad');
+			cheapAI.on('collision', function(data){
+				if(data.collision.normal.x != 0){
+					cheapAI.entity.emit('setForce', {name:'movement', x:0, y: -15});
+				}
 			});	
 
 			cheapAI.on('tick', function(){
+				cheapAI.entity.emit('setForce', {name:'movement', x:0, y: 0});
 				if(cheapAI.direction === 2){
 					cheapAI.direction = Math.floor(Math.random()*3)-1;
 					setTimeout(function(){
 						cheapAI.direction = 2;
-						cheapAI.entity.emit('setState','default');
+						//cheapAI.entity.emit('setStates',['neutral']);
 					},1000*(Math.random(3)+3));
 				}
-				cheapAI.entity.x += cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
+				cheapAI.entity.x += cheapAI.direction;//cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
 				if(cheapAI.direction === -1){
 					cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
 				}else if(cheapAI.direction === 1){
@@ -122,8 +152,9 @@ var game = {
 
 		window.bot = new $.fn.Entity(688+128,260+64,96/2,128/2,{
 				"StateMachine":{
+					"default": "neutral",
 					"states":{
-						"default":{
+						"neutral":{
 							"values":{
 								"speed": "0.5",
 								"madness": "minimum"
@@ -142,17 +173,22 @@ var game = {
 					"anchor": {"x": 48,	"y": 64},
 					"animation": "stand_right" 
 				},
-				"CollisionBody":{},
+				"CollisionBody":{
+					"x":12,
+					"y":5,
+					"width":24,
+					"height":58
+				},
+				"Physics":{
+					"mass": 8,
+					"forces":{
+						"gravity":{"x":0,"y":9.81}
+					}
+				},
 				"cheapAI":{
 				}
 			});
-		var bots = [];
-		for(var i=0; i<8; i++){
-			var clone = bot.clone();
-			bots.push(clone);
-		}
-		$.fn.addToGroup(bots,'bots');
-		$.fn.addToGroup(bots,'toRender');
+		
 
 
 
@@ -162,22 +198,23 @@ var game = {
 
 			elevator.on('tick', function(){
 
-				elevator.entity.y += elevator.entity.getComponentData('StateMachine','ySpeed');
+				elevator.entity.y += elevator.entity.getComponentData('StateMachine','currentStateObj')['ySpeed'];
 				if(elevator.entity.y < data.minY){
-					elevator.entity.emit('setState','down');
+					elevator.entity.emit('setStates',['down']);
 				}
 				if(elevator.entity.y > data.maxY){
-					elevator.entity.emit('setState','up');
+					elevator.entity.emit('setStates',['up']);
 				}
 			});
 			return elevator;
 		});
 
 
-		window.elevator = new $.fn.Entity(1216,256,128,8,{
+		window.elevator = new $.fn.Entity(832,256,128,8,{
 			"StateMachine":{
+				"default": "up",
 				"states":{
-					"default":{
+					"down":{
 						"values":{
 							"ySpeed": 1
 						}
@@ -185,11 +222,6 @@ var game = {
 					"up":{
 						"values":{
 							"ySpeed": -1
-						}
-					},
-					"down":{
-						"values":{
-							"ySpeed": 1
 						}
 					}
 				}
@@ -199,42 +231,74 @@ var game = {
 				"anchor": {"x": 64,	"y": 4}
 			},
 			"CollisionBody":{},
+			"Physics":{
+				"mass": 0,
+				"forces":{}
+			},
 			"elevator":{
 				"minY" : 64,
 				"maxY" : 320
 			}
 		});
+		var bots = [];
+		$.fn.defineEmptyGroup('bots');
+		$.fn.defineEmptyGroup('tiles');
 
 
 
 		$.fn.addToGroup(elevator,'elevator');
 		$.fn.addToGroup(elevator,'toRender');
 
+	
+
+
 		
-
-
-		var testBots = [];
-		testBots.push(bots[0]);
-		testBots.push(bots[2]);
-		testBots.push(bots[4]);
-		testBots.push(bots[6]);
-
-		$.fn.addToGroup(testBots,'testBots');
-
-		$.fn.defineCollidingGroups('player','bots');
-		$.fn.defineCollidingGroups('testBots','player');
-		$.fn.defineCollidingGroups('player','elevator');
 
 		
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 		
 		$.fn.stage.setLevel('level1');
+		$.fn.defineCollidingGroups('player','tiles');
+		var item1 = new $.fn.Entity(1344, 64,50,50,{
+			"Renderer":{
+				"image": "item",
+			},
+			"SimpleItem":{
+				"use": function(data){
+					
+					var bots = [];
+					for(var i=0; i<8; i++){
+						console.log(i, "new bot");
+						var clone = bot.clone(window.player.x,window.player.y);
+						bots.push(clone);
+					}
+					$.fn.addToGroup(bots,'bots');
+					$.fn.addToGroup(bots,'toRender');
+
+				} 
+			},
+			"CollisionBody": {},
+			"Physics":{
+				"mass": 200,
+				"forces":[]
+			},
+		});
+
+		$.fn.addToGroup(item1,'toRender');
+		$.fn.addToGroup(item1,'items');
+		$.fn.defineCollidingGroups('player','items');
+		$.fn.defineCollidingGroups('player','elevator');
+		$.fn.defineCollidingGroups('bots','tiles');
+		$.fn.defineCollidingGroups('bots','elevator');
+		
+
+
 		
 		$.fpsdom = document.querySelector('#fps');
 		window.player = $.player; // only for testing purposes
 		$.fn.addToGroup($.player,'toRender');
-		$.fn.stage.setFocus($.player,0,-64);
+		$.fn.stage.setFocus($.player,0,0);
 		
 		/*
 		console.log($scope.player.stateManager.states);
