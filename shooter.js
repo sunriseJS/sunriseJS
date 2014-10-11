@@ -18,6 +18,17 @@ var game = {
 					'hit': [4,3,2,3,4,5,6,5,4]
 				},
 			},
+			'xwing': {
+				source: 'assets/graphics/xming.png',
+				tileWidth: 60,
+				tileHeight: 64,
+				animations: {
+					'straight': [4],
+					'left': [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+					'right': [5,6,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8],
+					'hit': [4,3,2,3,4,5,6,5]
+				},
+			},
 			'space1':{
 				source: 'assets/graphics/space.png'
 			},
@@ -38,7 +49,9 @@ var game = {
 	init: function($) { 
 
 		$.fn.components.add('Hero',function(config){
-			var hero = new $.fn.Component();
+			var hero = new $.fn.Component(),
+				isHit = false,
+				hitTimeout = undefined;
 			hero.on('tick', function(){
 				hero.entity.y -= 2;
 				if($.fn.controls.isKeyPressed('a')){
@@ -51,37 +64,71 @@ var game = {
 					$.fn.stage.setFocus($.player,-hero.entity.x,-128);
 					hero.entity.emit('changeAnimation', {animation: 'right'});
 				}
-				if(!$.fn.controls.isKeyPressed('a') && !$.fn.controls.isKeyPressed('d')){
+				if(!$.fn.controls.isKeyPressed('a') && !$.fn.controls.isKeyPressed('d') && !isHit){
 					hero.entity.emit('changeAnimation', {animation: 'straight'});
 				}
+				console.log(isHit);
+			});
+
+			hero.on('collision', function(){
+				hero.entity.emit('changeAnimation', {animation: 'hit'});
+				isHit = true;
+				if(hitTimeout){
+					clearTimeout(hitTimeout);
+				}
+				setTimeout(function(){
+					isHit = false;
+				},1000);
 			});
 			return hero;
 	});
 
 
 		$.player = new $.fn.Entity(0,2048,80,64,{	
-							"Renderer":{
-								"image": "fighter",
-								"anchor": {"x": 40,	"y": 38},
-								"animation": 'straight' 
-							},
-							"CollisionBody":{
-								"x":19,
-								"y":6,
-								"width":43,
-								"height":57
-							},
-							"Hero":{}
+			"Renderer":{
+				"image": "fighter",
+				"anchor": {"x": 40,	"y": 38},
+				"animation": "straight" 
+			},
+			"CollisionBody":{
+				"x":19,
+				"y":6,
+				"width":43,
+				"height":57
+			},
+			"Hero":{}
 		});
 
-		$.fn.addToGroup($.player,'player');
-		
+		var enemy = new $.fn.Entity(0,0,60,64,{
+			"Renderer":{
+				"image": "xwing",
+				"anchor": {"x": 30,	"y": 52},
+				"animation": "straight",
+				"rotation": 3.14
+			},
+			"CollisionBody":{
+				"x":6,
+				"y":4,
+				"width":49,
+				"height":59
+			}
+		});
+
 		$.fn.stage.setLevel('level1');
+		$.fn.addToGroup($.player,'player');
+		$.fn.addToGroup($.player,'toRender');
+
+		for(var i=0; i<8; i++){
+			var e = enemy.clone(Math.random()*320-160, Math.random()*(2048-512)+512);
+			$.fn.addToGroup(e,'enemies');
+			$.fn.addToGroup(e,'toRender');
+		}
+		
+		$.fn.defineCollidingGroups('player','enemies');
 
 		
 		$.fpsdom = document.querySelector('#fps');
 		window.player = $.player; // only for testing purposes
-		$.fn.addToGroup($.player,'toRender');
 		$.fn.stage.setFocus($.player,0,-128);
 		
 		/*
