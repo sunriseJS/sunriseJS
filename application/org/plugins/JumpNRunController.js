@@ -77,6 +77,9 @@
 						restart: false
 					});
 					direction = -1;
+					if(!srfn.isSoundPlaying('steps')){
+						srfn.playSound('steps');
+					}
 				}
 				if(run_right && !run_left){
 					self.entity.emit('changeAnimation', {
@@ -84,6 +87,9 @@
 						restart: false
 					});
 					direction = 1;
+					if(!srfn.isSoundPlaying('steps')){
+						srfn.playSound('steps');
+					}
 				}
 
 				if(!run_left && !run_right){
@@ -99,6 +105,9 @@
 							restart: false
 						});
 						direction = 0;
+					}
+					if(srfn.isSoundPlaying('steps')){
+						srfn.pauseSound('steps');
 					}
 				}
 
