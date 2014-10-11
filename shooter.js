@@ -30,7 +30,7 @@ var game = {
 				},
 			},
 			'space1':{
-				source: 'assets/graphics/space.png'
+				source: 'assets/graphics/space.jpg'
 			},
 			'space2':{
 				source: 'assets/graphics/space2.png'
