@@ -137,7 +137,7 @@ var game = {
 				enemy.entity.height *= 0.99;
 
 				if(enemy.entity.x > 320 && enemy.entity.x<-320){
-					//$.fn.removeEntityFromAllGroups(enemy.entity);
+					$.fn.removeEntityFromAllGroups(enemy.entity);
 				}
 			});
 			enemy.on('collision', function(data){
@@ -173,9 +173,9 @@ var game = {
 				bullet.entity.y -= 8;
 			});
 			bullet.on('collision', function(){
-				//$.fn.removeEntityFromAllGroups(bullet.entity);
-				//until removeEntityFromAllGroups works:
-				bullet.entity.x = -9999;
+				$.fn.removeEntityFromAllGroups(bullet.entity);
+				// until removeEntityFromAllGroups works;
+				// bullet.entity.x = -9999;
 			});
 			return bullet;
 		});
