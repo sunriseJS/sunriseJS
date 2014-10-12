@@ -175,7 +175,9 @@ srfn.Renderer = (function(){
                 x = xo - self.anchor.x,
                 y = yo - self.anchor.y;
 
+            var oldAlpha = 1;
             if(self.alpha !== 1){
+                oldAlpha = self.context.globalAlpha;
                 self.context.globalAlpha = self.alpha;
             }
 
@@ -206,10 +208,12 @@ srfn.Renderer = (function(){
                 self.lastDrawTime = now;
             }
 
-
-            self.context.globalAlpha = 1;
             if(self.rotation !== 0){
                 self.context.restore();
+            }
+
+            if(self.alpha !== 1){
+                self.context.globalAlpha = oldAlpha;
             }
 
             if(window.debug){
