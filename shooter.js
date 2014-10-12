@@ -45,6 +45,9 @@ var game = {
 					'hit': [4,3,2,3,4,5,6,5,4]
 				},
 			},
+			'bullet':{
+				source: 'assets/graphics/bullet.png'
+			},
 			'space1':{
 				source: 'assets/graphics/space.jpg'
 			},
@@ -96,15 +99,6 @@ var game = {
 					$.fn.stage.setFocus($.player,-hero.entity.x,dy);
 				}
 
-				/*dy = (dy < 60) ? 60 : dy;
-				dy = (dy > 300) ? 300 : dy;*/
-
-				if(hero.entity.x < -240){
-					hero.entity.x = -240;
-				}
-				if(hero.entity.x > 240){
-					hero.entity.x = 240;
-				}
 			});
 
 			hero.on('collision', function(){
@@ -116,6 +110,15 @@ var game = {
 				setTimeout(function(){
 					isHit = false;
 				},1000);
+			});
+
+			$.fn.controls.onKeyDown('space',function(){
+				var b1 = bullet.clone(hero.entity.x-10, hero.entity.y+8),
+					b2 = bullet.clone(hero.entity.x+10, hero.entity.y+8);
+				$.fn.addToGroup(b1,'bullets');
+				$.fn.addToGroup(b1,'toRender');
+				$.fn.addToGroup(b2,'bullets');
+				$.fn.addToGroup(b2,'toRender');
 			});
 			return hero;
 		});
@@ -133,6 +136,14 @@ var game = {
 				},1000);
 			});
 			return enemy;
+		});
+
+		$.fn.components.add('Bullet',function(config){
+			var bullet = new $.fn.Component();
+			bullet.on('tick', function(){
+				bullet.entity.y -= 8;
+			});
+			return bullet;
 		});
 
 
@@ -167,6 +178,16 @@ var game = {
 			"Enemy":{}
 		});
 
+
+		var bullet = new $.fn.Entity(0,0,4,16,{
+			"Renderer":{
+				"image": "bullet",
+				"anchor": {"x": 2,	"y": 4}
+			},
+			"CollisionBody":{},
+			"Bullet":{}
+		});
+
 		$.fn.stage.setLevel('level1');
 		
 
@@ -178,7 +199,10 @@ var game = {
 		
 		$.fn.addToGroup($.player,'player');
 		$.fn.addToGroup($.player,'toRender');
+
+		$.fn.defineEmptyGroup('bullets');
 		$.fn.defineCollidingGroups('player','enemies');
+		$.fn.defineCollidingGroups('bullets','enemies');
 
 		
 		$.fpsdom = document.querySelector('#fps');
