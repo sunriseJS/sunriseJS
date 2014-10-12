@@ -12,9 +12,10 @@
 var utilfn = $rootScope.$scope.util = {};
 
 /**
- * to run a function later, with given parameters
- * @param  {[type]} func [description]
- * @return {[type]}      [description]
+ * returns a function call with parameters
+ * @param  {[type]} obj  [the scope]
+ * @param  {[type]} func [the function to run in scope]
+ * @return {[type]}      [function call]
  */
 utilfn.partial = function(obj,func){
     var args = Array.prototype.slice.call(arguments, 2);
