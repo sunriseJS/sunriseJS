@@ -204,9 +204,9 @@
 		      }
 		   }
 		}
-		if(groups.length == 0){
+		/*if(groups.length == 0){
 			return false;
-		}
+		}*/
 		return groups;
 	}
 
