@@ -133,6 +133,12 @@ var game = {
 				}
 				enemy.entity.x += dead*1;
 				enemy.entity.y -= 2;
+				enemy.entity.width *= 0.99;
+				enemy.entity.height *= 0.99;
+
+				if(enemy.entity.x > 320 && enemy.entity.x<-320){
+					//$.fn.removeEntityFromAllGroups(enemy.entity);
+				}
 			});
 			enemy.on('collision', function(data){
 				if(dead !== 0){
@@ -146,7 +152,7 @@ var game = {
 						enemy.entity.emit('changeAnimation', {animation: 'right'});
 					}
 					enemy.entity.emit('changeOpacity', {
-						opacity: 0.6
+						opacity: 0.8
 					});
 					return;
 				}
@@ -165,6 +171,11 @@ var game = {
 			var bullet = new $.fn.Component();
 			bullet.on('tick', function(){
 				bullet.entity.y -= 8;
+			});
+			bullet.on('collision', function(){
+				//$.fn.removeEntityFromAllGroups(bullet.entity);
+				//until removeEntityFromAllGroups works:
+				bullet.entity.x = -9999;
 			});
 			return bullet;
 		});
@@ -214,8 +225,8 @@ var game = {
 		$.fn.stage.setLevel('level1');
 		
 
-		for(var i=0; i<8; i++){
-			var e = enemy.clone(Math.random()*320-160, Math.random()*(2048-512)+512);
+		for(var i=0; i<32; i++){
+			var e = enemy.clone(Math.random()*320-160, i*256-4096);
 			$.fn.addToGroup(e,'enemies');
 			$.fn.addToGroup(e,'toRender');
 		}
