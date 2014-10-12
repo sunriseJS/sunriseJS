@@ -18,6 +18,10 @@ var $rootScope = $sr.$rootScope = $sr.$rootScope || {};
 var rootfn = $rootScope.fn = {};
 $rootScope.$scope = {};
 
+$rootScope.emitDigit = [];
+
+
+
 var srfn = $rootScope.$scope.fn = {};
 
 _seal = $sr._seal = $sr._seal || function () {
@@ -51,6 +55,13 @@ rootfn.sunrise = function(){
 rootfn.run = function(){
 	rootfn.clearCanvas();
 	rootfn.stage.update();
+	for(var i = $rootScope.keyCallbackFunctions.length; i--;){
+		$rootScope.keyCallbackFunctions.splice(i,1)[0]();
+	}
+	for(var i = $rootScope.emitDigit.length; i--;){
+		$rootScope.emitDigit.splice(i,1)[0]();
+	}
+
 	rootfn.checkCollisions();
 	game.run($rootScope.$scope);
 	rootfn.stage.draw();

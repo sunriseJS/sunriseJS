@@ -81,7 +81,11 @@ var game = {
 					});
 				}, 20);
 			});
+			playerBehavior.on('test', function(){
+				console.log('test ausgeführt');
+			});
 			return playerBehavior;
+
 		});
 
 		$.player = new $.fn.Entity(436,-128,96,128,{	
@@ -115,6 +119,9 @@ var game = {
 								}
 							}
 		});
+
+
+
 
 		$.fn.addToGroup($.player,'player');
 		

@@ -49,6 +49,7 @@ srfn.Component = (function(){
 	 * @param  {[type]} data data providen for callback
 	 */
 	Component.prototype.receive = function(what, data){
+		if(what == 'test') console.log('test im component');
 		if(this.receiver[what] !== undefined){
 			this.receiver[what](data);
 		}

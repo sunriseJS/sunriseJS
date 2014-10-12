@@ -13,6 +13,7 @@
  */
 
 srfn.controls = {};
+$rootScope.keyCallbackFunctions = [];
 rootfn.controls = {
 	'keys': {},
 	'keycallbacksDown': {},
@@ -86,7 +87,7 @@ rootfn.handleKeyDown = function(event) {
 	}
 	if(rootfn.controls.keycallbacksDown[rootfn.controls.keys.names[event.keyCode]]!= undefined){ 
 		for(var i = 0; i < rootfn.controls.keycallbacksDown[rootfn.controls.keys.names[event.keyCode]].length; ++i){
-			rootfn.controls.keycallbacksDown[rootfn.controls.keys.names[event.keyCode]][i]();
+			$rootScope.keyCallbackFunctions.push(rootfn.controls.keycallbacksDown[rootfn.controls.keys.names[event.keyCode]][i]);
 		}
 	}
 
@@ -101,7 +102,7 @@ rootfn.handleKeyDown = function(event) {
 rootfn.handleKeyUp = function(event) {
 	if(rootfn.controls.keycallbacksUp[rootfn.controls.keys.names[event.keyCode]]!= undefined){ 
 		for(var i = 0; i < rootfn.controls.keycallbacksUp[rootfn.controls.keys.names[event.keyCode]].length; ++i){
-			rootfn.controls.keycallbacksUp[rootfn.controls.keys.names[event.keyCode]][i]();
+			$rootScope.keyCallbackFunctions.push(rootfn.controls.keycallbacksUp[rootfn.controls.keys.names[event.keyCode]][i]);
 		}
 	}
 	rootfn.controls.keysPressed[event.keyCode] = false;
@@ -183,8 +184,7 @@ rootfn.controls.generateKeys = function() {
 		'pgup': 33,
 		'pgdn': 33,
 		'ins': 45,
-		'del': 46,
-		'spc': 32
+		'del': 46
 	};
 
 
@@ -217,12 +217,14 @@ rootfn.controls.generateKeys = function() {
 	for (var alias in aliases) {
 		codes[alias] = aliases[alias];
 	}
-	
+
 	// Create reverse mapping
 	var names = {};
 	for (i in codes) {
 		names[codes[i]] = i;
 	}
+	
+
 	// add all the stuff to the global scope
 	rootfn.controls.keys.codes = codes;
 	rootfn.controls.keys.names = names;

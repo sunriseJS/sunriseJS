@@ -75,12 +75,17 @@
 
 	rootfn.checkCollisions = function(){
 		var objs = $rootScope.groups['collidingGroups'],
-			grps = $rootScope.groups['groups'];
+			grps = $rootScope.groups['groups'],
+			group1,group2, colEvent;
 		for (i = objs.length - 1; i >= 0; --i) {
+			group1 = grps[objs[i][0]];
+			group2 = grps[objs[i][1]];
+			colEvent = objs[i][2];
 			for(var j = grps[objs[i][0]].length;j--;){ 
 				for(var k = grps[objs[i][1]].length; k--;){
-				    var first = grps[objs[i][0]][j],
-				    	second = grps[objs[i][1]][k],
+					// console.log(j,k,grps[objs[i][1]][k],grps[objs[i][0]][j]);
+				    var first = group1[j],
+				    	second = group2[k],
 				    	f = first.getComponentData('CollisionBody','bounds'),
 				    	s = second.getComponentData('CollisionBody','bounds'),
 				    	c1 = first.getComponentData('CollisionBody','colliderType'),
@@ -103,9 +108,11 @@
 			    	s.y -= second.y;
 
 				    if(collision !== false){
+
 				    	var otherCollision = {normal: {x:-collision.normal.x, y: -collision.normal.y}, penetration:collision.penetration};
-				    	first.emit('collision',{other: second, collision: collision});
-				    	second.emit('collision',{other: first, collision: otherCollision});
+				    	$rootScope.emitDigit.push(utilfn.partial(first,first.emit,'collision',{other: second, collision: collision}));
+				    	$rootScope.emitDigit.push(utilfn.partial(second,second.emit,'collision',{other: first, collision: otherCollision}));
+				    	// console.log($rootScope.emitDigit);
 				    }
 				}
 		    }

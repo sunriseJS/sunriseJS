@@ -12,6 +12,20 @@
 var utilfn = $rootScope.$scope.util = {};
 
 /**
+ * to run a function later, with given parameters
+ * @param  {[type]} func [description]
+ * @return {[type]}      [description]
+ */
+utilfn.partial = function(obj,func){
+    var args = Array.prototype.slice.call(arguments, 2);
+    return function() {
+        var allArguments = args.concat(Array.prototype.slice.call(obj,arguments));    
+        return func.apply(obj, allArguments);
+    };
+}
+
+
+/**
  * Loads data asynchronous from URL
  * @param  {String}   url      URL, data shoould be fetched from
  * @param  {Function} callback is called when data is available

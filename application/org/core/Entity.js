@@ -43,6 +43,9 @@ srfn.Entity = (function(){
      * @param  {Object} data additional data to this event
      */
 	Entity.prototype.emit = function(what, data){
+        if(what == 'test'){
+            console.log('test', this);
+        }
 		for(type in this.components){
             this.components[type].receive(what, data);
         }
