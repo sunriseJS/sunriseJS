@@ -13,8 +13,16 @@ var game = {
 				tileHeight: 64,
 				animations: {
 					'straight': [4],
-					'left': [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-					'right': [5,6,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8],
+					'left': {
+						'in':[4,3,2,1],
+						'loop':[0],
+						'out':[1,2,3,4]
+					},
+					'right': {
+						'in':[4,5,6,7],
+						'loop':[8],
+						'out':[7,6,5,4]
+					},
 					'hit': [4,3,2,3,4,5,6,5,4]
 				},
 			},
@@ -24,9 +32,17 @@ var game = {
 				tileHeight: 64,
 				animations: {
 					'straight': [4],
-					'left': [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-					'right': [5,6,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8],
-					'hit': [4,3,2,3,4,5,6,5]
+					'left': {
+						'in':[4,3,2,1],
+						'loop':[0],
+						'out':[1,2,3,4]
+					},
+					'right': {
+						'in':[4,5,6,7],
+						'loop':[8],
+						'out':[7,6,5,4]
+					},
+					'hit': [4,3,2,3,4,5,6,5,4]
 				},
 			},
 			'space1':{
@@ -51,23 +67,44 @@ var game = {
 		$.fn.components.add('Hero',function(config){
 			var hero = new $.fn.Component(),
 				isHit = false,
-				hitTimeout = undefined;
+				hitTimeout = undefined,
+				dy = -128;
 			hero.on('tick', function(){
 				hero.entity.y -= 2;
 				if($.fn.controls.isKeyPressed('a')){
 					hero.entity.x -= 2;
-					$.fn.stage.setFocus($.player,-hero.entity.x,-128);
+					$.fn.stage.setFocus($.player,-hero.entity.x,dy);
 					hero.entity.emit('changeAnimation', {animation: 'left'});
 				}
 				if($.fn.controls.isKeyPressed('d')){
 					hero.entity.x += 2;
-					$.fn.stage.setFocus($.player,-hero.entity.x,-128);
+					$.fn.stage.setFocus($.player,-hero.entity.x,dy);
 					hero.entity.emit('changeAnimation', {animation: 'right'});
 				}
 				if(!$.fn.controls.isKeyPressed('a') && !$.fn.controls.isKeyPressed('d') && !isHit){
 					hero.entity.emit('changeAnimation', {animation: 'straight'});
 				}
-				console.log(isHit);
+
+				if($.fn.controls.isKeyPressed('w')){
+					dy += 1;	
+					hero.entity.y -= 1;	
+					$.fn.stage.setFocus($.player,-hero.entity.x,dy);
+				}
+				if($.fn.controls.isKeyPressed('s')){
+					dy -= 2;
+					hero.entity.y += 2;	
+					$.fn.stage.setFocus($.player,-hero.entity.x,dy);
+				}
+
+				/*dy = (dy < 60) ? 60 : dy;
+				dy = (dy > 300) ? 300 : dy;*/
+
+				if(hero.entity.x < -240){
+					hero.entity.x = -240;
+				}
+				if(hero.entity.x > 240){
+					hero.entity.x = 240;
+				}
 			});
 
 			hero.on('collision', function(){
@@ -81,7 +118,22 @@ var game = {
 				},1000);
 			});
 			return hero;
-	});
+		});
+
+		$.fn.components.add('Enemy',function(config){
+			var enemy = new $.fn.Component(),
+			hitTimeout = undefined;
+			enemy.on('collision', function(){
+				enemy.entity.emit('changeAnimation', {animation: 'hit'});
+				if(hitTimeout){
+					clearTimeout(hitTimeout);
+				}
+				setTimeout(function(){
+					enemy.entity.emit('changeAnimation', {animation: 'straight'});
+				},1000);
+			});
+			return enemy;
+		});
 
 
 		$.player = new $.fn.Entity(0,2048,80,64,{	
@@ -91,9 +143,9 @@ var game = {
 				"animation": "straight" 
 			},
 			"CollisionBody":{
-				"x":19,
+				"x":15,
 				"y":6,
-				"width":43,
+				"width":51,
 				"height":57
 			},
 			"Hero":{}
@@ -108,15 +160,15 @@ var game = {
 			},
 			"CollisionBody":{
 				"x":6,
-				"y":4,
+				"y":40,
 				"width":49,
 				"height":59
-			}
+			},
+			"Enemy":{}
 		});
 
 		$.fn.stage.setLevel('level1');
-		$.fn.addToGroup($.player,'player');
-		$.fn.addToGroup($.player,'toRender');
+		
 
 		for(var i=0; i<8; i++){
 			var e = enemy.clone(Math.random()*320-160, Math.random()*(2048-512)+512);
@@ -124,6 +176,8 @@ var game = {
 			$.fn.addToGroup(e,'toRender');
 		}
 		
+		$.fn.addToGroup($.player,'player');
+		$.fn.addToGroup($.player,'toRender');
 		$.fn.defineCollidingGroups('player','enemies');
 
 		
