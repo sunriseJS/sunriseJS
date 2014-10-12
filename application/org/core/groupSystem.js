@@ -120,12 +120,11 @@
 	 * @param  {[type]} collider  [the first group : String]
 	 * @param  {[type]} toCollide [secound group : String]
 	 */
-	srfn.defineCollidingGroups = function(collider, toCollide){
+	srfn.defineCollidingGroups = function(collider, toCollide, event){
 		if($rootScope.groups['groups'][collider] == undefined || $rootScope.groups['groups'][toCollide] == undefined){
-			console.log(collider,$rootScope.groups['groups'][collider] == undefined, toCollide,$rootScope.groups['groups'][toCollide] == undefined);
 			throw new Error('One of the given groups is undefined!',collider,toCollide);
 		}
-		$rootScope.groups['collidingGroups'].push([$rootScope.groups['groups'][collider],$rootScope.groups['groups'][toCollide]]);
+		$rootScope.groups['collidingGroups'].push([collider,toCollide, event]);
 	}
 
 	/**

@@ -74,17 +74,17 @@
 
 
 	rootfn.checkCollisions = function(){
-		var objs = $rootScope.groups['collidingGroups'];
+		var objs = $rootScope.groups['collidingGroups'],
+			grps = $rootScope.groups['groups'];
 		for (i = objs.length - 1; i >= 0; --i) {
-			for(var j = objs[i][0].length;j--;){ 
-				for(var k = objs[i][1].length; k--;){
-				    var first = objs[i][0][j],
-				    	second = objs[i][1][k],
+			for(var j = grps[objs[i][0]].length;j--;){ 
+				for(var k = grps[objs[i][1]].length; k--;){
+				    var first = grps[objs[i][0]][j],
+				    	second = grps[objs[i][1]][k],
 				    	f = first.getComponentData('CollisionBody','bounds'),
 				    	s = second.getComponentData('CollisionBody','bounds'),
 				    	c1 = first.getComponentData('CollisionBody','colliderType'),
 				    	c2 = second.getComponentData('CollisionBody','colliderType');
-
 			    	if(f === undefined || s === undefined){
 			    		throw new Error('Collision can only be tested on entities with a CollisionBody component.');
 			    	}
@@ -105,7 +105,7 @@
 				    if(collision !== false){
 				    	var otherCollision = {normal: {x:-collision.normal.x, y: -collision.normal.y}, penetration:collision.penetration};
 				    	first.emit('collision',{other: second, collision: collision});
-				    	objs[i][1][k].emit('collision',{other: first, collision: otherCollision});
+				    	second.emit('collision',{other: first, collision: otherCollision});
 				    }
 				}
 		    }

@@ -212,17 +212,17 @@ rootfn.controls.generateKeys = function() {
 		codes['numpad ' + i] = i + 96;
 	}
 
-	// Create reverse mapping
-	var names = {};
-	for (i in codes) {
-		names[codes[i]] = i;
-	}
 
 	// Add aliases
 	for (var alias in aliases) {
 		codes[alias] = aliases[alias];
 	}
-
+	
+	// Create reverse mapping
+	var names = {};
+	for (i in codes) {
+		names[codes[i]] = i;
+	}
 	// add all the stuff to the global scope
 	rootfn.controls.keys.codes = codes;
 	rootfn.controls.keys.names = names;
