@@ -125,8 +125,31 @@ var game = {
 
 		$.fn.components.add('Enemy',function(config){
 			var enemy = new $.fn.Component(),
-			hitTimeout = undefined;
-			enemy.on('collision', function(){
+				dead = 0,
+				hitTimeout = undefined;
+			enemy.on('tick', function(){
+				if(dead === 0){
+					return;
+				}
+				enemy.entity.x += dead*1;
+				enemy.entity.y -= 2;
+			});
+			enemy.on('collision', function(data){
+				if(dead !== 0){
+					return;
+				}
+				if($.fn.getGroupsByEntity(data.other).indexOf('bullets') !== -1){
+					dead = (enemy.entity.x < 0) ? -1 : 1;
+					if(dead === 1){
+						enemy.entity.emit('changeAnimation', {animation: 'left'});
+					}else{
+						enemy.entity.emit('changeAnimation', {animation: 'right'});
+					}
+					enemy.entity.emit('changeOpacity', {
+						opacity: 0.6
+					});
+					return;
+				}
 				enemy.entity.emit('changeAnimation', {animation: 'hit'});
 				if(hitTimeout){
 					clearTimeout(hitTimeout);
