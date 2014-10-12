@@ -176,7 +176,6 @@ srfn.Renderer = (function(){
                 y = yo - self.anchor.y;
 
             if(self.alpha !== 1){
-                var oldAlpha = self.context.globalAlpha;
                 self.context.globalAlpha = self.alpha;
             }
 
@@ -208,9 +207,7 @@ srfn.Renderer = (function(){
             }
 
 
-            if(self.alpha !== 1){
-                self.context.globalAlpha = oldAlpha;
-            }
+            self.context.globalAlpha = 1;
             if(self.rotation !== 0){
                 self.context.restore();
             }
