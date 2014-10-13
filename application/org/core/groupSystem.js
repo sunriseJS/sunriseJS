@@ -121,10 +121,12 @@
 	 * @param  {[type]} toCollide [secound group : String]
 	 */
 	srfn.defineCollidingGroups = function(collider, toCollide, event){
-		if($rootScope.groups['groups'][collider] == undefined || $rootScope.groups['groups'][toCollide] == undefined){
+		var colliderGrp = $rootScope.groups['groups'][collider];
+		var toCollideGrp = $rootScope.groups['groups'][toCollide];
+		if(colliderGrp == undefined || toCollideGrp == undefined){
 			throw new Error('One of the given groups is undefined!',collider,toCollide);
 		}
-		$rootScope.groups['collidingGroups'].push([collider,toCollide, event]);
+		$rootScope.groups['collidingGroups'].push([colliderGrp,toCollideGrp, event]);
 	}
 
 	/**

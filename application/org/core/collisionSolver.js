@@ -75,15 +75,13 @@
 
 	rootfn.checkCollisions = function(){
 		var objs = $rootScope.groups['collidingGroups'],
-			grps = $rootScope.groups['groups'],
 			group1,group2, colEvent;
 		for (i = objs.length - 1; i >= 0; --i) {
-			group1 = grps[objs[i][0]];
-			group2 = grps[objs[i][1]];
+			group1 = objs[i][0];
+			group2 = objs[i][1];
 			colEvent = objs[i][2];
-			for(var j = grps[objs[i][0]].length;j--;){ 
-				for(var k = grps[objs[i][1]].length; k--;){
-					// console.log(j,k,grps[objs[i][1]][k],grps[objs[i][0]][j]);
+			for(var j = group1.length;j--;){ 
+				for(var k = group2.length; k--;){
 				    var first = group1[j],
 				    	second = group2[k],
 				    	f = first.getComponentData('CollisionBody','bounds'),

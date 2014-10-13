@@ -58,11 +58,10 @@ rootfn.run = function(){
 	for(var i = $rootScope.keyCallbackFunctions.length; i--;){
 		$rootScope.keyCallbackFunctions.splice(i,1)[0]();
 	}
+	rootfn.checkCollisions();
 	for(var i = $rootScope.emitDigit.length; i--;){
 		$rootScope.emitDigit.splice(i,1)[0]();
 	}
-
-	rootfn.checkCollisions();
 	game.run($rootScope.$scope);
 	rootfn.stage.draw();
 	$rootScope.animationFrame.call(window, rootfn.run);
@@ -85,7 +84,7 @@ srfn.fps = {
 };
 
 	
-rootfn.init = function(){
+rootfn.init = function(callback){
 	$rootScope.animationFrame = 	window.requestAnimationFrame       ||
 				          			window.webkitRequestAnimationFrame ||
 				          			window.mozRequestAnimationFrame    ||
@@ -97,7 +96,7 @@ rootfn.init = function(){
 
 $rootScope.dom = document.querySelector('div[sunriseJS-app]');
 if($rootScope.dom != undefined){
-	rootfn.init();
+	rootfn.init(rootfn.run);
 }
 else {
 	alert('no jsengine-app found');

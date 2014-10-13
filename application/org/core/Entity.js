@@ -59,10 +59,10 @@ srfn.Entity = (function(){
      * @return {}          undefined if variable doesn't exist, otherwise value ot the variable
      */
     Entity.prototype.getComponentData = function(type, variable){
-        if(this.components[type] === undefined){
-            console.warn('Error in Entity '+this);
-            throw new Error('No component "'+type+'" found in entity.');
-        }
+        // if(this.components[type] === undefined){
+        //     console.warn('Error in Entity '+this);
+        //     throw new Error('No component "'+type+'" found in entity.');
+        // }
         return this.components[type].data[variable];
     }  
 
