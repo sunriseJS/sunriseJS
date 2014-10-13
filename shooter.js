@@ -115,9 +115,9 @@ var game = {
 			$.fn.controls.onKeyDown('space',function(){
 				var b1 = bullet.clone(hero.entity.x-10, hero.entity.y+8),
 					b2 = bullet.clone(hero.entity.x+10, hero.entity.y+8);
-				$.fn.addToGroup(b1,'bullets');
-				$.fn.addToGroup(b1,'toRender');
 				$.fn.addToGroup(b2,'bullets');
+				$.fn.addToGroup(b1,'toRender');
+				$.fn.addToGroup(b1,'bullets');
 				$.fn.addToGroup(b2,'toRender');
 			});
 			return hero;
@@ -172,7 +172,6 @@ var game = {
 			bullet.on('tick', function(){
 				bullet.entity.y -= 8;
 				if(bullet.entity.y < $.player.y - 200){
-					console.log('bullte < 3');
 					$.fn.removeEntityFromAllGroups(bullet.entity);
 				}
 			});

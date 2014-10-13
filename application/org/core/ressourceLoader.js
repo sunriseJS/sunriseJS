@@ -47,7 +47,6 @@ srfn.loadImages = function(sources_raw, callback){
 			var sourceFile;
 			var spriteConfig;
 			//Test whether there is a string for path only or a complex object for animation
-			console.log(source);
 			if(typeof source === 'object'){
 				if(source.source === undefined){
 					throw new Error('No attribute "source" found in image '+title);

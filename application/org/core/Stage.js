@@ -152,7 +152,6 @@ srfn.stage.setLevel = function(levelname){
 			style = 'linear-gradient(to bottom, '+bg.from+' 0%,'+bg.to+' 100%)';
 		}
 	}
-	console.log("style:",style);
 	$rootScope.canvas.style.background = style;
 
 };

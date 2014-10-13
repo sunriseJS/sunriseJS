@@ -178,7 +178,6 @@
 			return;
 		}
 		for(var i = groups.length; i--;){
-			console.log(groups[i]);
 			srfn.removeEntityFromGroup(entity,groups[i]);
 		}
 	}
