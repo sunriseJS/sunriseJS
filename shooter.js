@@ -14,14 +14,14 @@ var game = {
 				animations: {
 					'straight': [4],
 					'left': {
-						'in':[4,3,2,1],
-						'loop':[0],
-						'out':[1,2,3,4]
+						// 'in':[4,3,2,1],
+						'loop':[0]
+						// 'out':[1,2,3,4]
 					},
 					'right': {
-						'in':[4,5,6,7],
-						'loop':[8],
-						'out':[7,6,5,4]
+						// 'in':[4,5,6,7],
+						'loop':[8]
+						// 'out':[7,6,5,4]
 					},
 					'hit': [4,3,2,3,4,5,6,5,4]
 				},
@@ -171,9 +171,15 @@ var game = {
 			var bullet = new $.fn.Component();
 			bullet.on('tick', function(){
 				bullet.entity.y -= 8;
+				if(bullet.entity.y < $.player.y - 200){
+					console.log('bullte < 3');
+					$.fn.removeEntityFromAllGroups(bullet.entity);
+				}
 			});
-			bullet.on('collision', function(){
+			bullet.on('collision', function(data){
 				$.fn.removeEntityFromAllGroups(bullet.entity);
+				$.fn.removeEntityFromGroup(data.other, 'enemies');
+
 				// until removeEntityFromAllGroups works;
 				// bullet.entity.x = -9999;
 			});
@@ -225,7 +231,7 @@ var game = {
 		$.fn.stage.setLevel('level1');
 		
 
-		for(var i=0; i<32; i++){
+		for(var i=0; i<128; i++){
 			var e = enemy.clone(Math.random()*320-160, i*256-4096);
 			$.fn.addToGroup(e,'enemies');
 			$.fn.addToGroup(e,'toRender');
