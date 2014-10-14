@@ -59,6 +59,7 @@ module.exports = function (grunt) {
                     'application/org/core/components/Component.js',
                     'application/org/core/components/Renderer.js',
                     'application/org/core/StateMachine.js',
+                    'application/org/core/time.js',
                     'application/org/core/init.js',
                     'application/org/core/end.js'
 

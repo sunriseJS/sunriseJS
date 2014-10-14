@@ -11,6 +11,36 @@
 
 var utilfn = $rootScope.$scope.util = {};
 
+
+/**
+ * check if browser tap is active
+ * @return {[type]} [tapmode]
+ */
+utilfn.vis = (function(){
+	console.log('ja');
+	var hidden, visibilityChange; 
+   	if (typeof document.hidden === "undefined") { // Opera 12.10 and Firefox 18 and later support 
+	  	hidden = "hidden";
+	  	visibilityChange = "visibilitychange";
+	} else if (typeof document.mozHidden !== "undefined") {
+	  	hidden = "mozHidden";
+	  	visibilityChange = "mozvisibilitychange";
+	} else if (typeof document.msHidden !== "undefined") {
+	  	hidden = "msHidden";
+	  	visibilityChange = "msvisibilitychange";
+	} else if (typeof document.webkitHidden !== "undefined") {
+	  	hidden = "webkitHidden";
+	  	visibilityChange = "webkitvisibilitychange";
+	}
+	console.log('vis-hidden', hidden, 'vis-visibilityChange', visibilityChange);
+    return function(c) {
+        if (utilfn.isFunction(c)) {
+        	document.addEventListener(visibilityChange, c, false);
+        }
+        return !document[hidden];
+    }
+
+})();
 /**
  * returns a function call with parameters
  * @param  {[type]} obj  [the scope]

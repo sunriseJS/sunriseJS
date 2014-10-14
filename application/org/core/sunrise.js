@@ -22,6 +22,7 @@ $rootScope.emitDigit = [];
 
 
 
+
 var srfn = $rootScope.$scope.fn = {};
 
 _seal = $sr._seal = $sr._seal || function () {
@@ -51,6 +52,8 @@ rootfn.sunrise = function(){
 	});
 };
 
+	
+
 
 rootfn.run = function(){
 	rootfn.clearCanvas();
@@ -64,7 +67,7 @@ rootfn.run = function(){
 	}
 	game.run($rootScope.$scope);
 	rootfn.stage.draw();
-	$rootScope.animationFrame.call(window, rootfn.run);
+	$rootScope.animationFrame.call(window, rootfn.run);		
 };
 
 srfn.fps = {
@@ -91,6 +94,7 @@ rootfn.init = function(callback){
 				          			function( callback ){
 				            			window.setTimeout(callback, 1000 / 60);
 				          			};
+
 }
 
 
