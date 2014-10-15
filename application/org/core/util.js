@@ -17,28 +17,28 @@ var utilfn = $rootScope.$scope.util = {};
  * @return {[type]} [tapmode]
  */
 utilfn.vis = (function(){
-	console.log('ja');
-	var hidden, visibilityChange; 
-   	if (typeof document.hidden === "undefined") { // Opera 12.10 and Firefox 18 and later support 
-	  	hidden = "hidden";
-	  	visibilityChange = "visibilitychange";
-	} else if (typeof document.mozHidden !== "undefined") {
-	  	hidden = "mozHidden";
-	  	visibilityChange = "mozvisibilitychange";
-	} else if (typeof document.msHidden !== "undefined") {
-	  	hidden = "msHidden";
-	  	visibilityChange = "msvisibilitychange";
-	} else if (typeof document.webkitHidden !== "undefined") {
-	  	hidden = "webkitHidden";
-	  	visibilityChange = "webkitvisibilitychange";
-	}
-	console.log('vis-hidden', hidden, 'vis-visibilityChange', visibilityChange);
-    return function(c) {
-        if (utilfn.isFunction(c)) {
-        	document.addEventListener(visibilityChange, c, false);
-        }
-        return !document[hidden];
-    }
+	var hidden,
+      visibilityChange,
+      eventName = null,
+      prefixes = ['webkit','moz','ms','o'];
+
+  /* native support */
+  if ('hidden' in document) eventName = 'hidden';
+
+  /* find the right prefix */
+  for (var i = 0; i < prefixes.length; i++){
+    if ((prefixes[i] + 'Hidden') in document) eventName =  prefixes[i] + 'Hidden';
+  }
+
+  /* do we found a supported property? */
+  if(!eventName) {
+    console.log('not supported || fallbackcode');
+    return;
+  }
+
+  document.addEventListener(eventName.replace(/hidden/i,'') + 'visibilitychange', function(event){
+    //trigger your code here
+  });
 
 })();
 /**
@@ -50,7 +50,7 @@ utilfn.vis = (function(){
 utilfn.partial = function(obj,func){
     var args = Array.prototype.slice.call(arguments, 2);
     return function() {
-        var allArguments = args.concat(Array.prototype.slice.call(obj,arguments));    
+        var allArguments = args.concat(Array.prototype.slice.call(obj,arguments));
         return func.apply(obj, allArguments);
     };
 }
@@ -63,17 +63,12 @@ utilfn.partial = function(obj,func){
  * @param  {String}   data     response from URL
  */
 utilfn.ajax = function(url,callback, data){
-	var request;
-	if (window.XMLHttpRequest){
-	    request=new XMLHttpRequest();
-	}else{
-	    request=new ActiveXObject("Microsoft.XMLHTTP");
-	}
+	var request = (!window.XMLHttpRequest) ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
 	request.onreadystatechange=function(){
 	    if (request.readyState==4 && request.status==200){
 	        callback(request.responseText);
 	    }
-	}       
+	}
 	request.open("GET",url,true);
 
 	if(data){
@@ -108,7 +103,7 @@ var executeCalculation = function(x, y, calculation){
 
 /**
  * To check if a parameter is a function
- * @param  {[expect: function]}  function to check 
+ * @param  {[expect: function]}  function to check
  * @return {true if parameter is a function}
  */
 utilfn.isFunction = function(functionToCheck) {
@@ -138,7 +133,7 @@ utilfn.Vec2 = function(x, y){
 
 /**
  * Adds a Vec2 to itself
- * @param Number/Vec2 x Vector to be added or value for 
+ * @param Number/Vec2 x Vector to be added or value for
  * @param Number value for y
  */
 utilfn.Vec2.prototype.add = function(x, y){
@@ -162,7 +157,7 @@ utilfn.Vec2.add = function(first, second){
 
 /**
  * Subtracts a Vec2 from itself
- * @param Number/Vec2 x Vector to be subtracted or value for 
+ * @param Number/Vec2 x Vector to be subtracted or value for
  * @param Number value for y
  */
 utilfn.Vec2.prototype.subtract = function(x, y){
@@ -203,7 +198,7 @@ utilfn.Vec2.prototype.multiply = function(factor){
 /**
  * multiplies a vector by a scalar
  * @param  Vec2 vector
- * @param  Number scalar 
+ * @param  Number scalar
  * @return Vec2        new vector
  */
 utilfn.Vec2.multiply = function(vector, scalar){
@@ -230,7 +225,7 @@ utilfn.Vec2.prototype.divide = function(factor){
 /**
  * divides a vector by a scalar
  * @param  Vec2 vector
- * @param  Number scalar 
+ * @param  Number scalar
  * @return Vec2        new vector
  */
 utilfn.Vec2.divide = function(vector, scalar){
@@ -277,7 +272,7 @@ utilfn.guid = function() {
  * @param  {[type]} self  [description]
  * @return {[type]}       [description]
  */
-utilfn.onlyUnique = function(value, index, self) { 
+utilfn.onlyUnique = function(value, index, self) {
     return self.indexOf(value) === index;
 }
 
