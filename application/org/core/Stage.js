@@ -175,13 +175,13 @@ srfn.stage.setFocus = function(x,y,yy){
 };
 
 (function(){
-	var lastTick = Date.now();
+	// var lastTick = Date.now();
 	srfn.stage.update = function(){
-		var now = Date.now();
+		// var now = Date.now();
 		$rootScope.groups['groups']['toRender'].forEach(function(entity){
-			entity.emit('tick',{delta: now-lastTick});
+			entity.emit('tick',{delta: $rootScope.time.delta});
 		});
-		lastTick = now;
+		// lastTick = now;
 	};
 })();
 

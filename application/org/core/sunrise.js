@@ -19,7 +19,7 @@ var rootfn = $rootScope.fn = {};
 $rootScope.$scope = {};
 
 $rootScope.emitDigit = [];
-
+$rootScope.gameRunning = true;
 
 
 
@@ -36,11 +36,31 @@ _unseal = $sr._unseal = $sr._unseal || function () {
 	$sr._unseal = _unseal;
 };
 
+rootfn.focusChanged = function(canvas){ 
+		console.log(canvas,'focusChanged', (canvas||utilfn.vis()));
+	if(canvas||utilfn.vis()){
+		console.log('check');
+		rootfn.emitEverywhere('reganedFocus');
+	}else {
+		rootfn.emitEverywhere('lostFocus');
+	} 
+}
+
 
 
 rootfn.sunrise = function(){
+	rootfn.onEverywhere('paus', function(){
+		$rootScope.gameRunning = false;
+		$rootScope.time.wasPaused = true;
+	});
+	rootfn.onEverywhere('unPaus', function(){
+		$rootScope.gameRunning = true;
+		$rootScope.animationFrame.call(window, rootfn.run);	
+	});
+	
 	$sr._seal();
 	rootfn.initCanvas();
+	utilfn.vis(rootfn.focusChanged);
 	srfn.loadImages(game.config.images, function(){
 		//todo: make this better :D
 		srfn.loadSounds(game.config.sounds, function(){
@@ -56,18 +76,21 @@ rootfn.sunrise = function(){
 
 
 rootfn.run = function(){
-	rootfn.clearCanvas();
-	rootfn.stage.update();
-	for(var i = $rootScope.keyCallbackFunctions.length; i--;){
-		$rootScope.keyCallbackFunctions.splice(i,1)[0]();
+	if($rootScope.gameRunning){ 
+		rootfn.processTime();
+		rootfn.clearCanvas();
+		rootfn.stage.update();
+		for(var i = $rootScope.keyCallbackFunctions.length; i--;){
+			$rootScope.keyCallbackFunctions.splice(i,1)[0]();
+		}
+		rootfn.checkCollisions();
+		for(var i = $rootScope.emitDigit.length; i--;){
+			$rootScope.emitDigit.splice(i,1)[0]();
+		}
+		game.run($rootScope.$scope);
+		rootfn.stage.draw();
+		$rootScope.animationFrame.call(window, rootfn.run);	
 	}
-	rootfn.checkCollisions();
-	for(var i = $rootScope.emitDigit.length; i--;){
-		$rootScope.emitDigit.splice(i,1)[0]();
-	}
-	game.run($rootScope.$scope);
-	rootfn.stage.draw();
-	$rootScope.animationFrame.call(window, rootfn.run);		
 };
 
 srfn.fps = {

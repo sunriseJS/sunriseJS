@@ -16,30 +16,32 @@ var utilfn = $rootScope.$scope.util = {};
  * check if browser tap is active
  * @return {[type]} [tapmode]
  */
-utilfn.vis = (function(){
-	console.log('ja');
-	var hidden, visibilityChange; 
-   	if (typeof document.hidden === "undefined") { // Opera 12.10 and Firefox 18 and later support 
-	  	hidden = "hidden";
-	  	visibilityChange = "visibilitychange";
-	} else if (typeof document.mozHidden !== "undefined") {
-	  	hidden = "mozHidden";
-	  	visibilityChange = "mozvisibilitychange";
-	} else if (typeof document.msHidden !== "undefined") {
-	  	hidden = "msHidden";
-	  	visibilityChange = "msvisibilitychange";
-	} else if (typeof document.webkitHidden !== "undefined") {
-	  	hidden = "webkitHidden";
-	  	visibilityChange = "webkitvisibilitychange";
-	}
-	console.log('vis-hidden', hidden, 'vis-visibilityChange', visibilityChange);
-    return function(c) {
-        if (utilfn.isFunction(c)) {
-        	document.addEventListener(visibilityChange, c, false);
+utilfn.vis =  (function(){
+    var stateKey, eventKey, keys = {
+        hidden: "visibilitychange",
+        webkitHidden: "webkitvisibilitychange",
+        mozHidden: "mozvisibilitychange",
+        msHidden: "msvisibilitychange"
+    }, canvasFocus = true;
+    for (stateKey in keys) {
+        if (stateKey in document) {
+            eventKey = keys[stateKey];
+            break;
         }
-        return !document[hidden];
     }
 
+    return function(c) {
+        if (c) {
+        	document.addEventListener(eventKey, c);
+        	$rootScope.canvas.addEventListener('blur', function(){
+				c(false);
+        	});
+        	$rootScope.canvas.addEventListener('focus', function(){
+        		c(true);
+        	});
+        }
+        return document[stateKey];
+    }
 })();
 /**
  * returns a function call with parameters

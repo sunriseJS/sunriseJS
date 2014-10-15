@@ -181,10 +181,14 @@ var game = {
 					"animation": "stand_right" 
 				},
 				"CollisionBody":{
-					"x":12,
-					"y":5,
-					"width":24,
-					"height":58
+					// "x":12,
+					// "y":5,
+					// "width":24,
+					// "height":58
+						"x":12,
+						"y":5,
+						"width":24,
+						"height":58
 				},
 				"Physics":{
 					"mass": 8,
@@ -313,6 +317,17 @@ var game = {
 		$scope.player.stateManager.setCurrentState('run_left');
 		console.log($scope.player.stateManager.getCurrentState());
 		*/
+		
+		$.fn.on('reganedFocus', function(){
+			$.fn.emit('unPaus');
+		});
+
+		$.fn.on('lostFocus', function(){
+			$.fn.emit('paus');
+		});
+
+
+
 	},
 
 	run: function($) {
