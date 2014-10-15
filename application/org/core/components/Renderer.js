@@ -148,7 +148,7 @@ srfn.Renderer = (function(){
         this.currentFrameNumber = 0;
         this.currentAnimation = {"in":[],loop:[],out:[],name:''};
         this.animationType = 'in';
-        this.lastDrawTime = Date.now();
+        this.lastDrawTime = $rootScope.time.actual;
         this.frameDuration = 60; //in Milliseconds
 
         if(data_.animation === undefined || this.animations[data_.animation] === undefined){
@@ -201,11 +201,10 @@ srfn.Renderer = (function(){
 
              
 
-            var now = Date.now();
-            var delta = now - self.lastDrawTime;
+            var delta = $rootScope.time.actual-self.lastDrawTime;
             if(delta >= self.frameDuration){
                 self.nextFrame();
-                self.lastDrawTime = now;
+                self.lastDrawTime = $rootScope.time.actual;
             }
 
             if(self.rotation !== 0){
