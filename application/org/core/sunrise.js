@@ -47,9 +47,7 @@ rootfn.focusChanged = function(canvas){
 rootfn.tabFocusChanged = function(){ 
 	if(!utilfn.vis()){
 		$rootScope.canvas.blur();
-	}else {
-		$rootScope.canvas.focus();
-	} 
+	}
 }
 
 
