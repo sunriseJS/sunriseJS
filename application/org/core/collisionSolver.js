@@ -88,9 +88,6 @@
 				    	s = second.getComponentData('CollisionBody','bounds'),
 				    	c1 = first.getComponentData('CollisionBody','colliderType'),
 				    	c2 = second.getComponentData('CollisionBody','colliderType');
-			    	if(f === undefined || s === undefined){
-			    		throw new Error('Collision can only be tested on entities with a CollisionBody component.');
-			    	}
 			    	f.x += first.x;
 			    	f.y += first.y;
 			    	s.x += second.x;

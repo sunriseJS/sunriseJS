@@ -21,9 +21,17 @@ rootfn.emit = function(event, data){
 		$rootScope.events[event].forEach(function(entry) {
 				entry(data);
 		});
-	} else {
-		console.error('there is no event named: '+event);
 	}
+};
+
+rootfn.emitEverywhere = function(event, data){
+	rootfn.emit(event, data);
+	srfn.emit(event, data);
+};
+
+rootfn.onEverywhere = function(event, callback){
+	rootfn.on(event, callback);
+	srfn.on(event, callback)
 };
 
 rootfn.on = function(event, callback){
@@ -41,10 +49,7 @@ srfn.emit = function(event, data){
 		$rootScope.$scope.events[event].forEach(function(entry) {
 				entry(data);
 		});
-	} else {
-		console.error('there is no event named: '+event);
-	}
-		
+	}	
 };
 
 srfn.on = function(event, callback){
