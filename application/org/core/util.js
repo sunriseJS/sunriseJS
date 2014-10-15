@@ -16,7 +16,7 @@ var utilfn = $rootScope.$scope.util = {};
  * check if browser tap is active
  * @return {[type]} [tapmode]
  */
-utilfn.vis = (function(){
+utilfn.vis = (function(callback){
 	var hidden,
       visibilityChange,
       eventName = null,
@@ -37,7 +37,9 @@ utilfn.vis = (function(){
   }
 
   document.addEventListener(eventName.replace(/hidden/i,'') + 'visibilitychange', function(event){
-    //trigger your code here
+    if(utilfn.isFunction(callback)) {
+      callback.bind(event);
+    }
   });
 
 })();
