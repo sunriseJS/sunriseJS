@@ -37,19 +37,28 @@ _unseal = $sr._unseal = $sr._unseal || function () {
 };
 
 rootfn.focusChanged = function(canvas){ 
-		console.log(canvas,'focusChanged', (canvas||utilfn.vis()));
-	if(canvas||utilfn.vis()){
-		console.log('check');
+	if(canvas){
 		rootfn.emitEverywhere('reganedFocus');
 	}else {
 		rootfn.emitEverywhere('lostFocus');
 	} 
 }
 
+rootfn.tabFocusChanged = function(){ 
+	if(!utilfn.vis()){
+		$rootScope.canvas.blur();
+	}else {
+		$rootScope.canvas.focus();
+	} 
+}
+
+
+
 
 
 rootfn.sunrise = function(){
 	rootfn.onEverywhere('paus', function(){
+		window.cancelAnimationFrame($rootScope.animationFrame);
 		$rootScope.gameRunning = false;
 		$rootScope.time.wasPaused = true;
 	});
@@ -60,7 +69,6 @@ rootfn.sunrise = function(){
 	
 	$sr._seal();
 	rootfn.initCanvas();
-	utilfn.vis(rootfn.focusChanged);
 	srfn.loadImages(game.config.images, function(){
 		//todo: make this better :D
 		srfn.loadSounds(game.config.sounds, function(){
@@ -111,7 +119,7 @@ srfn.fps = {
 
 	
 rootfn.init = function(callback){
-	$rootScope.animationFrame = 	window.requestAnimationFrame       ||
+	window.frme = $rootScope.animationFrame = 	window.requestAnimationFrame       ||
 				          			window.webkitRequestAnimationFrame ||
 				          			window.mozRequestAnimationFrame    ||
 				          			function( callback ){

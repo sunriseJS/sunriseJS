@@ -320,10 +320,12 @@ var game = {
 		
 		$.fn.on('reganedFocus', function(){
 			$.fn.emit('unPaus');
+			document.title = 'running';
 		});
 
 		$.fn.on('lostFocus', function(){
 			$.fn.emit('paus');
+			document.title = 'paused';
 		});
 
 

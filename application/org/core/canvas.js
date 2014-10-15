@@ -31,6 +31,12 @@ $rootScope.fn.initCanvas 		= function(){
 	$rootScope.canvas = canvas;
 	$rootScope.canvas.context = canvas.getContext('2d');
 	canvas.focus();
+	$rootScope.canvas.addEventListener('blur', function(){
+		rootfn.focusChanged(false);
+	});
+	$rootScope.canvas.addEventListener('focus', function(){
+		rootfn.focusChanged(true);
+	});
 	rootfn.emit('canvas-fully-loaded');
 };
 

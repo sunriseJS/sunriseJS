@@ -30,17 +30,11 @@ utilfn.vis =  (function(){
         }
     }
 
+    document.addEventListener(eventKey, rootfn.tabFocusChanged);
+
     return function(c) {
-        if (c) {
-        	document.addEventListener(eventKey, c);
-        	$rootScope.canvas.addEventListener('blur', function(){
-				c(false);
-        	});
-        	$rootScope.canvas.addEventListener('focus', function(){
-        		c(true);
-        	});
-        }
-        return document[stateKey];
+			c&&document.addEventListener(eventKey, c);	
+        return !document[stateKey];
     }
 })();
 /**
