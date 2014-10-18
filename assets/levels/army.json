@@ -129,8 +129,6 @@
 	],
 	
 
-
-
 	"just for":"developing a system",
 	"is not": "used yet",
 	"entities" : {
@@ -151,5 +149,31 @@
 					}
 				] 
 			}
+	},
+	
+
+	"ui": {
+		"score":{
+			"position"	: {
+				"orientation"	: "left-top",
+				"width"			: 150,
+				"height"		: 50,
+			},
+			"variables"	: {
+				"score"		: 0,
+				"playername": "undefined"
+			}
+		},
+		"inventory":{
+				"position"		: {
+				"orientation"	: "right-top",
+				"width"			: 150,
+				"height"		: 50,
+			},
+			"variables"	: {
+				"score"		: 0,
+				"playername": "undefined"
+			}
+		}
 	}
 }

@@ -42,13 +42,16 @@ var game = {
 			}
 		},
 		levels: {
-			level1: "assets/levels/level1.json"
+			level1: "assets/levels/army.json"
 		},
 		sounds: {
 			steps: {
 				file: "assets/sounds/walking.mp3",
 				loop: true
 			}
+		},
+		ui: {
+			source: 'assets/ui/ui1.json'
 		}
 
 
@@ -279,7 +282,7 @@ var game = {
 				"use": function(data){
 					
 					var bots = [];
-					for(var i=0; i<8; i++){
+					for(var i=0; i<500; i++){
 						console.log(i, "new bot");
 						var clone = bot.clone(window.player.x,window.player.y);
 						bots.push(clone);
