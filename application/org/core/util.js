@@ -70,10 +70,13 @@ utilfn.ajax = function(url,callback, data){
 	        callback(request.responseText);
 	    }
 	}       
-	request.open("GET",url,true);
+	request.open("GET",url+'?nocache=' + (new Date()).getTime(),true);
 
 	if(data){
 		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		request.setHeader( "Pragma", "no-cache" );
+		request.setHeader( "Cache-Control", "no-cache" );
+		request.setDateHeader( "Expires", 0 );
 		request.send(data);
 	}else{
 		request.send();
