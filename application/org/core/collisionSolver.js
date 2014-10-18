@@ -1,8 +1,18 @@
 (function(){
-
+var count = 0, time = 0;
 	var colliderTesters = {
 			rectangle : {
 				rectangle : function(f, s){
+					
+					if(count == 0){
+						time = $rootScope.time.actual;
+					} 
+					count++;
+					if(($rootScope.time.actual-time) > 5000){
+						console.log('rectangle',count); 
+						count = 0;
+					}
+					
 					var collision = {},
 						n = {
 							x: f.x - s.x,
@@ -84,34 +94,50 @@
 				for(var k = group2.length; k--;){
 				    var first = group1[j],
 				    	second = group2[k],
-				    	f = first.getComponentData('CollisionBody','bounds'),
-				    	s = second.getComponentData('CollisionBody','bounds'),
-				    	c1 = first.getComponentData('CollisionBody','colliderType'),
-				    	c2 = second.getComponentData('CollisionBody','colliderType');
-			    	f.x += first.x;
-			    	f.y += first.y;
-			    	s.x += second.x;
-			    	s.y += second.y;
+				    	firstX = first.x,
+				    	firstW = first.width,
+				    	secondX = second.x,
+				    	secondW = second.width;
+
+				    if(firstX + firstW >= secondX
+				    		|| secondX + secondW >= firstX){
+
+				    	var firstY = first.y,
+					    	firstH = first.height,
+					    	secondY = second.y,
+					    	secondH = second.height;
+					    if(firstY + firstH >= secondY 
+				    		|| secondY + secondH >= firstY){ 	
+
+							var f = first.getComponentData('CollisionBody','bounds'),
+						    	s = second.getComponentData('CollisionBody','bounds'),
+						    	c1 = first.getComponentData('CollisionBody','colliderType'),
+						    	c2 = second.getComponentData('CollisionBody','colliderType');
+					    	f.x += first.x;
+					    	f.y += first.y;
+					    	s.x += second.x;
+					    	s.y += second.y;
 
 
 
-			    	var collision = colliderTesters[c1][c2](f,s);
+					    	var collision = colliderTesters[c1][c2](f,s);
 
-			    	f.x -= first.x;
-			    	f.y -= first.y;
-			    	s.x -= second.x;
-			    	s.y -= second.y;
+					    	f.x -= first.x;
+					    	f.y -= first.y;
+					    	s.x -= second.x;
+					    	s.y -= second.y;
 
-				    if(collision !== false){
+						    if(collision !== false){
 
-				    	var otherCollision = {normal: {x:-collision.normal.x, y: -collision.normal.y}, penetration:collision.penetration};
-				    	$rootScope.emitDigit.push(utilfn.partial(first,first.emit,'collision',{other: second, collision: collision}));
-				    	$rootScope.emitDigit.push(utilfn.partial(second,second.emit,'collision',{other: first, collision: otherCollision}));
-				    	// console.log($rootScope.emitDigit);
-				    }
+						    	var otherCollision = {normal: {x:-collision.normal.x, y: -collision.normal.y}, penetration:collision.penetration};
+						    	$rootScope.emitDigit.push(utilfn.partial(first,first.emit,'collision',{other: second, collision: collision}));
+						    	$rootScope.emitDigit.push(utilfn.partial(second,second.emit,'collision',{other: first, collision: otherCollision}));
+						    	// console.log($rootScope.emitDigit);
+						    }
+						}
+					} 
 				}
 		    }
-
 		}
 	}
 
