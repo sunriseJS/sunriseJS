@@ -43,6 +43,9 @@ var game = {
 		},
 		levels: {
 			level1: "assets/levels/army.json"
+		},	
+		uis: {
+			ui1: "assets/ui/ui.json"
 		},
 		sounds: {
 			steps: {
@@ -50,11 +53,6 @@ var game = {
 				loop: true
 			}
 		},
-		ui: {
-			source: 'assets/ui/ui1.json'
-		}
-
-
 	},
 
 

@@ -9,10 +9,11 @@
  */
 
 $rootScope.ressources = {
-	images:{}, 
-	sprites:{}, 
-	sounds:{}, 
-	levels: {}
+	images  : {}, 
+	sprites : {}, 
+	sounds 	: {}, 
+	levels 	: {},
+	ui 		: {}
 };
 
 
@@ -87,6 +88,39 @@ srfn.loadImages = function(sources_raw, callback){
 
 };
 
+
+srfn.loadUis = function(uiSources, callback){
+	console.log(uiSources);
+	var sources = {};
+	var sourcesLength = 0;
+	for(key in uiSources){
+		sources[key] = uiSources[key];
+		sourcesLength++;
+	}
+	//no levels to load? gtfo!
+	if(sourcesLength === 0){
+		callback();
+		return;
+	}
+
+	for(key in sources){
+		utilfn.ajax(sources[key], function(data){
+			$rootScope.ressources.ui = JSON.parse(data);
+			delete sources[key];
+			//Last level got loaded? notify callback!
+			var ready = true;
+			for(index in sources){
+				ready = false;
+				break;
+			}
+			if(ready){
+				callback();
+			}
+		});
+	}
+};
+
+
 /**
  * loads levels from files.
  * Example for sources:
@@ -98,9 +132,6 @@ srfn.loadLevels = function(levelSources, callback){
 
 	//copy source object, so original object isn't affected by
 	//removin already loaded images from this object
-	
-
-	
 	var sources = {};
 	var sourcesLength = 0;
 	for(key in levelSources){
