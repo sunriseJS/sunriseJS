@@ -66,13 +66,19 @@ rootfn.sunrise = function(){
 	});
 	
 	$sr._seal();
+
 	rootfn.initCanvas();
 	srfn.loadImages(game.config.images, function(){
 		//todo: make this better :D
 		srfn.loadSounds(game.config.sounds, function(){
 			srfn.loadLevels(game.config.levels, function(){
-				game.init($rootScope.$scope);
-				rootfn.run();	
+				srfn.loadUis(game.config.uis, function(){
+					
+					console.log($rootScope.ressources);
+					game.init($rootScope.$scope);
+					rootfn.initUi();
+					rootfn.run();	
+				});
 			});
 		});
 	});

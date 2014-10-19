@@ -1,5 +1,5 @@
 {
-	"width" : 2096,
+    "width" : 2096,
 	"height": 512,
 	"background":{
 		"from":"#9ba8c5",
@@ -132,48 +132,22 @@
 	"just for":"developing a system",
 	"is not": "used yet",
 	"entities" : {
-			"bowmans" : {
-				"type" : "bowman",
-				"instances" : [
-					{
-						"x" : 20,
-						"y" : 30 
-					},
-					{
-						"x" : 20,
-						"y" : 60 
-					},
-					{
-						"x" : 10,
-						"y" : 90 
-					}
-				] 
-			}
-	},
-	
-
-	"ui": {
-		"score":{
-			"position"	: {
-				"orientation"	: "left-top",
-				"width"			: 150,
-				"height"		: 50,
-			},
-			"variables"	: {
-				"score"		: 0,
-				"playername": "undefined"
-			}
-		},
-		"inventory":{
-				"position"		: {
-				"orientation"	: "right-top",
-				"width"			: 150,
-				"height"		: 50,
-			},
-			"variables"	: {
-				"score"		: 0,
-				"playername": "undefined"
-			}
+		"bowmans" : {
+			"type" : "bowman",
+			"instances" : [
+				{
+					"x" : 20,
+					"y" : 30 
+				},
+				{
+					"x" : 20,
+					"y" : 60 
+				},
+				{
+					"x" : 10,
+					"y" : 90 
+				}
+			] 
 		}
 	}
 }

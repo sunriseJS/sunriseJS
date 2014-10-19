@@ -2,7 +2,7 @@ $rootScope.time = {
 	'delta'		: 	0,
 	'actual'	: 	Date.now(),
 	'wasPaused'	: 	false
-}
+};
 
 rootfn.processTime = function(){
 	if($rootScope.time.wasPaused){
@@ -12,5 +12,5 @@ rootfn.processTime = function(){
 		$rootScope.time.delta = Date.now() - $rootScope.time.actual;
 		$rootScope.time.actual = Date.now();
 	}
-}
+};
 
