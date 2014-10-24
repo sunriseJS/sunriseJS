@@ -8,7 +8,7 @@
  * @param Number maxLevels   Max depth of Quadtrees
  * @param Number maxEntities Max count of entites until Quadtree splits
  */
-var Quadtree = srfn.Quadtree = function(level, x, y, width, height, maxLevels, maxEntities){
+var Quadtree = window.Quadtree = srfn.Quadtree = function(level, x, y, width, height, maxLevels, maxEntities){
 	this.maxLevels = maxLevels || 5;
 	this.maxEntities = maxEntities || 10;
 	this.level = level;
@@ -105,10 +105,10 @@ Quadtree.prototype.getPossibleCollisions = function(entity){
 	var result = [],
 		index = this.getNodeIndex(entity);
 	if(index !== -1 && this.nodes.length !== 0){
-		result.concat(this.nodes[index].getPossibleCollisions(entity));
+		result = result.concat(this.nodes[index].getPossibleCollisions(entity));
 	}
 
-	result.concat(this.entities);
+	result = result.concat(this.entities);
 	return result;
 
 };
