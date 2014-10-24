@@ -153,6 +153,8 @@ srfn.stage.setLevel = function(levelname){
 		}
 	}
 	$rootScope.canvas.style.background = style;
+	
+	rootfn.emit('levelLoaded',{name:levelname, width: levelWidth, height:levelHeight});
 
 };
 
