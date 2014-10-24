@@ -70,24 +70,24 @@ Quadtree.prototype.split = function(){
 		h = this.bounds.height/2,
 		l = this.level+1;
 
-	nodes[0] = new Quadtree(l, x+w, y, w, h);
-	nodes[1] = new Quadtree(l, x, y, w, h);
-	nodes[2] = new Quadtree(l, x, y+h, w, h);
-	nodes[3] = new Quadtree(l, x+w, y+h, w, h);
+	this.nodes[0] = new Quadtree(l, x+w, y, w, h);
+	this.nodes[1] = new Quadtree(l, x, y, w, h);
+	this.nodes[2] = new Quadtree(l, x, y+h, w, h);
+	this.nodes[3] = new Quadtree(l, x+w, y+h, w, h);
 };
 
 Quadtree.prototype.insert = function(entity){
-	if(nodes.length !== 0){
+	if(this.nodes.length !== 0){
 		var index = this.getNodeIndex(entity);
 		if(index !== -1){
-			nodes[index].insert(entity);
+			this.nodes[index].insert(entity);
 			return;
 		}
 	}
 
 	this.entities.push(entity);
 
-	if(this.entites.length > this.maxEntities && this.level < this.maxLevels){
+	if(this.entities.length > this.maxEntities && this.level < this.maxLevels){
 		if(this.nodes.length === 0){
 			this.split();
 		}
@@ -95,7 +95,7 @@ Quadtree.prototype.insert = function(entity){
 		for(var i = this.nodes.length;i--;){
 			var index = this.getNodeIndex(this.entities[i]);
 			if(index !== -1){
-				nodes[index].insert(this.entities.pop());
+				this.nodes[index].insert(this.entities.pop());
 			}
 		}
 	}
