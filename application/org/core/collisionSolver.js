@@ -1,5 +1,12 @@
 (function(){
-var count = 0, time = 0;
+	var count = 0, time = 0;
+	var quadtree;
+	
+		window.rootScope = $rootScope;
+
+	rootfn.on('levelLoaded', function(data){
+		quadtree = window.quadtree = new srfn.Quadtree(0,0,0,data.width, data.height);
+	});
 	var colliderTesters = {
 			rectangle : {
 				rectangle : function(f, s){
@@ -84,6 +91,18 @@ var count = 0, time = 0;
 
 
 	rootfn.checkCollisions = function(){
+		if(typeof quadtree === 'undefined'){
+			throw new Error('set a level before running collision detection!');
+		}
+		quadtree.clear();
+		var a = $rootScope.groups.groups.toRender,
+			b = $rootScope.groups.groups.tiles;
+		for(i = a.length;i--;){
+			quadtree.insert(a[i]);
+		}
+		for(i = b.length;i--;){
+			quadtree.insert(b[i]);
+		}
 		var objs = $rootScope.groups['collidingGroups'],
 			group1,group2, colEvent;
 		for (i = objs.length - 1; i >= 0; --i) {
@@ -93,12 +112,21 @@ var count = 0, time = 0;
 			for(var j = group1.length;j--;){ 
 				for(var k = group2.length; k--;){
 				    var first = group1[j],
-				    	second = group2[k],
-				    	firstX = first.x,
+				    	second = group2[k];
+				    	colls = quadtree.getPossibleCollisions(first);
+				    //console.log("colls:",colls);
+				    var index = colls.indexOf(second);
+				    //console.log(index);
+				    if(index === -1){
+				    	continue;
+				    }
+				    //console.log(first);
+				    // console.log(second);
+				    var	firstX = first.x,
 				    	firstW = first.width,
 				    	secondX = second.x,
 				    	secondW = second.width;
-
+/*
 				    if(firstX + firstW >= secondX
 				    		|| secondX + secondW >= firstX){
 
@@ -107,7 +135,7 @@ var count = 0, time = 0;
 					    	secondY = second.y,
 					    	secondH = second.height;
 					    if(firstY + firstH >= secondY 
-				    		|| secondY + secondH >= firstY){ 	
+				    		|| secondY + secondH >= firstY){ 	*/
 
 							var f = first.getComponentData('CollisionBody','bounds'),
 						    	s = second.getComponentData('CollisionBody','bounds'),
@@ -134,10 +162,11 @@ var count = 0, time = 0;
 						    	$rootScope.emitDigit.push(utilfn.partial(second,second.emit,'collision',{other: first, collision: otherCollision}));
 						    	// console.log($rootScope.emitDigit);
 						    }
-						}
-					} 
+						//}
+					//} 
 				}
 		    }
+
 		}
 	}
 
