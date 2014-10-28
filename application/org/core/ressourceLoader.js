@@ -204,10 +204,13 @@ srfn.loadSounds = function(sources_raw, callback){
             	}, false);
 			}
 
-			audio.addEventListener('loadeddata',function() {
+			function soundLoaded(sound){
 				console.log('loaded sound "'+name+'"');
+				if(!sources[name]){
+					return;
+				}
 				delete sources[name];
-				$rootScope.ressources.sounds[name] = this;
+				$rootScope.ressources.sounds[name] = sound;
 
 				//Last sounds got loaded? notify callback!
 				var ready = true;
@@ -218,14 +221,30 @@ srfn.loadSounds = function(sources_raw, callback){
 				if(ready){
 					callback();
 				}
+			}
+
+			audio.addEventListener('loadeddata',function() {
+				console.log('loadeddata called');
+				soundLoaded(this);
 
 			}, false);
 
 			audio.onerror = function(){
 				throw new Error ('Error while loading sound "'+name+'"');
 			};
+			console.log('pre sourceset');
 			audio.src = source.file;
+			console.log('pre load');
 			audio.load();
+			console.log('wainting for loadeddata event');
+			setTimeout(function testDuration(){
+				if(isNaN(audio.duration)){
+					setTimeout(testDuration,100);
+				}else{
+					console.log('valid duration');
+					soundLoaded(audio);
+				}
+			},100);
 		})(title, sources[title]);
 	}
 
