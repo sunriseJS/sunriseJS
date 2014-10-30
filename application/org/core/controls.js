@@ -125,6 +125,15 @@ srfn.controls.isKeyPressed = function() {
 	return result;
 };
 
+
+rootfn.controls.resetKeyPressed = function(){
+	console.log("test",rootfn.controls.keysPressed);
+	for(var key in rootfn.controls.keysPressed){
+		console.log(rootfn.controls.keysPressed[key]);
+		rootfn.controls.keysPressed[key] = false;
+	}
+}
+
 rootfn.controls.generateKeys = function() {
 	var codes = {
 		'backspace': 8,

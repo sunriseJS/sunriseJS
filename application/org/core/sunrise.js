@@ -59,6 +59,7 @@ rootfn.sunrise = function(){
 		window.cancelAnimationFrame($rootScope.animationFrame);
 		$rootScope.gameRunning = false;
 		$rootScope.time.wasPaused = true;
+		rootfn.controls.resetKeyPressed();
 	});
 	rootfn.onEverywhere('unPaus', function(){
 		$rootScope.gameRunning = true;
@@ -92,13 +93,18 @@ rootfn.run = function(){
 		rootfn.processTime();
 		rootfn.clearCanvas();
 		rootfn.stage.update();
-		for(var i = $rootScope.keyCallbackFunctions.length; i--;){
-			$rootScope.keyCallbackFunctions.splice(i,1)[0]();
+		var i,k;
+		i = k = $rootScope.keyCallbackFunctions.length
+		for(; i--;){
+			$rootScope.keyCallbackFunctions[i]();
 		}
+		$rootScope.keyCallbackFunctions.splice(0,k);
 		rootfn.checkCollisions();
-		for(var i = $rootScope.emitDigit.length; i--;){
-			$rootScope.emitDigit.splice(i,1)[0]();
+		i = k = $rootScope.emitDigit.length;
+		for(; i--;){
+			$rootScope.emitDigit[i]();
 		}
+		$rootScope.emitDigit.splice(0,k);
 		game.run($rootScope.$scope);
 		rootfn.stage.draw();
 		$rootScope.animationFrame.call(window, rootfn.run);	
