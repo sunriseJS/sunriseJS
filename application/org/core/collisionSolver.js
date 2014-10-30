@@ -106,6 +106,8 @@ var count = 0, time = 0;
 					    	firstH = first.height,
 					    	secondY = second.y,
 					    	secondH = second.height;
+
+
 					    if((secondY >= firstY && secondY <= firstY + firstH)
 							 || (firstY >= secondY && firstY <= secondY + secondH)){
 

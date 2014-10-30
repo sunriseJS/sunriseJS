@@ -15,14 +15,21 @@ srfn.StateMachine = (function(){
      */
     StateMachine = function(config){ 
         srfn.Component.call(this);
+        this.config = config;
+    };
+
+	
+    srfn.Component.extend(StateMachine);
+
+    StateMachine.prototype.init = function(){
         var self = this;
-    	this.states = config.states || {};
-        if(config.default === undefined){
+        this.states = this.config.states || {};
+        if(this.config.default === undefined){
             console.warn('Error in StateMachine '+this);
-            throw new Error('Can\'t find state "'+config.default+'"');
+            throw new Error('Can\'t find state "'+this.config.default+'"');
         }
-    	this.data.currentState = config.default;
-        this.data.currentStateObj = this.states[config.default].values;
+        this.data.currentState = this.config.default;
+        this.data.currentStateObj = this.states[this.config.default].values;
 
         /**
          * Set a new currentState. This state is a new, merged state of all state names provided in data.
@@ -67,10 +74,9 @@ srfn.StateMachine = (function(){
                 throw new Error("State: "+data.name+" already exists");
             }
         });
-    };
+    }
 
-	
-    srfn.Component.extend(StateMachine);
+
     return StateMachine;
 })();
 

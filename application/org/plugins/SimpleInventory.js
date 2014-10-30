@@ -29,13 +29,14 @@
 
 		SimpleInventory = function(config_){
 			srfn.Component.call(this);
+			this.config = config_;
 		}
 
 		srfn.Component.extend(SimpleInventory);
 
 		SimpleInventory.prototype.init = function(){
 			var self = this;
-			var config = config_ || {};
+			var config = this.config || {};
 			config.keys = config.keys || {};
 
 			this.data['inventory'] = [];

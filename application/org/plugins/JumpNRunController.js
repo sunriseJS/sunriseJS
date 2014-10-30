@@ -31,13 +31,14 @@
 		 */
 		JumpNRunController = function(config_){
 			srfn.Component.call(this);
+			this.config = config_;
 		}
 		
 		srfn.Component.extend(JumpNRunController);
 
 		JumpNRunController.prototype.init = function(){
 			var self = this;
-			var config = config_ || {};
+			var config = this.config || {};
 			config.keys = config.keys || {};
 
 			function sanitiseConfig(){

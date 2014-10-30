@@ -33,14 +33,15 @@
 		 * Contructor of CollisionBody Component
 		 */
 		CollisionBody = function(options){
-			srfn.Component.call(this);		
+			srfn.Component.call(this);
+			this.options = options;		
 		}
 
 		srfn.Component.extend(CollisionBody);
 
 		CollisionBody.prototype.init = function(){
 			var self = this;
-			this.data.colliderType = options.colliderType || 'rectangle';
+			this.data.colliderType = this.options.colliderType || 'rectangle';
 			if(rootfn.colliderTesters[this.data.colliderType] === undefined){
 				throw new Error('Invalid colliderType "'+this.data.colliderType+'"');
 			}
@@ -52,15 +53,15 @@
 				//No Renderer available
 				anchor = {};
 			}
-			self.data.bounds.x = (options.x || 0)-(anchor.x || 0);
-			self.data.bounds.y = (options.y || 0)-(anchor.y || 0);
+			self.data.bounds.x = (this.options.x || 0)-(anchor.x || 0);
+			self.data.bounds.y = (this.options.y || 0)-(anchor.y || 0);
 			switch(self.data.colliderType){
 				case 'rectangle':
-					self.data.bounds.width = (options.width === undefined) ? data.width : options.width;
-					self.data.bounds.height = (options.height === undefined) ? data.height : options.height;
+					self.data.bounds.width = (this.options.width === undefined) ? self.data.width : this.options.width;
+					self.data.bounds.height = (this.options.height === undefined) ? self.data.height : this.options.height;
 					break;
 				case 'cricle':
-					self.data.bounds.radius = (options.radius === undefined) ? data.width : options.radius;
+					self.data.bounds.radius = (this.options.radius === undefined) ? self.data.width : this.options.radius;
 					break;
 				default:
 					throw new Error('Unrecognized colliderType');

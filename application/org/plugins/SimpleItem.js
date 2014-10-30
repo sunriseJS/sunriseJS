@@ -29,17 +29,18 @@
 
 		SimpleItem = function(config_){
 			srfn.Component.call(this);
+			this.config = config_;
 		}
 
 		srfn.Component.extend(SimpleItem);
 		
 		SimpleItem.prototype.init = function(){
 			var self = this;
-			var config = config_ || {};
+			var config = this.config || {};
 			config.keys = config.keys || {};
 
 			this.on('collision', function(data){
-				data.other.emit('addToInventory', config);
+				data.other.emit('addToInventory', this.config);
 				$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
 			});
 		}
