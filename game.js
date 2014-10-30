@@ -158,7 +158,7 @@ var game = {
 			return cheapAI;
 		});
 
-		window.bot = new $.fn.Entity(688+128,260+64,96/2,128/2,{
+		window.bot = new $.fn.Entity(688+128,260+64,96,128,{
 				"StateMachine":{
 					"default": "neutral",
 					"states":{
@@ -186,10 +186,10 @@ var game = {
 					// "y":5,
 					// "width":24,
 					// "height":58
-						"x":12,
-						"y":5,
-						"width":24,
-						"height":58
+						"x":24,
+						"y":10,
+						"width":48,
+						"height":116
 				},
 				"Physics":{
 					"mass": 8,
@@ -281,7 +281,6 @@ var game = {
 					
 					var bots = [];
 					for(var i=0; i<500; i++){
-						console.log(i, "new bot");
 						var clone = bot.clone(window.player.x,window.player.y);
 						bots.push(clone);
 					}

@@ -31,6 +31,11 @@
 		 */
 		JumpNRunController = function(config_){
 			srfn.Component.call(this);
+		}
+		
+		srfn.Component.extend(JumpNRunController);
+
+		JumpNRunController.prototype.init = function(){
 			var self = this;
 			var config = config_ || {};
 			config.keys = config.keys || {};
@@ -121,8 +126,6 @@
 				
 			});
 		}
-
-		srfn.Component.extend(JumpNRunController);
 
 		return JumpNRunController;
 
