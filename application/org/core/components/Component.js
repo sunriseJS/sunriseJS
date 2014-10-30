@@ -21,11 +21,15 @@ srfn.Component = (function(){
 
 		//Every component should know, which entity it's working for
 		this.on('setEntity', function(data){
-			self.entity = data;
+			self.entity = data.entity;
+			self.data = data.data;
+			self.init();
 		});
-		//External accessable data
-		this.data = {};
-	}
+	};
+
+	Component.prototype.init = function(){
+
+	};
 
 	srfn.CoreObject.extend(Component);
 
@@ -41,7 +45,7 @@ srfn.Component = (function(){
 		}else{
 			this.receiver[what] = callback;
 		}
-	}
+	};
 
 	/**
 	 * Is called when event happens, detects wheter event is handled by any callback, calls specific callback
@@ -49,10 +53,10 @@ srfn.Component = (function(){
 	 * @param  {[type]} data data providen for callback
 	 */
 	Component.prototype.receive = function(what, data){
-		if(this.receiver[what] !== undefined){
+		if(typeof this.receiver[what] !== 'undefined'){
 			this.receiver[what](data);
 		}
-	}
+	};
 
 	return Component;
 
