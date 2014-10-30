@@ -90,7 +90,6 @@ srfn.loadImages = function(sources_raw, callback){
 
 
 srfn.loadUis = function(uiSources, callback){
-	console.log(uiSources);
 	var sources = {};
 	var sourcesLength = 0;
 	for(key in uiSources){
@@ -205,7 +204,6 @@ srfn.loadSounds = function(sources_raw, callback){
 			}
 
 			function soundLoaded(sound){
-				console.log('loaded sound "'+name+'"');
 				if(!sources[name]){
 					return;
 				}
@@ -224,7 +222,6 @@ srfn.loadSounds = function(sources_raw, callback){
 			}
 
 			audio.addEventListener('loadeddata',function() {
-				console.log('loadeddata called');
 				soundLoaded(this);
 
 			}, false);
@@ -232,16 +229,12 @@ srfn.loadSounds = function(sources_raw, callback){
 			audio.onerror = function(){
 				throw new Error ('Error while loading sound "'+name+'"');
 			};
-			console.log('pre sourceset');
 			audio.src = source.file;
-			console.log('pre load');
 			audio.load();
-			console.log('wainting for loadeddata event');
 			setTimeout(function testDuration(){
 				if(isNaN(audio.duration)){
 					setTimeout(testDuration,100);
 				}else{
-					console.log('valid duration');
 					soundLoaded(audio);
 				}
 			},100);
