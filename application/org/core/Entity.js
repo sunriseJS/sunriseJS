@@ -62,7 +62,7 @@ srfn.Entity = (function(){
         //     console.warn('Error in Entity '+this);
         //     throw new Error('No component "'+type+'" found in entity.');
         // }
-        return this.components[type].data[variable];
+        return this.data[type][variable];
     }  
 
     /**
