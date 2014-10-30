@@ -50,6 +50,11 @@ srfn.Renderer = (function(){
      */
     Renderer = function(config){
         srfn.Component.call(this);
+    }
+
+    srfn.Component.extend(Renderer);
+
+    Renderer.prototype.init = function(){
         var self = this;
         //Test whether image exists
         var image_name = config.image;
@@ -269,9 +274,9 @@ srfn.Renderer = (function(){
         //set up public data
         
         this.data.anchor = this.anchor;
-    }
+    };
 
-    srfn.Component.extend(Renderer);
+    
 
     return Renderer;
 
