@@ -20,6 +20,7 @@ srfn.Entity = (function(){
      */
     function Entity(x, y, width, height, config){
     	this.components = {};
+        this.data = {};
     	this.id = utilfn.guid();
     	this.x = x;
     	this.y = y;
@@ -31,7 +32,8 @@ srfn.Entity = (function(){
         for(type in config){
             var component = srfn.components.create(type, config[type]);
             this.components[type] = component;
-            component.receive('setEntity', this);
+            this.data[type] = {};
+            component.receive('setEntity', {entity:this, data:this.data[type]});
         }
 	} 
 
@@ -60,7 +62,7 @@ srfn.Entity = (function(){
         //     console.warn('Error in Entity '+this);
         //     throw new Error('No component "'+type+'" found in entity.');
         // }
-        return this.components[type].data[variable];
+        return this.data[type][variable];
     }  
 
     /**
