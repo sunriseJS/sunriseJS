@@ -29,23 +29,21 @@
 
 		SimpleItem = function(config_){
 			srfn.Component.call(this);
+		}
+
+		srfn.Component.extend(SimpleItem);
+		
+		SimpleItem.prototype.init = function(){
 			var self = this;
 			var config = config_ || {};
 			config.keys = config.keys || {};
-			this.data = {};
 
-		this.on('collision', function(data){
-			console.log('test',data);
-			data.other.emit('addToInventory', config);
-			console.log(self.entity);
-			$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
-			// data.self = self;
-			// config.use(data);
-			// delete data.self;
-		});
-
+			this.on('collision', function(data){
+				data.other.emit('addToInventory', config);
+				$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
+			});
 		}
-		srfn.Component.extend(SimpleItem);
+
 		return SimpleItem
 
 	})();

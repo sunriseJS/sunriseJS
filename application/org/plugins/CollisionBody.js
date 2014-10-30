@@ -33,43 +33,40 @@
 		 * Contructor of CollisionBody Component
 		 */
 		CollisionBody = function(options){
-			srfn.Component.call(this);
+			srfn.Component.call(this);		
+		}
+
+		srfn.Component.extend(CollisionBody);
+
+		CollisionBody.prototype.init = function(){
 			var self = this;
 			this.data.colliderType = options.colliderType || 'rectangle';
 			if(rootfn.colliderTesters[this.data.colliderType] === undefined){
 				throw new Error('Invalid colliderType "'+this.data.colliderType+'"');
 			}
-
-			this.on('setEntity', function(data){
-				self.entity = data;
-				self.data.bounds = {};
-				var anchor;
-				try{
-					anchor = data.getComponentData('Renderer','anchor');
-				}catch(e){
-					//No Renderer available
-					anchor = {};
-				}
-				self.data.bounds.x = (options.x || 0)-(anchor.x || 0);
-				self.data.bounds.y = (options.y || 0)-(anchor.y || 0);
-				switch(self.data.colliderType){
-					case 'rectangle':
-						self.data.bounds.width = (options.width === undefined) ? data.width : options.width;
-						self.data.bounds.height = (options.height === undefined) ? data.height : options.height;
-						break;
-					case 'cricle':
-						self.data.bounds.radius = (options.radius === undefined) ? data.width : options.radius;
-						break;
-					default:
-						throw new Error('Unrecognized colliderType');
-						break;
-				}
-			},true);
-					
+			self.data.bounds = {};
+			var anchor;
+			try{
+				anchor = data.getComponentData('Renderer','anchor');
+			}catch(e){
+				//No Renderer available
+				anchor = {};
+			}
+			self.data.bounds.x = (options.x || 0)-(anchor.x || 0);
+			self.data.bounds.y = (options.y || 0)-(anchor.y || 0);
+			switch(self.data.colliderType){
+				case 'rectangle':
+					self.data.bounds.width = (options.width === undefined) ? data.width : options.width;
+					self.data.bounds.height = (options.height === undefined) ? data.height : options.height;
+					break;
+				case 'cricle':
+					self.data.bounds.radius = (options.radius === undefined) ? data.width : options.radius;
+					break;
+				default:
+					throw new Error('Unrecognized colliderType');
+					break;
+			}
 		}
-
-		srfn.Component.extend(CollisionBody);
-
 		return CollisionBody;
 
 	})();

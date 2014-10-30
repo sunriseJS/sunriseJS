@@ -125,11 +125,11 @@ srfn.controls.isKeyPressed = function() {
 	return result;
 };
 
-
+/**
+ * resets all keyspresses to false 
+ */
 rootfn.controls.resetKeyPressed = function(){
-	console.log("test",rootfn.controls.keysPressed);
 	for(var key in rootfn.controls.keysPressed){
-		console.log(rootfn.controls.keysPressed[key]);
 		rootfn.controls.keysPressed[key] = false;
 	}
 }

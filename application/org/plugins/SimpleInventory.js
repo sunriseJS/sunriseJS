@@ -28,20 +28,19 @@
 	srfn.SimpleInventory = (function(){ 
 
 		SimpleInventory = function(config_){
-			console.log(config_);
 			srfn.Component.call(this);
+		}
+
+		srfn.Component.extend(SimpleInventory);
+
+		SimpleInventory.prototype.init = function(){
 			var self = this;
 			var config = config_ || {};
 			config.keys = config.keys || {};
 
-
-			this.data = {
-				"inventory": []
-			};
-
+			this.data['inventory'] = [];
 
 			this.on('addToInventory', function(data){
-				console.log(data);
 				self.addItem(data);
 			});
 
@@ -51,7 +50,6 @@
 				}
 			});
 
-
 			SimpleInventory.prototype.addItem = function(item){
 				this.data.inventory.push(item);
 				return this.data.inventory;
@@ -60,9 +58,8 @@
 			SimpleInventory.prototype.getInventory = function(){
 				return this.data.inventory;
 			};
-
 		}
-		srfn.Component.extend(SimpleInventory);
+
 		return SimpleInventory
 
 	})();
