@@ -50,12 +50,14 @@ srfn.Renderer = (function(){
      */
     Renderer = function(config){
         srfn.Component.call(this);
+        this.config = config;
     }
 
     srfn.Component.extend(Renderer);
 
     Renderer.prototype.init = function(){
         var self = this;
+        var config = this.config;
         //Test whether image exists
         var image_name = config.image;
         if(game.config.images[image_name] === undefined){

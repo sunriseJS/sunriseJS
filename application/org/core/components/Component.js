@@ -27,11 +27,11 @@ srfn.Component = (function(){
 		});
 	};
 
+	srfn.CoreObject.extend(Component);
+
 	Component.prototype.init = function(){
 
 	};
-
-	srfn.CoreObject.extend(Component);
 
 	/**
 	 * Method to add a listener for a specific event
