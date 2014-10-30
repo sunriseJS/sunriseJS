@@ -36,8 +36,15 @@
 		 */
 		Physics = function(config){
 			srfn.Component.call(this);
-			this.data = {};
+			this.config = config;
+		};
+
+
+		srfn.Component.extend(Physics);
+
+		Physics.prototype.init = function(){
 			var self = this,
+				config = this.config,
 				speed = this.data.speed = new utilfn.Vec2(0,0),
 				forces = {},
 				unit = 1/30, //pixel/second
@@ -104,7 +111,6 @@
 
 		}
 
-		srfn.Component.extend(Physics);
 
 		return Physics;
 
