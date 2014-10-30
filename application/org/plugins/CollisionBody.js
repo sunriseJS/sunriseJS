@@ -57,11 +57,11 @@
 			self.data.bounds.y = (this.options.y || 0)-(anchor.y || 0);
 			switch(self.data.colliderType){
 				case 'rectangle':
-					self.data.bounds.width = (this.options.width === undefined) ? self.data.width : this.options.width;
-					self.data.bounds.height = (this.options.height === undefined) ? self.data.height : this.options.height;
+					self.data.bounds.width = (this.options.width === undefined) ? self.entity.width : this.options.width;
+					self.data.bounds.height = (this.options.height === undefined) ? self.entity.height : this.options.height;
 					break;
 				case 'cricle':
-					self.data.bounds.radius = (this.options.radius === undefined) ? self.data.width : this.options.radius;
+					self.data.bounds.radius = (this.options.radius === undefined) ? self.entity.width : this.options.radius;
 					break;
 				default:
 					throw new Error('Unrecognized colliderType');
