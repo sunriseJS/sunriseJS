@@ -18,7 +18,7 @@ srfn.Entity = (function(){
      * @param {Number} height Vertical size
      * @param {[type]} config Configuration containing components
      */
-    function Entity(x, y, width, height, config){
+    function Entity(x, y, width, height, anchor, config){
     	this.components = {};
         this.data = {};
     	this.id = utilfn.guid();
@@ -26,6 +26,7 @@ srfn.Entity = (function(){
     	this.y = y;
     	this.width = width;
     	this.height = height;
+        this.anchor = anchor;
         this.config = config;
 
         //for each component in config call corresponding creator function and provide additional data
@@ -58,10 +59,10 @@ srfn.Entity = (function(){
      * @return {}          undefined if variable doesn't exist, otherwise value ot the variable
      */
     Entity.prototype.getComponentData = function(type, variable){
-        // if(this.components[type] === undefined){
-        //     console.warn('Error in Entity '+this);
-        //     throw new Error('No component "'+type+'" found in entity.');
-        // }
+        if(this.components[type] === undefined){
+            console.warn('Error in Entity '+this);
+            throw new Error('No component "'+type+'" found in entity.');
+        }
         return this.data[type][variable];
     }  
 

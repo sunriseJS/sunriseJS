@@ -46,13 +46,7 @@
 				throw new Error('Invalid colliderType "'+this.data.colliderType+'"');
 			}
 			self.data.bounds = {};
-			var anchor;
-			try{
-				anchor = data.getComponentData('Renderer','anchor');
-			}catch(e){
-				//No Renderer available
-				anchor = {};
-			}
+			var anchor = self.entity.anchor;
 			self.data.bounds.x = (this.options.x || 0)-(anchor.x || 0);
 			self.data.bounds.y = (this.options.y || 0)-(anchor.y || 0);
 			switch(self.data.colliderType){

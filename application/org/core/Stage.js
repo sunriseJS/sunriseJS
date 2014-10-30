@@ -37,7 +37,7 @@ var layerCreator = {
 			context.drawImage(tileset,setX, setY, tileWidth, tileHeight,
 									levelX, levelY, tileWidth, tileHeight);
 			if(layer.group !==undefined){
-				var entity = new $rootScope.$scope.fn.Entity(levelX, levelY, tileWidth, tileHeight,{
+				var entity = new $rootScope.$scope.fn.Entity(levelX, levelY, tileWidth, tileHeight,{'x':0, 'y':0},{
 					"CollisionBody":{},
 					"Physics":{
 						"mass": 0,

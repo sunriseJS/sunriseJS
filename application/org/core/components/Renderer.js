@@ -147,7 +147,7 @@ srfn.Renderer = (function(){
         this.rotation = data_.rotation || 0;
         this.alpha = (data_.alpha === undefined) ? 1 : data_.alpha;
         this.animations = data.animations;
-        this.anchor = data_.anchor || { x: 0, y:0};
+        this.anchor = self.entity.anchor || { x: 0, y:0};
 
         //Context from other modules
         this.context = $rootScope.canvas.context;

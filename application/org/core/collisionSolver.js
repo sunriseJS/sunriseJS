@@ -94,17 +94,17 @@ var count = 0, time = 0;
 				for(var k = group2.length; k--;){
 				    var first = group1[j],
 				    	second = group2[k],
-				    	firstX = first.x,
+				    	firstX = first.x - first.anchor.x,
 				    	firstW = first.width,
-				    	secondX = second.x,
+				    	secondX = second.x - second.anchor.x,
 				    	secondW = second.width;
 
 				    if((secondX >= firstX && secondX <= firstX + firstW) 
 				    	|| (firstX >= secondX && firstX <= secondX + secondW)){
 
-				    	var firstY = first.y,
+				    	var firstY = first.y - first.anchor.y,
 					    	firstH = first.height,
-					    	secondY = second.y,
+					    	secondY = second.y - second.anchor.y,
 					    	secondH = second.height;
 
 
@@ -115,6 +115,7 @@ var count = 0, time = 0;
 						    	s = second.getComponentData('CollisionBody','bounds'),
 						    	c1 = first.getComponentData('CollisionBody','colliderType'),
 						    	c2 = second.getComponentData('CollisionBody','colliderType');
+
 					    	f.x += first.x;
 					    	f.y += first.y;
 					    	s.x += second.x;

@@ -89,10 +89,9 @@ var game = {
 
 		});
 
-		$.player = new $.fn.Entity(436,-128,96,128,{	
+		$.player = new $.fn.Entity(436,-128,96,128,{"x": 48,	"y": 64},{	
 							"Renderer":{
 								"image": "player-anim",
-								"anchor": {"x": 48,	"y": 64},
 								"animation": 'stand_right' 
 							},
 							"JumpNRunController":{
@@ -158,7 +157,7 @@ var game = {
 			return cheapAI;
 		});
 
-		window.bot = new $.fn.Entity(688+128,260+64,96,128,{
+		window.bot = new $.fn.Entity(688+128,260+64,96,128, {"x": 48,	"y": 64},{
 				"StateMachine":{
 					"default": "neutral",
 					"states":{
@@ -178,7 +177,6 @@ var game = {
 				},
 				"Renderer":{
 					"image": "player-anim",
-					"anchor": {"x": 48,	"y": 64},
 					"animation": "stand_right" 
 				},
 				"CollisionBody":{
@@ -222,7 +220,7 @@ var game = {
 		});
 
 
-		window.elevator = new $.fn.Entity(832,256,128,8,{
+		window.elevator = new $.fn.Entity(832,256,128,8,{"x": 64,	"y": 4},{
 			"StateMachine":{
 				"default": "up",
 				"states":{
@@ -239,8 +237,7 @@ var game = {
 				}
 			},
 			"Renderer":{
-				"image": "elevator",
-				"anchor": {"x": 64,	"y": 4}
+				"image": "elevator"
 			},
 			"CollisionBody":{},
 			"Physics":{
@@ -272,7 +269,7 @@ var game = {
 		
 		$.fn.stage.setLevel('level1');
 		$.fn.defineCollidingGroups('player','tiles');
-		var item1 = new $.fn.Entity(1344, 64,50,50,{
+		var item1 = new $.fn.Entity(1344, 64,50,50,{'x':0,'y':0},{
 			"Renderer":{
 				"image": "item",
 			},
