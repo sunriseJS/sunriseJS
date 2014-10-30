@@ -99,15 +99,15 @@ var count = 0, time = 0;
 				    	secondX = second.x,
 				    	secondW = second.width;
 
-				    if(firstX + firstW >= secondX
-				    		|| secondX + secondW >= firstX){
+				    if((secondX >= firstX && secondX <= firstX + firstW) 
+				    	|| (firstX >= secondX && firstX <= secondX + secondW)){
 
 				    	var firstY = first.y,
 					    	firstH = first.height,
 					    	secondY = second.y,
 					    	secondH = second.height;
-					    if(firstY + firstH >= secondY 
-				    		|| secondY + secondH >= firstY){ 	
+					    if((secondY >= firstY && secondY <= firstY + firstH)
+							 || (firstY >= secondY && firstY <= secondY + secondH)){
 
 							var f = first.getComponentData('CollisionBody','bounds'),
 						    	s = second.getComponentData('CollisionBody','bounds'),
