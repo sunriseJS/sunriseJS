@@ -72,6 +72,7 @@ rootfn.sunrise = function(){
 	srfn.loadImages(game.config.images, function(){
 		//todo: make this better :D
 		srfn.loadSounds(game.config.sounds, function(){
+			game.createComponents($rootScope.$scope);
 			srfn.loadLevels(game.config.levels, function(){
 				srfn.loadUis(game.config.uis, function(){
 					

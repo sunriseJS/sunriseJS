@@ -53,10 +53,111 @@ var game = {
 				loop: true
 			}
 		},
+		"entityTypes":{
+		
+			"player":{	
+				"Renderer":{
+					"image": "player-anim",
+					"animation": "stand_right" 
+				},
+				"JumpNRunController":{
+					"keys":{
+						"left":["a","left"], 
+						"right":["d","right"]
+					}
+				},
+				"CollisionBody":{
+					"x":25,
+					"y":10,
+					"width":48,
+					"height":116
+				},
+				"playerBehavior":{
+
+				},
+				"SimpleInventory":{
+					"inventory": ["test"]
+				},
+				"Physics":{
+					"mass": 8,
+					"forces":{
+						"gravity":{"x":0,"y":9.81}
+					}
+				}
+			},
+
+			"bot":{
+				"StateMachine":{
+					"default": "neutral",
+					"states":{
+						"neutral":{
+							"values":{
+								"speed": "0.5",
+								"madness": "minimum"
+							}
+						},
+						"mad":{
+							"values":{
+								"speed": "1",
+								"madness": "maximum"
+							}
+						}
+					}
+				},
+				"Renderer":{
+					"image": "player-anim",
+					"animation": "stand_right" 
+				},
+				"CollisionBody":{
+						"x":24,
+						"y":10,
+						"width":48,
+						"height":116
+				},
+				"Physics":{
+					"mass": 8,
+					"forces":{
+						"gravity":{"x":0,"y":9.81}
+					}
+				},
+				"cheapAI":{
+				}
+			},
+
+			"elevator":{
+				"StateMachine":{
+					"default": "up",
+					"states":{
+						"down":{
+							"values":{
+								"ySpeed": 1
+							}
+						},
+						"up":{
+							"values":{
+								"ySpeed": -1
+							}
+						}
+					}
+				},
+				"Renderer":{
+					"image": "elevator"
+				},
+				"CollisionBody":{},
+				"Physics":{
+					"mass": 0,
+					"forces":{}
+				},
+				"elevator":{
+					"minY" : 64,
+					"maxY" : 320
+				}
+			}
+		}
 	},
 
 
-	init: function($) { //change to something else
+	createComponents: function($) {
 
 		$.fn.components.add('playerBehavior',function(config){
 			var playerBehavior = new $.fn.Component();
@@ -88,6 +189,64 @@ var game = {
 			return playerBehavior;
 
 		});
+
+		$.fn.components.add('cheapAI', function(config){
+
+			var cheapAI = new $.fn.Component();
+			cheapAI.direction = 2;
+			cheapAI.on('collision', function(data){
+				if(data.collision.normal.x != 0){
+					cheapAI.entity.emit('setForce', {name:'movement', x:0, y: -15});
+				}
+			});	
+
+			cheapAI.on('tick', function(){
+				cheapAI.entity.emit('setForce', {name:'movement', x:0, y: 0});
+				if(cheapAI.direction === 2){
+					cheapAI.direction = Math.floor(Math.random()*3)-1;
+					setTimeout(function(){
+						cheapAI.direction = 2;
+						//cheapAI.entity.emit('setStates',['neutral']);
+					},1000*(Math.random(3)+3));
+				}
+				cheapAI.entity.x += cheapAI.direction;//cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
+				if(cheapAI.direction === -1){
+					cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
+				}else if(cheapAI.direction === 1){
+					cheapAI.entity.emit('changeAnimation', {animation: 'walk_right'});
+				}else{
+					cheapAI.entity.emit('changeAnimation', {animation: 'stand_right'});
+				}
+			});
+
+			return cheapAI;
+		});
+
+
+		$.fn.components.add('elevator', function(data){
+			console.log(data);
+			var elevator = new $.fn.Component();
+
+			elevator.on('tick', function(){
+
+				elevator.entity.y += elevator.entity.getComponentData('StateMachine','currentStateObj')['ySpeed'];
+				if(elevator.entity.y < data.minY){
+					elevator.entity.emit('setStates',['down']);
+				}
+				if(elevator.entity.y > data.maxY){
+					elevator.entity.emit('setStates',['up']);
+				}
+			});
+			return elevator;
+		});
+
+
+	},
+
+
+	init: function($) { //change to something else
+
+		
 
 		$.player = new $.fn.Entity(436,-128,96,128,{"x": 48,	"y": 64},{	
 							"Renderer":{
@@ -125,37 +284,7 @@ var game = {
 
 		$.fn.addToGroup($.player,'player');
 		
-		$.fn.components.add('cheapAI', function(config){
-
-			var cheapAI = new $.fn.Component();
-			cheapAI.direction = 2;
-			cheapAI.on('collision', function(data){
-				if(data.collision.normal.x != 0){
-					cheapAI.entity.emit('setForce', {name:'movement', x:0, y: -15});
-				}
-			});	
-
-			cheapAI.on('tick', function(){
-				cheapAI.entity.emit('setForce', {name:'movement', x:0, y: 0});
-				if(cheapAI.direction === 2){
-					cheapAI.direction = Math.floor(Math.random()*3)-1;
-					setTimeout(function(){
-						cheapAI.direction = 2;
-						//cheapAI.entity.emit('setStates',['neutral']);
-					},1000*(Math.random(3)+3));
-				}
-				cheapAI.entity.x += cheapAI.direction;//cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
-				if(cheapAI.direction === -1){
-					cheapAI.entity.emit('changeAnimation', {animation: 'walk_left'});
-				}else if(cheapAI.direction === 1){
-					cheapAI.entity.emit('changeAnimation', {animation: 'walk_right'});
-				}else{
-					cheapAI.entity.emit('changeAnimation', {animation: 'stand_right'});
-				}
-			});
-
-			return cheapAI;
-		});
+		
 
 		window.bot = new $.fn.Entity(688+128,260+64,96,128, {"x": 48,	"y": 64},{
 				"StateMachine":{
@@ -202,22 +331,7 @@ var game = {
 
 
 
-		$.fn.components.add('elevator', function(data){
-			console.log(data);
-			var elevator = new $.fn.Component();
-
-			elevator.on('tick', function(){
-
-				elevator.entity.y += elevator.entity.getComponentData('StateMachine','currentStateObj')['ySpeed'];
-				if(elevator.entity.y < data.minY){
-					elevator.entity.emit('setStates',['down']);
-				}
-				if(elevator.entity.y > data.maxY){
-					elevator.entity.emit('setStates',['up']);
-				}
-			});
-			return elevator;
-		});
+		
 
 
 		window.elevator = new $.fn.Entity(832,256,128,8,{"x": 64,	"y": 4},{
