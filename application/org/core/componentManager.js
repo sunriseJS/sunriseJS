@@ -18,12 +18,12 @@
 			throw new Error('Component of type "'+type+'" already exist.');
 		}
 		components[type] = creator;
-	}
+	};
 
 	srfn.components.create = function(type, config){
 		if(components[type] === undefined){
 			throw new Error('No component of type "'+type+'" exists.');
 		}
 		return components[type](config);
-	}
+	};
 })();

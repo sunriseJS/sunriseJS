@@ -30,7 +30,7 @@ srfn.Entity = (function(){
         this.config = config;
 
         //for each component in config call corresponding creator function and provide additional data
-        for(type in config){
+        for(var type in config){
             var component = srfn.components.create(type, config[type]);
             this.components[type] = component;
             this.data[type] = {};
@@ -46,10 +46,10 @@ srfn.Entity = (function(){
      * @param  {Object} data additional data to this event
      */
 	Entity.prototype.emit = function(what, data){
-		for(type in this.components){
+		for(var type in this.components){
             this.components[type].receive(what, data);
         }
-	}	  
+	};	  
 
     /**
      * Provides specific data of a specific component (content of its this.data)
@@ -64,7 +64,7 @@ srfn.Entity = (function(){
             throw new Error('No component "'+type+'" found in entity.');
         }
         return this.data[type][variable];
-    }  
+    };  
 
     /**
      * Clones the Entity by providing a new entity with same components (components have same config)
@@ -80,7 +80,7 @@ srfn.Entity = (function(){
         width = (width === undefined) ? this.width : width;
         height = (height === undefined) ? this.height : height;
         return new srfn.Entity(x, y, width, height, this.config);
-    }
+    };
 
     return Entity;
 })();
