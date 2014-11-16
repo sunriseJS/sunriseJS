@@ -66,7 +66,7 @@ var game = {
                     "player",
                     "toRender"
                 ],
-                "components:": {
+                "components": {
                     "Renderer": {
                         "image": "player-anim",
                         "animation": "stand_right"
@@ -151,46 +151,46 @@ var game = {
 					},
 					"cheapAI": {}
 				},
+			},
 
-				"elevator": {
-					"width": 128,
-					"height": 8,
-					"anchor": {
-						"x": 64,
-						"y": 4
-					},
-					"groups": [
-						"elevator",
-						"toRender"
-					],
-					"components": {
-						"StateMachine": {
-							"default": "up",
-							"states": {
-								"down": {
-									"values": {
-										"ySpeed": 1
-									}
-								},
-								"up": {
-									"values": {
-										"ySpeed": -1
-									}
+			"elevator": {
+				"width": 128,
+				"height": 8,
+				"anchor": {
+					"x": 64,
+					"y": 4
+				},
+				"groups": [
+					"elevator",
+					"toRender"
+				],
+				"components": {
+					"StateMachine": {
+						"default": "up",
+						"states": {
+							"down": {
+								"values": {
+									"ySpeed": 1
+								}
+							},
+							"up": {
+								"values": {
+									"ySpeed": -1
 								}
 							}
-						},
-						"Renderer": {
-							"image": "elevator"
-						},
-						"CollisionBody": {},
-						"Physics": {
-							"mass": 0,
-							"forces": {}
-						},
-						"elevator": {
-							"minY": 64,
-							"maxY": 320
 						}
+					},
+					"Renderer": {
+						"image": "elevator"
+					},
+					"CollisionBody": {},
+					"Physics": {
+						"mass": 0,
+						"forces": {}
+					},
+					"elevator": {
+						"minY": 64,
+						"maxY": 320
 					}
 				}
 			}
@@ -303,50 +303,6 @@ var game = {
 
 
 
-		$.player = new $.fn.Entity(436, -128, 96, 128, {
-			"x": 48,
-			"y": 64
-		}, {
-			"Renderer": {
-				"image": "player-anim",
-				"animation": 'stand_right'
-			},
-			"JumpNRunController": {
-				"keys": {
-					"left": ['a', 'left'],
-					"right": ['d', 'right']
-				}
-			},
-			"CollisionBody": {
-				"x": 25,
-				"y": 10,
-				"width": 48,
-				"height": 116
-			},
-			"playerBehavior": {
-
-			},
-			"SimpleInventory": {
-				"inventory": ['test']
-			},
-			"Physics": {
-				"mass": 8,
-				"forces": {
-					"gravity": {
-						"x": 0,
-						"y": 9.81
-					}
-				}
-			}
-		});
-
-
-
-
-		$.fn.addToGroup($.player, 'player');
-
-
-
 		window.bot = new $.fn.Entity(688 + 128, 260 + 64, 96, 128, {
 			"x": 48,
 			"y": 64
@@ -396,57 +352,8 @@ var game = {
 
 
 
-
-
-
-
-		window.elevator = new $.fn.Entity(832, 256, 128, 8, {
-			"x": 64,
-			"y": 4
-		}, {
-			"StateMachine": {
-				"default": "up",
-				"states": {
-					"down": {
-						"values": {
-							"ySpeed": 1
-						}
-					},
-					"up": {
-						"values": {
-							"ySpeed": -1
-						}
-					}
-				}
-			},
-			"Renderer": {
-				"image": "elevator"
-			},
-			"CollisionBody": {},
-			"Physics": {
-				"mass": 0,
-				"forces": {}
-			},
-			"elevator": {
-				"minY": 64,
-				"maxY": 320
-			}
-		});
 		var bots = [];
-		$.fn.defineEmptyGroup('bots');
-		$.fn.defineEmptyGroup('tiles');
-
-
-
-		$.fn.addToGroup(elevator, 'elevator');
-		$.fn.addToGroup(elevator, 'toRender');
-
-
-
-
-
-
-
+		
 		//set player states
 		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
 
@@ -487,19 +394,12 @@ var game = {
 		$.fn.defineCollidingGroups('bots', 'elevator');
 
 
-
+		$.player = $.fn.getGroups().player[0];
 
 		$.fpsdom = document.querySelector('#fps');
 		window.player = $.player; // only for testing purposes
-		$.fn.addToGroup($.player, 'toRender');
-		$.fn.stage.setFocus($.player, 0, 0);
 
-		/*
-		console.log($scope.player.stateManager.states);
-		console.log($scope.player.stateManager.getCurrentState());
-		$scope.player.stateManager.setCurrentState('run_left');
-		console.log($scope.player.stateManager.getCurrentState());
-		*/
+		$.fn.stage.setFocus($.player, 0, 0);
 
 		$.fn.on('reganedFocus', function () {
 			$.fn.emit('unPaus');

@@ -153,6 +153,39 @@ srfn.stage.setLevel = function(levelname){
 		}
 	}
 	$rootScope.canvas.style.background = style;
+
+	//Created needed groups
+	for(key in game.config.entityTypes){
+		game.config.entityTypes[key].groups.forEach(function(groupName){
+			srfn.defineEmptyGroup(groupName);
+		});
+	}
+
+	//Create Entities
+	var types = game.config.entityTypes;
+	level.entities.forEach(function(data){
+		console.log("data:",data);
+		if(types[data.type] === undefined){
+			throw new Error('Can\'t created Entity. Unknow type "'+data.type+'".');
+		}
+
+		var components = {},
+			type = types[data.type];
+
+		for(key in type.components){
+			components[key] = type.components[key];
+			if(data.components !== undefined && data.components[key] !== undefined){
+				components[key] = data.components[key];
+			}
+		}
+		
+		var	anchor = {x: type.anchor.x, y: type.anchor.y},
+			entity = new srfn.Entity(data.x, data.y, type.width, type.height, anchor, components);
+		
+		type.groups.forEach(function(groupName){
+			srfn.addToGroup(entity,groupName);
+		});
+	});
 	
 	rootfn.emit('levelLoaded',{name:levelname, width: levelWidth, height:levelHeight});
 

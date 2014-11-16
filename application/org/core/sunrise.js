@@ -69,13 +69,20 @@ rootfn.sunrise = function () {
 	$sr._seal();
 
 	rootfn.initCanvas();
+    console.log("Load images");
 	srfn.loadImages(game.config.images, function () {
+    console.log("Load sounds");
 		//todo: make this better :D
 		srfn.loadSounds(game.config.sounds, function () {
+            
+            console.log("create components");
 			game.createComponents($rootScope.$scope);
+            
+            console.log("Load level");
 			srfn.loadLevels(game.config.levels, function () {
+                console.log("loadUI");
 				srfn.loadUis(game.config.uis, function () {
-
+                    console.log("go!");
 					console.log($rootScope.ressources);
 					game.init($rootScope.$scope);
 					rootfn.initUi();

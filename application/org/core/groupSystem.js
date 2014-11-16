@@ -209,9 +209,14 @@
 		return groups;
 	};
 
+	srfn.getGroups =  function(){
+		return $rootScope.groups.groups;
+	};
+
 	//debuging
 	$sr.getGroups = function(){
 		return $rootScope.groups;
 	};
+	
 })();
 

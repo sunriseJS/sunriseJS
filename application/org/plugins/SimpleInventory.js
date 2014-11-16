@@ -47,11 +47,13 @@
 
 			this.on('useItem', function(){
 				if(self.data['inventory'].length > 0){
+                    console.log(self.data);
 					self.data['inventory'][0].use();
 				}
 			});
 
 			SimpleInventory.prototype.addItem = function(item){
+                console.log("Add to Inventory: ",item);
 				this.data.inventory.push(item);
 				return this.data.inventory;
 			};
