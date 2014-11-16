@@ -40,7 +40,7 @@
 			config.keys = config.keys || {};
 
 			this.on('collision', function(data){
-				data.other.emit('addToInventory', this.config);
+				data.other.emit('addToInventory', self.config);
 				$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
 			});
 		}
