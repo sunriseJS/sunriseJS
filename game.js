@@ -475,13 +475,12 @@ var game = {
 			document.title = 'paused';
 		});
 
-
-
 	},
 
 	run: function ($) {
-
+		
 		$.fpsdom.innerHTML = $.fn.fps.getFps();
+		
 
 	},
 };
