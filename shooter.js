@@ -64,10 +64,9 @@ var game = {
 
 	},
 
-
-	init: function($) { 
-
-		$.fn.components.add('Hero',function(config){
+    
+    createComponents: function($){
+        $.fn.components.add('Hero',function(config){
 			var hero = new $.fn.Component(),
 				isHit = false,
 				hitTimeout = undefined,
@@ -184,12 +183,17 @@ var game = {
 			});
 			return bullet;
 		});
+    },
+    
+    
+	init: function($) {
 
-
-		$.player = new $.fn.Entity(0,2048,80,64,{	
+		$.player = new $.fn.Entity(0,2048,80,64,{
+            "x": 40,
+            "y": 38
+        },{	
 			"Renderer":{
 				"image": "fighter",
-				"anchor": {"x": 40,	"y": 38},
 				"animation": "straight" 
 			},
 			"CollisionBody":{
@@ -219,9 +223,11 @@ var game = {
 
 
 		var bullet = new $.fn.Entity(0,0,4,16,{
+            "x": 2,	
+            "y": 4
+        },{
 			"Renderer":{
 				"image": "bullet",
-				"anchor": {"x": 2,	"y": 4}
 			},
 			"CollisionBody":{},
 			"Bullet":{}

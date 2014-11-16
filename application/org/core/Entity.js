@@ -79,7 +79,7 @@ srfn.Entity = (function(){
         y = (y === undefined) ? this.y : y;
         width = (width === undefined) ? this.width : width;
         height = (height === undefined) ? this.height : height;
-        return new srfn.Entity(x, y, width, height, this.config);
+        return new srfn.Entity(x, y, width, height, {x: this.anchor.x, y: this.anchor.y},this.config);
     };
 
     return Entity;
