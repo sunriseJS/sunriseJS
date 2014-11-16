@@ -129,105 +129,16 @@
 	],
 	
 
-	"entityTypes":{
-		
-		"player":{	
-			"Renderer":{
-				"image": "player-anim",
-				"animation": "stand_right" 
-			},
-			"JumpNRunController":{
-				"keys":{
-					"left":["a","left"], 
-					"right":["d","right"]
-				}
-			},
-			"CollisionBody":{
-				"x":25,
-				"y":10,
-				"width":48,
-				"height":116
-			},
-			"playerBehavior":{
-
-			},
-			"SimpleInventory":{
-				"inventory": ["test"]
-			},
-			"Physics":{
-				"mass": 8,
-				"forces":{
-					"gravity":{"x":0,"y":9.81}
-				}
-			}
+	"entities": [
+		{
+			"type": "player",
+			"x": 816,
+			"y": 324
 		},
-
-		"bot":{
-			"StateMachine":{
-				"default": "neutral",
-				"states":{
-					"neutral":{
-						"values":{
-							"speed": "0.5",
-							"madness": "minimum"
-						}
-					},
-					"mad":{
-						"values":{
-							"speed": "1",
-							"madness": "maximum"
-						}
-					}
-				}
-			},
-			"Renderer":{
-				"image": "player-anim",
-				"animation": "stand_right" 
-			},
-			"CollisionBody":{
-					"x":24,
-					"y":10,
-					"width":48,
-					"height":116
-			},
-			"Physics":{
-				"mass": 8,
-				"forces":{
-					"gravity":{"x":0,"y":9.81}
-				}
-			},
-			"cheapAI":{
-			}
-		},
-
-		"elevator":{
-			"StateMachine":{
-				"default": "up",
-				"states":{
-					"down":{
-						"values":{
-							"ySpeed": 1
-						}
-					},
-					"up":{
-						"values":{
-							"ySpeed": -1
-						}
-					}
-				}
-			},
-			"Renderer":{
-				"image": "elevator"
-			},
-			"CollisionBody":{},
-			"Physics":{
-				"mass": 0,
-				"forces":{}
-			},
-			"elevator":{
-				"minY" : 64,
-				"maxY" : 320
-			}
+		{
+			"type": "elevator",
+			"x": 832,
+			"y": 256
 		}
-	}
+	]
 }

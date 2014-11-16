@@ -56,106 +56,142 @@ var game = {
 		"entityTypes": {
 
 			"player": {
-				"Renderer": {
-					"image": "player-anim",
-					"animation": "stand_right"
-				},
-				"JumpNRunController": {
-					"keys": {
-						"left": ["a", "left"],
-						"right": ["d", "right"]
-					}
-				},
-				"CollisionBody": {
-					"x": 25,
-					"y": 10,
-					"width": 48,
-					"height": 116
-				},
-				"playerBehavior": {
+				 "width": 96,
+				 "height": 128,
+                 "anchor":{
+                    "x": 48,
+                    "y": 64
+                },
+                "groups":[
+                    "player",
+                    "toRender"
+                ],
+                "components:": {
+                    "Renderer": {
+                        "image": "player-anim",
+                        "animation": "stand_right"
+                    },
+                    "JumpNRunController": {
+                        "keys": {
+                            "left": ["a", "left"],
+                            "right": ["d", "right"]
+                        }
+                    },
+                    "CollisionBody": {
+                        "x": 25,
+                        "y": 10,
+                        "width": 48,
+                        "height": 116
+                    },
+                    "playerBehavior": {
 
-				},
-				"SimpleInventory": {
-					"inventory": ["test"]
-				},
-				"Physics": {
-					"mass": 8,
-					"forces": {
-						"gravity": {
-							"x": 0,
-							"y": 9.81
-						}
-					}
-				}
+                    },
+                    "SimpleInventory": {
+                        "inventory": ["test"]
+                    },
+                    "Physics": {
+                        "mass": 8,
+                        "forces": {
+                            "gravity": {
+                                "x": 0,
+                                "y": 9.81
+                            }
+                        }
+                    }
+                }
 			},
 
 			"bot": {
-				"StateMachine": {
-					"default": "neutral",
-					"states": {
-						"neutral": {
-							"values": {
-								"speed": "0.5",
-								"madness": "minimum"
-							}
-						},
-						"mad": {
-							"values": {
-								"speed": "1",
-								"madness": "maximum"
+				"width": 96,
+				"height": 128,
+				"anchor": {
+					"x": 48,
+					"y": 64
+				},
+				"groups": [
+					"bots",
+					"toRender"
+				], 
+				"components": {
+					"StateMachine": {
+						"default": "neutral",
+						"states": {
+							"neutral": {
+								"values": {
+									"speed": "0.5",
+									"madness": "minimum"
+								}
+							},
+							"mad": {
+								"values": {
+									"speed": "1",
+									"madness": "maximum"
+								}
 							}
 						}
-					}
-				},
-				"Renderer": {
-					"image": "player-anim",
-					"animation": "stand_right"
-				},
-				"CollisionBody": {
-					"x": 24,
-					"y": 10,
-					"width": 48,
-					"height": 116
-				},
-				"Physics": {
-					"mass": 8,
-					"forces": {
-						"gravity": {
-							"x": 0,
-							"y": 9.81
+					},
+					"Renderer": {
+						"image": "player-anim",
+						"animation": "stand_right"
+					},
+					"CollisionBody": {
+						"x": 24,
+						"y": 10,
+						"width": 48,
+						"height": 116
+					},
+					"Physics": {
+						"mass": 8,
+						"forces": {
+							"gravity": {
+								"x": 0,
+								"y": 9.81
+							}
 						}
-					}
+					},
+					"cheapAI": {}
 				},
-				"cheapAI": {}
-			},
 
-			"elevator": {
-				"StateMachine": {
-					"default": "up",
-					"states": {
-						"down": {
-							"values": {
-								"ySpeed": 1
+				"elevator": {
+					"width": 128,
+					"height": 8,
+					"anchor": {
+						"x": 64,
+						"y": 4
+					},
+					"groups": [
+						"elevator",
+						"toRender"
+					],
+					"components": {
+						"StateMachine": {
+							"default": "up",
+							"states": {
+								"down": {
+									"values": {
+										"ySpeed": 1
+									}
+								},
+								"up": {
+									"values": {
+										"ySpeed": -1
+									}
+								}
 							}
 						},
-						"up": {
-							"values": {
-								"ySpeed": -1
-							}
+						"Renderer": {
+							"image": "elevator"
+						},
+						"CollisionBody": {},
+						"Physics": {
+							"mass": 0,
+							"forces": {}
+						},
+						"elevator": {
+							"minY": 64,
+							"maxY": 320
 						}
 					}
-				},
-				"Renderer": {
-					"image": "elevator"
-				},
-				"CollisionBody": {},
-				"Physics": {
-					"mass": 0,
-					"forces": {}
-				},
-				"elevator": {
-					"minY": 64,
-					"maxY": 320
 				}
 			}
 		}
