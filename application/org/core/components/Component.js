@@ -32,7 +32,7 @@ srfn.Component = (function(){
 	Component.prototype.init = function(){
 
 	};
-
+    
 	/**
 	 * Method to add a listener for a specific event
 	 * @param  {String}   what     name of the event

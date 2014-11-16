@@ -78,11 +78,13 @@ utilfn.vis = (function() {
 		return !document[stateKey];
 	}
 })();
+
+
 /**
  * returns a function call with parameters
- * @param  {[type]} obj  [the scope]
- * @param  {[type]} func [the function to run in scope]
- * @return {[type]}      [function call]
+ * @param   {Object}   obj  discription
+ * @param   {Function} func this is the function to run later
+ * @returns {Function} function to be called later
  */
 utilfn.partial = function(obj, func) {
 	var args = Array.prototype.slice.call(arguments, 2);

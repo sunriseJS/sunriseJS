@@ -9,6 +9,7 @@
  */
 
 (function(){
+
 	var components = {};
 
 	srfn.components = {};

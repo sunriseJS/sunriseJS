@@ -1,0 +1,19 @@
+#score {
+	left: 548px;
+	top: 118px;
+	position: absolute;
+	width: 100px;
+	height: 50px;
+	background-color: #234;
+}
+#score div {
+	color: #fff;
+}
+#sr-ui-score {
+	position: relative;
+	width: 70px;
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 15px;
+	background-color: #fff;
+}

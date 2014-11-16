@@ -11,7 +11,7 @@
  * @param  {[type]} sr
  * @return {[type]}
  */
-srfn.Sprite = (function(){ 
+srfn.Sprite = (function () { 
 
 
 	//private Data

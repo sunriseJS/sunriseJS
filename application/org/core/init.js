@@ -9,6 +9,6 @@
  */
 
 
-rootfn.on('all_plugins_loaded',rootfn.sunrise);
+rootfn.on('all_plugins_loaded', rootfn.sunrise);
 rootfn.initPlugins();
 

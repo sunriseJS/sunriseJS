@@ -1,6 +1,6 @@
 {
-	"pause":{
-		"container":{
+	"pause": {
+		"container": {
 			"id": "pause",
 			"class": "srjs-popup"
 		},
@@ -8,23 +8,22 @@
 			"playername": "undefined"
 		}
 	},
-	"score":{
-		"container"	: {
+	"score": {
+		"container": {
 			"id": "score",
 			"class": "srjs-ui"
 		},
-		"variables"	: {
-			"score"		: 0,
-			"playername": "undefined"
+		"variables": {
+			"score": 0
 		}
 	},
-	"inventory":{
-		"container"	: {
+	"inventory": {
+		"container": {
 			"id": "inv",
 			"class": "srjs-ui"
 		},
-		"variables"	: {
-			"items"		: []
+		"variables": {
+			"items": []
 		}
 	}
 }
