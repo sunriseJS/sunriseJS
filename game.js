@@ -474,13 +474,15 @@ var game = {
 			$.fn.emit('paus');
 			document.title = 'paused';
 		});
+		
+		$.playerscore = 0;
 
 	},
 
 	run: function ($) {
-		
+
 		$.fpsdom.innerHTML = $.fn.fps.getFps();
-		
+		$.gameVariables.score = Math.round($.playerscore += $.time.delta *0.001);
 
 	},
 };

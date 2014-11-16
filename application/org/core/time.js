@@ -1,4 +1,4 @@
-$rootScope.$scope = $rootScope.time = {
+$rootScope.time = $rootScope.$scope.time = {
 	'delta'		: 	0,
 	'actual'	: 	Date.now(),
 	'wasPaused'	: 	false
