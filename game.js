@@ -23,7 +23,7 @@ var game = {
 				}
 
 			},
-			'tileset1': { //put to level file
+			'tileset1': { 
 				source: 'assets/graphics/tileset1.png',
 				tileWidth: 64,
 				tileHeight: 64
@@ -83,9 +83,6 @@ var game = {
                         "width": 48,
                         "height": 116
                     },
-                    "playerBehavior": {
-
-                    },
                     "SimpleInventory": {
                         "inventory": ["test"]
                     },
@@ -113,23 +110,6 @@ var game = {
 					"toRender"
 				], 
 				"components": {
-					"StateMachine": {
-						"default": "neutral",
-						"states": {
-							"neutral": {
-								"values": {
-									"speed": "0.5",
-									"madness": "minimum"
-								}
-							},
-							"mad": {
-								"values": {
-									"speed": "1",
-									"madness": "maximum"
-								}
-							}
-						}
-					},
 					"Renderer": {
 						"image": "player-anim",
 						"animation": "stand_right"
@@ -166,7 +146,6 @@ var game = {
 				],
 				"components": {
 					"StateMachine": {
-						"default": "up",
 						"states": {
 							"down": {
 								"values": {
@@ -178,7 +157,8 @@ var game = {
 									"ySpeed": -1
 								}
 							}
-						}
+						},
+						"default": "up",
 					},
 					"Renderer": {
 						"image": "elevator"
@@ -188,7 +168,7 @@ var game = {
 						"mass": 0,
 						"forces": {}
 					},
-					"elevator": {
+					"Elevator": {
 						"minY": 64,
 						"maxY": 320
 					}
@@ -199,37 +179,6 @@ var game = {
 
 
 	createComponents: function ($) {
-
-		$.fn.components.add('playerBehavior', function (config) {
-			var playerBehavior = new $.fn.Component();
-			playerBehavior.on('tick', function () {
-				if (playerBehavior.entity.y > 1000) {
-					playerBehavior.entity.y = -500;
-				}
-				if ($.fn.controls.isKeyPressed('w')) {
-					playerBehavior.entity.y -= 1;
-				}
-				if ($.fn.controls.isKeyPressed('s')) {
-					playerBehavior.entity.y += 1;
-				}
-			});
-			playerBehavior.on('collision', function (data) {
-				playerBehavior.entity.emit('changeOpacity', {
-					opacity: 0.5
-				});
-				clearTimeout(playerBehavior.reset);
-				playerBehavior.reset = setTimeout(function () {
-					playerBehavior.entity.emit('changeOpacity', {
-						opacity: 1
-					});
-				}, 20);
-			});
-			playerBehavior.on('test', function () {
-				console.log('test ausgeführt');
-			});
-			return playerBehavior;
-
-		});
 
 		$.fn.components.add('cheapAI', function (config) {
 
@@ -278,8 +227,7 @@ var game = {
 		});
 
 
-		$.fn.components.add('elevator', function (data) {
-			console.log(data);
+		$.fn.components.add('Elevator', function (data) {
 			var elevator = new $.fn.Component();
 
 			elevator.on('tick', function () {
@@ -303,60 +251,6 @@ var game = {
 
 
 
-		window.bot = new $.fn.Entity(688 + 128, 260 + 64, 96, 128, {
-			"x": 48,
-			"y": 64
-		}, {
-			"StateMachine": {
-				"default": "neutral",
-				"states": {
-					"neutral": {
-						"values": {
-							"speed": "0.5",
-							"madness": "minimum"
-						}
-					},
-					"mad": {
-						"values": {
-							"speed": "1",
-							"madness": "maximum"
-						}
-					}
-				}
-			},
-			"Renderer": {
-				"image": "player-anim",
-				"animation": "stand_right"
-			},
-			"CollisionBody": {
-				// "x":12,
-				// "y":5,
-				// "width":24,
-				// "height":58
-				"x": 24,
-				"y": 10,
-				"width": 48,
-				"height": 116
-			},
-			"Physics": {
-				"mass": 8,
-				"forces": {
-					"gravity": {
-						"x": 0,
-						"y": 9.81
-					}
-				}
-			},
-			"cheapAI": {}
-		});
-
-
-
-		var bots = [];
-		
-		//set player states
-		//$scope.player.stateManager.addStates({ name:"default",animation:'heftig',whatever:'idontknow' },{ name:"run_left",animation:'heftig-left',whatever:'idontknow-left' });
-
 		$.fn.stage.setLevel('level1');
 		$.fn.defineCollidingGroups('player', 'tiles');
 		var item1 = new $.fn.Entity(1344, 64, 50, 50, {
@@ -371,7 +265,7 @@ var game = {
 
 					var bots = [];
 					for (var i = 0; i < 500; i++) {
-						var clone = bot.clone(window.player.x, window.player.y);
+						var clone = $.bot.clone(window.player.x, window.player.y);
 						bots.push(clone);
 					}
 					$.fn.addToGroup(bots, 'bots');
@@ -383,7 +277,7 @@ var game = {
 			"Physics": {
 				"mass": 200,
 				"forces": []
-			},
+			}
 		});
 
 		$.fn.addToGroup(item1, 'toRender');
@@ -392,9 +286,6 @@ var game = {
 		$.fn.defineCollidingGroups('player', 'elevator');
 		$.fn.defineCollidingGroups('bots', 'tiles');
 		$.fn.defineCollidingGroups('bots', 'elevator');
-
-
-		$.player = $.fn.getGroups().player[0];
 
 		$.fpsdom = document.querySelector('#fps');
 		window.player = $.player; // only for testing purposes
