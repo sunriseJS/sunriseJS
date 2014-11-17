@@ -1,4 +1,5 @@
 //window.debug = true;
+var bullet;  
 var game = {
 	config: {
 		screenWidth: 640,
@@ -64,7 +65,7 @@ var game = {
 
 	},
 
-    
+	  
     createComponents: function($){
         $.fn.components.add('Hero',function(config){
 			var hero = new $.fn.Component(),
@@ -205,10 +206,12 @@ var game = {
 			"Hero":{}
 		});
 
-		var enemy = new $.fn.Entity(0,0,60,64,{
+		 var enemy = window.enemy = new $.fn.Entity(0,0,60,64,{
+		 	"x": 30,
+		 	"y": 52
+		 },{
 			"Renderer":{
 				"image": "xwing",
-				"anchor": {"x": 30,	"y": 52},
 				"animation": "straight",
 				"rotation": 3.14
 			},
@@ -222,7 +225,7 @@ var game = {
 		});
 
 
-		var bullet = new $.fn.Entity(0,0,4,16,{
+		bullet = new $.fn.Entity(0,0,4,16,{
             "x": 2,	
             "y": 4
         },{
@@ -238,6 +241,7 @@ var game = {
 
 		for(var i=0; i<128; i++){
 			var e = enemy.clone(Math.random()*320-160, i*256-4096);
+			console.log(e);
 			$.fn.addToGroup(e,'enemies');
 			$.fn.addToGroup(e,'toRender');
 		}

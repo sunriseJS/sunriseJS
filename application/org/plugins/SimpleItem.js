@@ -46,7 +46,7 @@
 		}
 		
 
-		return SimpleItem
+		return SimpleItem;
 
 	})();
 

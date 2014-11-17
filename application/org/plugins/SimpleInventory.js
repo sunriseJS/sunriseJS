@@ -48,13 +48,19 @@
 			this.on('useItem', function(){
 				if(self.data['inventory'].length > 0){
                     console.log(self.data);
-					self.data['inventory'][0].use();
+					var functionName = self.data['inventory'][0].use,
+						useFunction = game[functionName]; 
+					if(typeof useFunction !== "function"){
+						throw new Error("Can't use item! "+functionName+" is not a function!");
+					}
+					game[functionName]($rootScope.$scope);
 				}
 			});
 
 			SimpleInventory.prototype.addItem = function(item){
                 console.log("Add to Inventory: ",item);
 				this.data.inventory.push(item);
+				console.log("After adding");
 				return this.data.inventory;
 			};
 
