@@ -133,7 +133,8 @@
 		{
 			"type": "player",
 			"x": 436,
-			"y": -128
+			"y": -128,
+			"name": "player"
 		},
 		{
 			"type": "elevator",
@@ -150,6 +151,12 @@
 					"maxY": 500
 				}
 			}
+		},
+		{
+			"type": "bot",
+			"x": 1024,
+			"y": -128,
+			"name": "bot"
 		}
 	]
 }

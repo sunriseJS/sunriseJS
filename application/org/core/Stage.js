@@ -185,6 +185,9 @@ srfn.stage.setLevel = function(levelname){
 		type.groups.forEach(function(groupName){
 			srfn.addToGroup(entity,groupName);
 		});
+		if(data.name !== undefined){
+			$rootScope.$scope[data.name] = entity;
+		}
 	});
 	
 	rootfn.emit('levelLoaded',{name:levelname, width: levelWidth, height:levelHeight});
