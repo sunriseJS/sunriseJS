@@ -75,8 +75,10 @@ rootfn.sunrise = function () {
 		//todo: make this better :D
 		srfn.loadSounds(game.config.sounds, function () {
             
-            console.log("create components");
-			game.createComponents($rootScope.$scope);
+            if(game.createComponents !== undefined){
+	            console.log("create components");
+				game.createComponents($rootScope.$scope);
+			}
             
             console.log("Load level");
 			srfn.loadLevels(game.config.levels, function () {
