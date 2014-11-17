@@ -128,7 +128,7 @@
 				self.entity.x += 2*direction;
 
 				if(jump){
-					self.entity.emit('setForce',{name:'movement',x:0,y:-200});
+					self.entity.emit('setForce',{name:'movement',x:0,y:-250});
 				}else{
 					self.entity.emit('setForce',{name:'movement',x:0,y:0});
 				}

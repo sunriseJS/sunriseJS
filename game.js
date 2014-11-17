@@ -192,11 +192,7 @@ var game = {
 					"SimpleItem": {
 						"use": "createBots"
 					},
-					"CollisionBody": {},
-					"Physics": {
-						"mass": 200,
-						"forces": []
-					}
+					"CollisionBody": {}
 				}
 			}
 		}
