@@ -38,7 +38,7 @@ _unseal = $sr._unseal = $sr._unseal || function () {
 
 rootfn.focusChanged = function (canvas) {
 	if (canvas) {
-		rootfn.emitEverywhere('reganedFocus');
+		rootfn.emitEverywhere('regainedFocus');
 	} else {
 		rootfn.emitEverywhere('lostFocus');
 	}
@@ -55,13 +55,13 @@ rootfn.tabFocusChanged = function () {
 
 
 rootfn.sunrise = function () {
-	rootfn.onEverywhere('paus', function () {
+	rootfn.onEverywhere('pause', function () {
 		window.cancelAnimationFrame($rootScope.animationFrame);
 		$rootScope.gameRunning = false;
 		$rootScope.time.wasPaused = true;
 		rootfn.controls.resetKeyPressed();
 	});
-	rootfn.onEverywhere('unPaus', function () {
+	rootfn.onEverywhere('resume', function () {
 		$rootScope.gameRunning = true;
 		$rootScope.animationFrame.call(window, rootfn.run);
 	});

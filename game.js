@@ -166,7 +166,10 @@ var game = {
 					"CollisionBody": {},
 					"Physics": {
 						"mass": 0,
-						"forces": {}
+						"forces": {},
+						"ignore": [
+							{"y":-1}
+						]
 					},
 					"Elevator": {
 						"minY": 64,
@@ -192,11 +195,7 @@ var game = {
 					"SimpleItem": {
 						"use": "createBots"
 					},
-					"CollisionBody": {},
-					"Physics": {
-						"mass": 200,
-						"forces": []
-					}
+					"CollisionBody": {}
 				}
 			}
 		}
@@ -284,13 +283,13 @@ var game = {
 		gameData.fpsdom = document.querySelector('#fps');
 		window.player = gameData.player; // only for testing purposes
 
-		gameData.fn.on('reganedFocus', function () {
-			gameData.fn.emit('unPaus');
+		gameData.fn.on('regainedFocus', function () {
+			gameData.fn.emit('resume');
 			document.title = 'running';
 		});
 
 		gameData.fn.on('lostFocus', function () {
-			gameData.fn.emit('paus');
+			gameData.fn.emit('pause');
 			document.title = 'paused';
 		});
 		

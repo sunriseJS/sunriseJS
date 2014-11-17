@@ -76,6 +76,9 @@
 
 			this.on('collision', function(data){
 				//console.log(data);
+				if(data.other.components.Physics === undefined){
+					return;
+				}
 				var otherSpeed = data.other.getComponentData('Physics', 'speed'),
 					otherRestitution = data.other.getComponentData('Physics', 'restitution'),
 					otherImass = data.other.getComponentData('Physics', 'imass'),

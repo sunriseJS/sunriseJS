@@ -61,7 +61,12 @@
 			srfn.controls.onKeyDown('f',function(){
 				window.player.emit('useItem',{});
 			});
-			var direction = 0;
+			var direction = 0,
+				lastCollision = false;
+
+			this.on('collision', function(data){
+				lastCollision = data;
+			});
 
 			this.on('tick', function(data){
 
@@ -73,10 +78,13 @@
 				config.keys.right.forEach(function(key){
 					run_right = run_right || srfn.controls.isKeyPressed(key);
 				});
-				var jump = false;
-				config.keys.jump.forEach(function(key){
-					jump = jump || srfn.controls.isKeyPressed(key);
-				});
+				var jump = false,
+					canJump = lastCollision !== false && lastCollision.collision.normal.y === 1
+				if(canJump){
+					config.keys.jump.forEach(function(key){
+						jump = jump || srfn.controls.isKeyPressed(key);
+					});
+				}
 				if(run_left && !run_right){
 					self.entity.emit('changeAnimation', {
 						animation: 'walk_left',
@@ -120,10 +128,13 @@
 				self.entity.x += 2*direction;
 
 				if(jump){
-					self.entity.emit('setForce',{name:'movement',x:0,y:-20});
+					self.entity.emit('setForce',{name:'movement',x:0,y:-250});
 				}else{
 					self.entity.emit('setForce',{name:'movement',x:0,y:0});
 				}
+
+
+				lastCollision = false;
 				
 			});
 		}
