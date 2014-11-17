@@ -14,10 +14,11 @@ var utilfn = $rootScope.$scope.util = {};
 // Object.watch
 if (!Object.prototype.watch) {
 	Object.defineProperty(Object.prototype, "watch", {
+		self: this,
 		enumerable: false,
 		configurable: true,
 		writable: false,
-		value: function(prop, handler) {
+		value: function(prop, handler) { 
 			var oldval = this[prop],
 				newval = oldval,
 				getter = function() {
@@ -27,6 +28,7 @@ if (!Object.prototype.watch) {
 					oldval = newval;
 					return newval = handler.call(this, prop, oldval, val);
 				};
+
 			if (delete this[prop]) { // can't watch constants
 				Object.defineProperty(this, prop, {
 					get: getter,
@@ -34,7 +36,7 @@ if (!Object.prototype.watch) {
 					enumerable: true,
 					configurable: true
 				});
-			}
+			} 
 		}
 	});
 }

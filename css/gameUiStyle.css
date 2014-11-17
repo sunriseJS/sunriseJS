@@ -9,6 +9,8 @@
 }
 #score div {
 	color: #fff;
+	text-align: center;
+	vertical-align: middle;
 }
 #sr-ui-score {
 	position: relative;

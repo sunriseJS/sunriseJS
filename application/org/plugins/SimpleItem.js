@@ -44,6 +44,7 @@
 				$rootScope.$scope.fn.removeEntityFromAllGroups(self.entity);
 			});
 		}
+		
 
 		return SimpleItem
 

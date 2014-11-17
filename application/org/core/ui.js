@@ -66,6 +66,7 @@
 	 */
 	rootfn.varChanged = function (prop, oldval, newval) {
 		var dom = document.querySelector('div[sr-ui-' + prop + ']');
+		
 		if(dom){	
 			switch (dom.getAttribute('sr-ui-type')) {
 				case "variable":
@@ -73,7 +74,7 @@
 					break;
 				case "array":
 					console.log(prop, oldval,newval);
-					
+					console.log(dom);
 					break;
 			}
 		}
