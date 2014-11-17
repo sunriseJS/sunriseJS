@@ -280,13 +280,13 @@ var game = {
 		gameData.fpsdom = document.querySelector('#fps');
 		window.player = gameData.player; // only for testing purposes
 
-		gameData.fn.on('reganedFocus', function () {
-			gameData.fn.emit('unPaus');
+		gameData.fn.on('regainedFocus', function () {
+			gameData.fn.emit('unpause');
 			document.title = 'running';
 		});
 
 		gameData.fn.on('lostFocus', function () {
-			gameData.fn.emit('paus');
+			gameData.fn.emit('pause');
 			document.title = 'paused';
 		});
 		
