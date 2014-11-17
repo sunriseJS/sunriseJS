@@ -166,7 +166,10 @@ var game = {
 					"CollisionBody": {},
 					"Physics": {
 						"mass": 0,
-						"forces": {}
+						"forces": {},
+						"ignore": [
+							{"y":-1}
+						]
 					},
 					"Elevator": {
 						"minY": 64,
@@ -281,7 +284,7 @@ var game = {
 		window.player = gameData.player; // only for testing purposes
 
 		gameData.fn.on('regainedFocus', function () {
-			gameData.fn.emit('unpause');
+			gameData.fn.emit('resume');
 			document.title = 'running';
 		});
 

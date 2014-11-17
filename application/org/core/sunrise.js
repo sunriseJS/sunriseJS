@@ -61,7 +61,7 @@ rootfn.sunrise = function () {
 		$rootScope.time.wasPaused = true;
 		rootfn.controls.resetKeyPressed();
 	});
-	rootfn.onEverywhere('unpause', function () {
+	rootfn.onEverywhere('resume', function () {
 		$rootScope.gameRunning = true;
 		$rootScope.animationFrame.call(window, rootfn.run);
 	});
