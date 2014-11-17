@@ -188,6 +188,8 @@ srfn.stage.setLevel = function(levelname){
 		if(data.name !== undefined){
 			$rootScope.$scope[data.name] = entity;
 		}
+
+		console.log("created:"+data.type,entity);
 	});
 	
 	rootfn.emit('levelLoaded',{name:levelname, width: levelWidth, height:levelHeight});

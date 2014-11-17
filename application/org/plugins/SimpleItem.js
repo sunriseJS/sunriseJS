@@ -45,7 +45,7 @@
 			});
 		}
 
-		return SimpleItem
+		return SimpleItem;
 
 	})();
 

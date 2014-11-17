@@ -173,16 +173,41 @@ var game = {
 						"maxY": 320
 					}
 				}
+			},
+			"item": {
+				"width": "50",
+				"height": "50",
+				"anchor": {
+					"x": 0,
+					"y": 0
+				},
+				"groups": [
+					"items",
+					"toRender"
+				],
+				"components":{
+					"Renderer": {
+						"image": "item",
+					},
+					"SimpleItem": {
+						"use": "createBots"
+					},
+					"CollisionBody": {},
+					"Physics": {
+						"mass": 200,
+						"forces": []
+					}
+				}
 			}
 		}
 	},
 
 
-	createComponents: function ($) {
+	createComponents: function (gameData) {
 
-		$.fn.components.add('cheapAI', function (config) {
+		gameData.fn.components.add('cheapAI', function (config) {
 
-			var cheapAI = new $.fn.Component();
+			var cheapAI = new gameData.fn.Component();
 			cheapAI.direction = 2;
 			cheapAI.on('collision', function (data) {
 				if (data.collision.normal.x != 0) {
@@ -204,10 +229,9 @@ var game = {
 					cheapAI.direction = Math.floor(Math.random() * 3) - 1;
 					setTimeout(function () {
 						cheapAI.direction = 2;
-						//cheapAI.entity.emit('setStates',['neutral']);
 					}, 1000 * (Math.random(3) + 3));
 				}
-				cheapAI.entity.x += cheapAI.direction; //cheapAI.direction*cheapAI.entity.getComponentData('StateMachine','speed');
+				cheapAI.entity.x += cheapAI.direction; 
 				if (cheapAI.direction === -1) {
 					cheapAI.entity.emit('changeAnimation', {
 						animation: 'walk_left'
@@ -227,8 +251,8 @@ var game = {
 		});
 
 
-		$.fn.components.add('Elevator', function (data) {
-			var elevator = new $.fn.Component();
+		gameData.fn.components.add('Elevator', function (data) {
+			var elevator = new gameData.fn.Component();
 
 			elevator.on('tick', function () {
 
@@ -247,69 +271,47 @@ var game = {
 	},
 
 
-	init: function ($) { //change to something else
+	init: function (gameData) { //change to something else
 
+		gameData.fn.stage.setLevel('level1');
+		gameData.fn.stage.setFocus(gameData.player, 0, 0);
+		gameData.fn.defineCollidingGroups('player', 'tiles');
+		gameData.fn.defineCollidingGroups('player', 'items');
+		gameData.fn.defineCollidingGroups('player', 'elevator');
+		gameData.fn.defineCollidingGroups('bots', 'tiles');
+		gameData.fn.defineCollidingGroups('bots', 'elevator');
 
+		gameData.fpsdom = document.querySelector('#fps');
+		window.player = gameData.player; // only for testing purposes
 
-		$.fn.stage.setLevel('level1');
-		$.fn.defineCollidingGroups('player', 'tiles');
-		var item1 = new $.fn.Entity(1344, 64, 50, 50, {
-			'x': 0,
-			'y': 0
-		}, {
-			"Renderer": {
-				"image": "item",
-			},
-			"SimpleItem": {
-				"use": function (data) {
-
-					var bots = [];
-					for (var i = 0; i < 500; i++) {
-						var clone = $.bot.clone(window.player.x, window.player.y);
-						bots.push(clone);
-					}
-					$.fn.addToGroup(bots, 'bots');
-					$.fn.addToGroup(bots, 'toRender');
-
-				}
-			},
-			"CollisionBody": {},
-			"Physics": {
-				"mass": 200,
-				"forces": []
-			}
-		});
-
-		$.fn.addToGroup(item1, 'toRender');
-		$.fn.addToGroup(item1, 'items');
-		$.fn.defineCollidingGroups('player', 'items');
-		$.fn.defineCollidingGroups('player', 'elevator');
-		$.fn.defineCollidingGroups('bots', 'tiles');
-		$.fn.defineCollidingGroups('bots', 'elevator');
-
-		$.fpsdom = document.querySelector('#fps');
-		window.player = $.player; // only for testing purposes
-
-		$.fn.stage.setFocus($.player, 0, 0);
-
-		$.fn.on('reganedFocus', function () {
-			$.fn.emit('unPaus');
+		gameData.fn.on('reganedFocus', function () {
+			gameData.fn.emit('unPaus');
 			document.title = 'running';
 		});
 
-		$.fn.on('lostFocus', function () {
-			$.fn.emit('paus');
+		gameData.fn.on('lostFocus', function () {
+			gameData.fn.emit('paus');
 			document.title = 'paused';
 		});
 		
-		$.playerscore = 0;
+		gameData.playerscore = 0;
 
 	},
 
-	run: function ($) {
+	run: function (gameData) {
 
-		$.fpsdom.innerHTML = $.fn.fps.getFps();
-		$.gameVariables.score = Math.round($.playerscore += $.time.delta *0.001);
+		gameData.fpsdom.innerHTML = gameData.fn.fps.getFps();
+		gameData.gameVariables.score = Math.round(gameData.playerscore += gameData.time.delta *0.001);
 
 	},
+
+	createBots: function (gameData) {
+		var bots = [];
+		for (var i = 0; i < 500; i++) {
+			var clone = gameData.bot.clone(window.player.x, window.player.y);
+			bots.push(clone);
+		}
+		gameData.fn.addToGroup(bots, 'bots');
+		gameData.fn.addToGroup(bots, 'toRender');
+	}
 };
