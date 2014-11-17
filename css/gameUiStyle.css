@@ -1,0 +1,21 @@
+#score {
+	left: 548px;
+	top: 118px;
+	position: absolute;
+	width: 100px;
+	height: 50px;
+	background-color: #234;
+	border-bottom-left-radius: 20px;
+}
+#score div {
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+}
+#sr-ui-score {
+	position: relative;
+	width: 70px;
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 15px;
+}

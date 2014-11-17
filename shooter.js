@@ -1,4 +1,5 @@
 //window.debug = true;
+var bullet;  
 var game = {
 	config: {
 		screenWidth: 640,
@@ -64,10 +65,9 @@ var game = {
 
 	},
 
-
-	init: function($) { 
-
-		$.fn.components.add('Hero',function(config){
+	  
+    createComponents: function($){
+        $.fn.components.add('Hero',function(config){
 			var hero = new $.fn.Component(),
 				isHit = false,
 				hitTimeout = undefined,
@@ -115,9 +115,9 @@ var game = {
 			$.fn.controls.onKeyDown('space',function(){
 				var b1 = bullet.clone(hero.entity.x-10, hero.entity.y+8),
 					b2 = bullet.clone(hero.entity.x+10, hero.entity.y+8);
-				$.fn.addToGroup(b1,'bullets');
-				$.fn.addToGroup(b1,'toRender');
 				$.fn.addToGroup(b2,'bullets');
+				$.fn.addToGroup(b1,'toRender');
+				$.fn.addToGroup(b1,'bullets');
 				$.fn.addToGroup(b2,'toRender');
 			});
 			return hero;
@@ -172,7 +172,6 @@ var game = {
 			bullet.on('tick', function(){
 				bullet.entity.y -= 8;
 				if(bullet.entity.y < $.player.y - 200){
-					console.log('bullte < 3');
 					$.fn.removeEntityFromAllGroups(bullet.entity);
 				}
 			});
@@ -185,12 +184,17 @@ var game = {
 			});
 			return bullet;
 		});
+    },
+    
+    
+	init: function($) {
 
-
-		$.player = new $.fn.Entity(0,2048,80,64,{	
+		$.player = new $.fn.Entity(0,2048,80,64,{
+            "x": 40,
+            "y": 38
+        },{	
 			"Renderer":{
 				"image": "fighter",
-				"anchor": {"x": 40,	"y": 38},
 				"animation": "straight" 
 			},
 			"CollisionBody":{
@@ -202,10 +206,12 @@ var game = {
 			"Hero":{}
 		});
 
-		var enemy = new $.fn.Entity(0,0,60,64,{
+		 var enemy = window.enemy = new $.fn.Entity(0,0,60,64,{
+		 	"x": 30,
+		 	"y": 52
+		 },{
 			"Renderer":{
 				"image": "xwing",
-				"anchor": {"x": 30,	"y": 52},
 				"animation": "straight",
 				"rotation": 3.14
 			},
@@ -219,10 +225,12 @@ var game = {
 		});
 
 
-		var bullet = new $.fn.Entity(0,0,4,16,{
+		bullet = new $.fn.Entity(0,0,4,16,{
+            "x": 2,	
+            "y": 4
+        },{
 			"Renderer":{
 				"image": "bullet",
-				"anchor": {"x": 2,	"y": 4}
 			},
 			"CollisionBody":{},
 			"Bullet":{}
@@ -233,6 +241,7 @@ var game = {
 
 		for(var i=0; i<128; i++){
 			var e = enemy.clone(Math.random()*320-160, i*256-4096);
+			console.log(e);
 			$.fn.addToGroup(e,'enemies');
 			$.fn.addToGroup(e,'toRender');
 		}

@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>sunriseJS - example</title>
-	</head>
-	<body>
-		<header>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>sunriseJS - example</title>
+	<link rel="stylesheet" type="text/css" href="/css/gameUiStyle.css">
+</head>
+
+<body>
+	<header>
 		<nav>
 			<ul>
-				<li><a href="https://github.com/sunriseJS/sunriseJS/" title="">GitHub</a></li>
+				<li><a href="https://github.com/sunriseJS/sunriseJS/" title="">GitHub</a>
+				</li>
 			</ul>
 			<ul>
-				<li><a href="shooter.html" title="">Try another game</a></li>
+				<li><a href="shooter.html" title="">Try another game</a>
+				</li>
 			</ul>
 			<ul>
 				<li>FPS: <span id="fps"></span>/sec</li>
 			</ul>
 		</nav>
-		</header>
+	</header>
 
-		<div id="example" sunriseJS-app="my example app"></div>
-		<script src="game.js" type="text/javascript" charset="utf-8"></script>
-		<script src="sunrise.min.js" type="text/javascript" charset="utf-8"></script>
-		<!--<script src="/application/org/core/sunrise.js" type="text/javascript" charset="utf-8" async defer></script>-->
-	</body>
+	<div id="game" sunriseJS-app="my example app"></div>
+	<div id="ui" sunriseJS-ui="my example app">
+		<div id="score">
+			<div id="sr-ui-score" sr-ui-score="Score: " sr-ui-type="variable"></div>
+		</div>
+		<div id="items">
+			<div id="sr-ui-items" sr-ui-items="" sr-ui-type="array"></div>
+		</div>
+	</div>
+
+	<script src="game.js" type="text/javascript" charset="utf-8"></script>
+	<script src="sunrise.min.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
 </html>

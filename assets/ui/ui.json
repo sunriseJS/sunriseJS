@@ -1,0 +1,29 @@
+{
+	"pause": {
+		"container": {
+			"id": "pause",
+			"class": "srjs-popup"
+		},
+		"variables": {
+			"playername": "undefined"
+		}
+	},
+	"score": {
+		"container": {
+			"id": "score",
+			"class": "srjs-ui"
+		},
+		"variables": {
+			"score": 0
+		}
+	},
+	"inventory": {
+		"container": {
+			"id": "inv",
+			"class": "srjs-ui"
+		},
+		"variables": {
+			"items": []
+		}
+	}
+}
